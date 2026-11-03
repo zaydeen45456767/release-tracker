@@ -20,14 +20,14 @@ Goal: be among the first good pages for every upcoming Linux release, rank for i
 ## 3. Pages (URL never changes)
 - **Forecast page** `/[family]/[slug]/`: date or window, status, chance, key dates, evidence timeline, "waiting for X? use Y now" link, sources, FAQ (FAQPage JSON-LD), clear "not announced" note. Built.
 - **Early page:** for a brand-new name, published when a trusted source names it. One strong signal from the project itself is enough; rumours need two independent sources. Not built.
-- **Launch flip:** when proof appears in an official source, the same page becomes the launch page (facts, links), keeping all content so ranking is kept. Status switch exists in data; automatic flip not built.
+- **Launch flip:** when proof appears in an official source, the same page becomes the launch page (facts, links), keeping all content so ranking is kept. Built: the updater flips it and keeps the forecast under `forecast`.
 - **Hub pages** `/[family]/`: built. **Home** with "Next 30 days": built. **Track record** `/track-record/`: built (shows 0 graded; do not show an accuracy score until there are enough graded results).
 - **Catalog** (existing products from data feeds) and **alternatives pages** ("free alternative to X"): not built; keep `noindex` until real content; only build alternatives after keyword data shows demand.
 - **Fast lane:** a new product with early traction gets a page the same day, capped per day. Not built.
 - Extra page ideas for repeat searches around releases: "X vs Y", end-of-life dates, "what's new in X".
 
 ## 4. The flip (automation)
-A checker watches each forecast. When the release appears in an official source the page flips. It polls faster as launch nears. Page served without a full rebuild. Alert to the owner (Telegram was planned) and a reminder to request indexing. Not built.
+Built: the daily updater (GitHub Actions, 06:00 UTC) flips releases from official feeds, the site rebuilds on Cloudflare Pages, and the owner gets a GitHub-issue alert. Not built: faster polling near launch day.
 
 ## 5. Scale without looking like spam
 - Launch with 30-40 quality pages. Add 1-3/day (or a reviewed weekly batch of 7-10).
@@ -35,9 +35,10 @@ A checker watches each forecast. When the release appears in an official source 
 - Thin pages stay `noindex` and out of the sitemap until they have real content (built: `isIndexable` requires 1+ source, a summary of 40+ characters, and for forecasts 2+ pieces of evidence).
 - Sitemaps split by page type (Modelcast and OpenSourceDL both do this); today there is one `/sitemap.xml` listing only indexable pages.
 
-## 6. Running it (planned)
-- One repo is the source of truth. Push to main runs tests, deploys workers and site, pings search engines.
-- Cloudflare Workers on a cron schedule for polling/scoring/page creation/flipping, with D1 as the small database (Cloudflare tools are connected in this environment). Backup timer for missed runs. Meter free-tier limits and throttle before hitting them.
+## 6. Running it (decided 2026-11-03; details in `docs/WORKFLOW.md`)
+- One GitHub repo is the source of truth; data lives in JSON files (`site/src/data/`). No database until the marketplace needs one (then Cloudflare D1).
+- GitHub Actions: `ci.yml` tests every push; `daily.yml` runs the updater, tests, builds, checks links, commits data and opens an alert issue when something is new.
+- Cloudflare Pages builds and hosts the static site on every push. (The earlier idea of Cloudflare Workers + D1 cron was dropped as more complex than needed.)
 - Search engine pings: **IndexNow** (Bing/Yandex). Google dropped sitemap ping in 2023 and its Indexing API is only for job/livestream pages, so for Google use the sitemap plus a manual Search Console "request indexing" for important pages.
 
 ## 7. Honesty and error catching

@@ -19,7 +19,9 @@ Confidence labels: **sourced** (seen in a fetched source), **computed** (calcula
 | Linux 7.4 | window Dec 20-27, 2026, 80% | computed from kernel cadence (2-week merge window + rc7/rc8) |
 | Linux 7.5 | window Feb 21-Mar 7, 2027, 55% | computed (7.4 + 9-10 weeks); only 1 evidence item, so noindex |
 
-Not found / not researched: KDE Plasma forward schedule (6.8 is latest), Firefox cadence (reports conflict: two-week vs four-week cycle from Sep 2026; Firefox 164 on 2027-01-26 under the two-week model), Thunderbird, LibreOffice, Blender, Godot, Wine, Proton, Mesa, systemd, Python, Node, PHP, Rust, Go, Postgres, Docker, Kubernetes, openSUSE, long-tail distros.
+Added 2026-11-03 (sourced, see `research_notes/release-data/README.md`): KDE Plasma 6.9 on 2027-02-23 (KDE wiki schedule); Firefox every 2 weeks, 160 on 2026-11-10 and 161 on 2026-11-24 (whattrainisitnow.com; Mozilla product-details' NEXT_RELEASE_DATE showed 2026-11-06, which looks like the RC date, so the calendar's date is used); NixOS 26.11 "Zokor" on 2026-11-30 (release managers' GitHub issue, "may still change slightly"); Ubuntu 26.04 LTS, Debian 13, Mint 22.3, NixOS 26.05, Plasma 6.8 and Firefox 159 facts from their release notes.
+
+Still not researched: Thunderbird, LibreOffice, Blender, Godot, Wine, Proton, Mesa, systemd, Python, Node, PHP, Rust, Go, Postgres, Docker, Kubernetes, openSUSE, long-tail distros.
 
 ## Usage and traffic numbers (from the research)
 - **Flathub** (sourced/computed): 3,754 apps listed, 3,395 had install data. Bands by `installs_total`: 10M+ = 2; 1M-10M = 76; 100k-1M = 485; 10k-100k = 1,475; 1k-10k = 1,176; 100-1k = 164; under 100 = 17. Median about 15k. `installs_total` totals 417M versus a 4.96B headline, so it probably counts new installs only (undocumented).
