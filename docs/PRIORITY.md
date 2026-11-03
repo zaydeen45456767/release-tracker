@@ -32,3 +32,6 @@ Latest-version and download searches never stop: Ubuntu 26.04 LTS, Debian 13, Li
 4. **Keep it fresh.** Every beta, rc, freeze or slip goes into the page's evidence log the day it happens; that keeps it ahead of stale pages.
 5. **Flip on launch day.** The same URL becomes the release page with the real date and downloads, so it keeps its ranking.
 6. **Mentions.** Owner shares notable updates (slips, new dates) where Linux users talk; links help new domains get crawled and trusted.
+
+## Indexing order (owner decision, 2026-11-04)
+Request indexing for **upcoming/forecast pages only** first, soonest peak first (about 10 a day in Search Console). When every indexable forecast page has been requested, move on to the released/stable pages beneath them. New content: forecast pages first.

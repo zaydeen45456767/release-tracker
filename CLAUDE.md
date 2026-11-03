@@ -35,7 +35,7 @@ Brand: **Onlinux**, domain **onlinux.site** (bought at Namecheap 2026-11-03, DNS
   - `updater/`: `npm run update` (dry run) / `npm run update -- --write`. `sources.js` (15 feeds and parsers), `apply.js` (safe-change rules), `history.js`, `run.js` (writes `log.json` and `last-run.md`), `check-links.js` (`npm run check-links`).
   - Tests: `tests/` (forecast, look, updater): 30 passing.
 - `.github/workflows/`: `ci.yml` (tests + build on every push), `daily.yml` (06:00 UTC: update, test, build, link check, commit data, GitHub-issue alert when something new).
-- Git: local repo on `main`, not pushed yet (no remote).
+- Git: `main` is pushed to github.com/zaydeen45456767/release-tracker; Cloudflare Pages deploys every push to https://onlinux.site.
 - `research_notes/`: raw research; `release-data/README.md` lists every checked URL and sourced fact. Raw third-party HTML is git-ignored.
 - `reports/Linux software long tail traffic.md`: traffic research and estimates.
 
