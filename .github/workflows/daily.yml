@@ -42,7 +42,11 @@ jobs:
           git config user.email "release-updater@users.noreply.github.com"
           git add src/data updater/log.json updater/last-run.md
           if git diff --cached --name-only | grep -q 'updater/last-run.md'; then echo "summary=changed" >> "$GITHUB_OUTPUT"; fi
-          if git diff --cached --quiet; then echo "No data changes."; else git commit -m "Daily update $(date -u +%F)" && git push; fi
+          if git diff --cached --quiet; then echo "No data changes."; else git commit -m "Daily update $(date -u +%F)" && git push && echo "pushed=yes" >> "$GITHUB_OUTPUT"; fi
+      - name: Tell Bing and others about changed pages (IndexNow)
+        if: steps.save.outputs.pushed == 'yes'
+        continue-on-error: true
+        run: sleep 120 && npm run indexnow
       - name: Alert the owner when something needs attention
         env:
           GH_TOKEN: ${{ github.token }}
