@@ -8,8 +8,8 @@ A website with a page for every upcoming and current release of Linux software (
 - **Later:** a marketplace. For now download buttons only link to the project's own site (`rel="nofollow"`, `data-download` attribute for future click counting).
 - **Scope: software that runs on Linux.** Not AI models, not hardware, not Windows-only or Mac-only apps. Cross-platform open-source apps and dev tools (Firefox, Python, Docker) are in scope. Ask before widening.
 
-## Name (not decided yet)
-Working title in the code: "Linux Release Tracker". Owner is choosing a short, memorable name tied to the idea. Last recommendation: **ReleaseNext** (releasenext.com). Other free .com names found 2026-11-03: releaseforecast.com, versionforecast.com, nextreleasehq.com, soonver.com, nextshipped.com, releasealmanac.com, penguinalmanac.com. When chosen: update the brand in `site/src/layouts/Base.astro` (logo text, footer), page `<title>` suffixes in `site/src/pages/**`, `about.astro`, `404.astro`, and the docs.
+## Name
+Brand: **Onlinux**, domain **onlinux.site** (bought at Namecheap 2026-11-03, DNS moving to Cloudflare). Hosted on Cloudflare Pages (`release-tracker-9cv.pages.dev` until the domain is live); GitHub repo `zaydeen45456767/release-tracker` (private). Trademark note: "Linux" is a registered trademark; use it descriptively in text only, never imply official status, keep the owner's own penguin mascot (not Tux) as the brand image.
 
 ## Hard rules
 - Never invent dates, specs or facts. Every date is labelled `scheduled` (project published it), `predicted` (our estimate) or `released`. Cite only URLs actually fetched; record checked URLs in `research_notes/`.
