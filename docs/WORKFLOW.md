@@ -18,7 +18,7 @@ Plain files inside the project. No database is needed yet.
 | **Cloudflare D1** (database) | Not yet | Only for the future marketplace (accounts, listings, click counts) or a much larger site. Files in GitHub are simpler, free and every change is reviewable. |
 
 ## The daily workflow (once set up)
-1. **Every morning** a GitHub Action runs the updater. It reads about 15 official feeds (kernel.org, Fedora, Ubuntu, Debian, GNOME, KDE, NixOS, Mozilla, Linux Mint, endoflife.date).
+1. **Every morning (06:00 UTC), and hourly while a release is 2 days before to 3 days after its date**, a GitHub Action runs the updater (`site/updater/watch.js` decides; quiet hours cost almost nothing). It reads about 15 official feeds (kernel.org, Fedora, Ubuntu, Debian, GNOME, KDE, NixOS, Mozilla, Linux Mint, endoflife.date).
 2. It **applies safe changes only**: marks a release as out when an official feed shows it, adds new betas/rcs to the evidence, refreshes version history and support dates.
 3. It **runs the tests**. If anything fails, nothing is published.
 4. It **saves the changed data** to GitHub. Cloudflare Pages rebuilds and publishes the site in about a minute.

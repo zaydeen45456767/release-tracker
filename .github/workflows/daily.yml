@@ -1,10 +1,11 @@
-# Every morning: read the official feeds, apply safe changes, test, save the data.
+# Every hour a cheap check runs; the full update runs at 06:00 UTC, on a manual run, or when a release is
+# within 2 days before to 3 days after its date. Otherwise: read the official feeds, apply safe changes, test, save the data.
 # Saving (git push) makes Cloudflare Pages rebuild and publish the site.
 # If the review list or failed feeds change, the owner gets a GitHub issue (GitHub emails it).
 name: Daily update
 on:
   schedule:
-    - cron: '0 6 * * *' # 06:00 UTC
+    - cron: '15 * * * *' # hourly check; full update at 06:00 UTC or near a launch
   workflow_dispatch: # "Run workflow" button for a manual run
 permissions:
   contents: write
@@ -25,17 +26,26 @@ jobs:
           node-version: 22
           cache: npm
           cache-dependency-path: site/package-lock.json
+      - name: Launch watch (skip the rest when nothing is close)
+        id: gate
+        run: node updater/watch.js
       - run: npm ci
+        if: steps.gate.outputs.run == 'true'
       - name: Read feeds and apply safe changes
+        if: steps.gate.outputs.run == 'true'
         run: npm run update -- --write
       - name: Tests (nothing is saved if they fail)
+        if: steps.gate.outputs.run == 'true'
         run: npm test
       - run: npm run build
+        if: steps.gate.outputs.run == 'true'
       - name: Check outside links
+        if: steps.gate.outputs.run == 'true'
         id: links
         continue-on-error: true
         run: npm run check-links > updater/links.txt 2>&1
       - name: Save changed data
+        if: steps.gate.outputs.run == 'true'
         id: save
         run: |
           git config user.name "release-updater"
@@ -48,6 +58,7 @@ jobs:
         continue-on-error: true
         run: sleep 120 && npm run indexnow
       - name: Alert the owner when something needs attention
+        if: steps.gate.outputs.run == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
