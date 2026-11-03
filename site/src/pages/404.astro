@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import Search from '../components/Search.astro';
+import ReleaseList from '../components/ReleaseList.astro';
+import { upcoming } from '../lib/data.js';
+import { today } from '../lib/forecast.js';
+
+const now = today();
+---
+<Base title="Page not found | Linux Release Tracker" description="This page does not exist." noindex hideSearch>
+  <p class="kicker">Error 404</p>
+  <h1>This page does not exist</h1>
+  <p class="lede">The link may be old, or the release may have a different name. Search for it, or pick one of the upcoming releases below.</p>
+  <div class="s404"><Search size="sm" /></div>
+  <h2>Coming next</h2>
+  <ReleaseList rows={upcoming(now).slice(0, 5)} now={now} />
+  <p><a href="/">Go to the home page →</a></p>
+</Base>
+
+<style>
+  .s404 { max-width: 480px; margin: 0 0 8px; }
+</style>

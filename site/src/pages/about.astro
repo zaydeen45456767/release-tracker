@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import { families, releases, updated } from '../lib/data.js';
+import { formatDay } from '../lib/forecast.js';
+---
+<Base title="About Linux Release Tracker: how our dates and downloads work" description="Who runs this site, where our release dates come from, how forecasts are made and graded, and why every download goes to the official site.">
+  <p class="kicker">About</p>
+  <h1>How this site works</h1>
+  <p class="lede">We track release dates and downloads for Linux software, {families.length} projects and {releases.length} versions so far, and we add more every week.</p>
+
+  <h2>Where the dates come from</h2>
+  <p>Every date is labelled. <b>Scheduled</b> means the project published the date itself, for example Ubuntu's release schedule or Mozilla's release calendar. <b>Predicted</b> means nothing official exists yet, so we estimate a window from the project's past release gaps and give a chance it lands inside it. <b>Released</b> means an official source shows the release.</p>
+  <p>A script checks official feeds every day (kernel.org, Fedora's update system, the Ubuntu and Debian archives, GNOME and KDE, NixOS, Mozilla, Linux Mint and endoflife.date) and updates pages when something changes. News reports are marked as reports and never count as confirmation on their own.</p>
+
+  <h2>Forecasts are never rewritten</h2>
+  <p>When a release ships, its page shows the real date, and our earlier forecast stays on the page exactly as published. The <a href="/track-record/">track record</a> lists every forecast and whether it was right. Misses stay there too.</p>
+
+  <h2>Downloads</h2>
+  <p>We never host, change or repackage files. Every Download button sends you to the project's own website or servers, where you can also check the official checksums.</p>
+
+  <h2>Mistakes</h2>
+  <p>If you spot a wrong date or a broken link, tell us and we will fix it and note the correction on the page, as we did for Fedora 44's release date.</p>
+
+  <p class="meta">Data last checked {formatDay(updated)}.</p>
+</Base>

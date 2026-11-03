@@ -1,0 +1,215 @@
+---
+import Base from '../layouts/Base.astro';
+import Search from '../components/Search.astro';
+import ReleaseList from '../components/ReleaseList.astro';
+import Icon from '../components/Icon.astro';
+import { families, releases, upcoming, recentlyReleased, releaseTitle, releasePath } from '../lib/data.js';
+import { daysBetween, formatDay, headline, parseDay, sortDate, today } from '../lib/forecast.js';
+import { boardStatus, boardWhen } from '../lib/look.js';
+import { latestLts, latestStable } from '../lib/versions.js';
+
+const now = today();
+const next = upcoming(now);
+const newest = recentlyReleased()[0];
+const monthYear = (s) => parseDay(s).toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+
+// One card per project: the latest stable version (with its official download) and what comes next.
+const cards = families.map((f) => {
+  const stable = latestStable(f.id);
+  const lts = latestLts(f.id, now);
+  return { f, stable, lts: lts && stable && lts.version !== stable.version ? lts : null, next: next.find((r) => r.family === f.id) };
+});
+// "Out now": the newest stable version of every project, plus current LTS releases.
+const outNow = [...new Set([...cards.map((c) => c.stable), ...releases.filter((r) => r.lts && r.status === 'released')].filter(Boolean))]
+  .sort((a, b) => b.date.localeCompare(a.date));
+// Two drifting rows of every release we track (pause on hover).
+const tickerRows = [releases.filter((_, i) => i % 2 === 0), releases.filter((_, i) => i % 2 === 1)];
+
+const nextUp = next.slice(0, 6).map((r) => ({ t: releaseTitle(r).replace(/ ".*"$/, ''), d: daysBetween(now, sortDate(r)) }));
+const filters = [['all', 'All'], ['distro', 'Distributions'], ['desktop', 'Desktops'], ['kernel', 'Kernel'], ['app', 'Apps']];
+
+// Home FAQ, answered straight from the data so it never goes stale.
+const faq = [
+  ...cards.map(({ f, stable, next: n }) => ({
+    q: `What is the latest ${f.name} version, and when is the next one?`,
+    a: `${stable ? `The latest is ${releaseTitle(stable)}, released on ${formatDay(stable.date)}.` : ''} ${n ? `Next: ${releaseTitle(n)}, ${headline(n, now).toLowerCase()}${n.status === 'predicted' ? ' (our forecast)' : ' (project schedule)'}.` : ''}`.trim(),
+  })),
+  { q: 'How do you forecast Linux release dates?', a: "We combine official schedules, release feeds, code tags, mailing lists and news reports with each project's past release history. Dates the project published are marked scheduled; our own estimates are marked predicted and come with a chance %." },
+  { q: 'Are the downloads safe?', a: "We never host or change files. Every download button sends you to the project's own website or servers, where you can also check the official checksums." },
+];
+const jsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
+---
+<Base
+  wide
+  hideSearch
+  jsonLd={jsonLd}
+  title="Linux release dates and downloads: Ubuntu, Fedora, Debian, Mint, NixOS, KDE Plasma, Firefox and more"
+  description="The latest stable Ubuntu, Fedora, Debian, Linux Mint, NixOS, GNOME, KDE Plasma, Firefox and Linux kernel with official download links, plus release dates and forecasts for every upcoming version."
+>
+  <section class="hero">
+    {newest && (
+      <a class="pill" href={releasePath(newest)}><span class="pill-tag">New</span>{releaseTitle(newest)} is out<span aria-hidden="true">→</span></a>
+    )}
+    <h1>Every Linux release,<br /><span class="hl">out now and coming next.</span></h1>
+    <p class="lede">Download the latest Ubuntu, Fedora, Debian, Linux Mint, NixOS, GNOME, KDE Plasma, Firefox and Linux kernel from their official sites, and see when the next version ships. Our forecasts combine official schedules, release feeds, code tags, mailing lists and news.</p>
+    <Search size="lg" />
+    <div class="quick">
+      <a href="#releases">Out now</a>
+      <a href="#releases">Coming next</a>
+      <a href="#editions">Editions</a>
+      <a href="/track-record/">Our track record</a>
+    </div>
+    <p class="nextup">Next up: <span class="rot" data-rot>{nextUp.map((x, i) => <span class:list={{ on: i === 0 }}><b>{x.t}</b> · in {x.d} days</span>)}</span></p>
+  </section>
+
+  <div class="ticker" aria-label="All tracked releases">
+    {tickerRows.map((row, n) => (
+      <div class="t-row" class:list={{ rev: n === 1 }}>
+        <div class="t-track">
+          {[...row, ...row].map((r, i) => {
+            const st = boardStatus(r, now);
+            return (
+              <a class="t-card" href={releasePath(r)} tabindex={i >= row.length ? -1 : undefined} aria-hidden={i >= row.length ? 'true' : undefined}>
+                <Icon id={r.family} size={16} />
+                <b>{releaseTitle(r).replace(/ ".*"$/, '')}</b>
+                <span class="t-when">{boardWhen(r)}</span>
+                <span class="badge" class:list={[st.tone]}>{st.word}</span>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <div class="section-head" id="releases"><h2>Latest Linux releases and what's next</h2>
+    <div class="filters" role="toolbar" aria-label="Filter releases">
+      {filters.map(([fid, label]) => <button type="button" data-filter={fid} aria-pressed={fid === 'all' ? 'true' : 'false'}>{label}</button>)}
+    </div>
+  </div>
+  <div class="two">
+    <section>
+      <div class="col-head"><h3>Out now</h3><p>Newest stable versions. Downloads go to the official site.</p></div>
+      <ReleaseList rows={outNow} now={now} id="out-list" />
+    </section>
+    <section>
+      <div class="col-head"><h3>Coming next</h3><p>Soonest first, with our chance it lands on time.</p></div>
+      <ReleaseList rows={next} now={now} id="upcoming-list" rank />
+    </section>
+  </div>
+  <p class="meta filter-empty" hidden>Nothing matches this filter yet.</p>
+
+  <div class="section-head" id="editions"><h2>Editions and flavors</h2><p>Each project in more than one version for different desktops and uses.</p></div>
+  <div class="projects-grid">
+    {families.map((f) => (
+      <a class="card pg" href={`/${f.id}/`}>
+        <span class="pg-head"><span class="tile"><Icon id={f.id} size={20} /></span><b>{f.name}</b></span>
+        <span class="pg-icons">
+          {(f.editions ?? []).slice(0, 6).map((e) => <span class="tile sm" title={e.name}><Icon id={e.icon} size={15} /></span>)}
+          {f.shippedIn?.map((id) => <span class="tile sm"><Icon id={id} size={15} /></span>)}
+        </span>
+        <span class="pg-text">{f.editions ? `${f.editions.length} editions: ${f.editions.slice(0, 3).map((e) => e.name.replace(/^(Fedora|Ubuntu) /, '')).join(', ')}${f.editions.length > 3 ? ' and more' : ''}.` : `Ships in ${f.shippedIn.map((id) => families.find((x) => x.id === id).name).join(', ')}.`}</span>
+      </a>
+    ))}
+  </div>
+
+  <div class="section-head"><h2>How we forecast Linux release dates</h2><p>Many sources, one date. Strongest first.</p></div>
+  <ol class="ladder">
+    <li><span class="lv">1</span><div><b>Official schedules</b><p>Dates a project publishes itself, like Ubuntu's release schedule and the GNOME calendar. These become <span class="badge ok">Scheduled</span>.</p></div><span class="how">Official</span></li>
+    <li><span class="lv">2</span><div><b>Release feeds</b><p>kernel.org, Fedora's update system, the Debian archive, Ubuntu's upgrade data and the Linux Mint archive. Checked automatically every day; this is how a page flips to released.</p></div><span class="how">Checked daily</span></li>
+    <li><span class="lv">3</span><div><b>Code tags and test builds</b><p>Release candidates, alphas and betas tagged in the project's code, like Linux rc1 or GNOME beta. Each one tightens the forecast.</p></div><span class="how">Checked daily</span></li>
+    <li><span class="lv">4</span><div><b>Mailing lists and announcements</b><p>Go/no-go meetings, freeze dates and slips announced by the developers.</p></div><span class="how">Official</span></li>
+    <li><span class="lv">5</span><div><b>News reports</b><p>Linux news sites often spot slips and new names first. We label them <span class="badge info">report</span> and never treat one report as a confirmed date.</p></div><span class="how">Report</span></li>
+    <li><span class="lv">6</span><div><b>Release history</b><p>When nothing is announced, we use the project's past release gaps to give a window and a chance %. These are <span class="badge est">Expected</span>.</p></div><span class="how">Our estimate</span></li>
+  </ol>
+
+  <div class="section-head"><h2>Linux release questions</h2></div>
+  {faq.map((f) => (<details><summary>{f.q}</summary><p>{f.a}</p></details>))}
+</Base>
+
+<script is:inline>
+  (function () {
+    // Filter chips for the upcoming list.
+    var buttons = document.querySelectorAll('[data-filter]');
+    var items = document.querySelectorAll('#out-list li, #upcoming-list li');
+    var empty = document.querySelector('.filter-empty');
+    function apply(f) {
+      var shown = 0;
+      items.forEach(function (li) {
+        var ok = f === 'all' || li.dataset.cat === f;
+        li.hidden = !ok; if (ok) shown++;
+      });
+      buttons.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.filter === f ? 'true' : 'false'); });
+      empty.hidden = shown > 0;
+    }
+    buttons.forEach(function (b) { b.addEventListener('click', function () { apply(b.dataset.filter); }); });
+    // "Next up" line: swap one release at a time.
+    var rot = document.querySelector('[data-rot]');
+    if (rot && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      var ws = rot.children, k = 0;
+      setInterval(function () {
+        ws[k].classList.remove('on'); ws[k].classList.add('out');
+        var prev = ws[k]; setTimeout(function () { prev.classList.remove('out'); }, 500);
+        k = (k + 1) % ws.length; ws[k].classList.add('on');
+      }, 2600);
+    }
+  })();
+</script>
+
+<style>
+  .hero { text-align: center; padding: 28px 0 8px; max-width: 740px; margin: 0 auto; position: relative; isolation: isolate; z-index: 5; }
+  .hero::before { content: ""; position: absolute; inset: -40px -200px -30px; z-index: -1; pointer-events: none;
+    background: radial-gradient(circle, #cbd5e1 1px, transparent 1.2px) 0 0 / 22px 22px;
+    -webkit-mask: radial-gradient(ellipse 60% 70% at 50% 40%, #000 20%, transparent 75%); mask: radial-gradient(ellipse 60% 70% at 50% 40%, #000 20%, transparent 75%); }
+  .hero h1 { font-size: clamp(30px, 5vw, 48px); }
+  .hero .lede { margin: 0 auto 40px; }
+  .hl { color: var(--blue); }
+  .pill { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 22px; padding: 3px 12px 3px 3px; border-radius: 999px;
+    border: 1px solid var(--line); color: var(--ink); font-size: 14px; font-weight: 500; background: var(--bg); transition: border-color .2s; }
+  .pill:hover { border-color: var(--line-strong); text-decoration: none; }
+  .pill-tag { background: var(--blue); color: #fff; font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 999px; }
+  .quick { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .quick a { font-size: 14px; font-weight: 500; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; background: var(--bg); }
+  .quick a:hover { color: var(--ink); border-color: var(--line-strong); text-decoration: none; }
+  .nextup { margin: 22px 0 0; font-size: 14px; color: var(--muted); }
+  .nextup b { color: var(--ink); font-weight: 600; }
+  .rot { display: inline-grid; vertical-align: bottom; overflow: hidden; }
+  .rot span { grid-area: 1 / 1; text-align: left; transform: translateY(100%); opacity: 0; transition: transform .5s cubic-bezier(.2,.8,.2,1), opacity .4s; }
+  .rot span.on { transform: none; opacity: 1; }
+  .rot span.out { transform: translateY(-100%); opacity: 0; }
+  .ticker { margin: 40px -16px 0; display: grid; gap: 10px; overflow: hidden;
+    -webkit-mask: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+  .t-track { display: flex; gap: 10px; width: max-content; animation: drift 60s linear infinite; }
+  .t-row.rev .t-track { animation-direction: reverse; animation-duration: 70s; }
+  .ticker:hover .t-track { animation-play-state: paused; }
+  @keyframes drift { to { transform: translateX(calc(-50% - 5px)); } }
+  .t-card { display: flex; align-items: center; gap: 8px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg);
+    color: var(--ink); font-size: 14px; white-space: nowrap; transition: border-color .2s, box-shadow .2s; }
+  .t-card:hover { text-decoration: none; border-color: var(--line-strong); box-shadow: var(--shadow); }
+  .t-when { color: var(--muted); }
+  @media (prefers-reduced-motion: reduce) { .t-track { animation: none; } .ticker { overflow-x: auto; } }
+  .two { display: grid; gap: 20px; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  @media (max-width: 860px) { .two { grid-template-columns: minmax(0, 1fr); } }
+  .col-head { display: flex; justify-content: space-between; align-items: baseline; gap: 4px 12px; flex-wrap: wrap; margin: 0 0 10px; }
+  .col-head h3 { margin: 0; font-size: 17px; }
+  .col-head p { margin: 0; font-size: 13px; color: var(--muted); }
+  .projects-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+  .pg { display: grid; gap: 10px; color: var(--ink); transition: border-color .2s, box-shadow .2s; }
+  .pg:hover { text-decoration: none; border-color: var(--line-strong); box-shadow: var(--shadow); }
+  .pg-head { display: flex; align-items: center; gap: 10px; font-size: 16px; }
+  .pg-icons { display: flex; gap: 6px; flex-wrap: wrap; }
+  .pg-text { font-size: 14px; color: var(--muted); }
+  .filters { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin: 0; padding-bottom: 2px; max-width: 100%; }
+  .filters::-webkit-scrollbar { display: none; }
+  .filters button { font: 500 14px var(--sans); color: var(--muted); background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; cursor: pointer; white-space: nowrap; transition: all .15s; }
+  .filters button:hover { color: var(--ink); border-color: var(--line-strong); }
+  .filters button[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .filter-empty { padding: 12px 4px; }
+  .ladder { list-style: none; margin: 0 0 14px; padding: 0; border: 1px solid var(--line); border-radius: 14px; }
+  .ladder li { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 14px; align-items: start; padding: 16px 18px; }
+  .ladder li + li { border-top: 1px solid var(--line); }
+  .ladder p { margin: 2px 0 0; color: var(--muted); font-size: 15px; }
+  .lv { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--line-strong); font-size: 13px; font-weight: 600; color: var(--muted); }
+  .how { font-size: 12px; font-weight: 600; color: var(--muted); white-space: nowrap; padding-top: 3px; }
+  @media (max-width: 560px) { .ladder li { grid-template-columns: 28px minmax(0, 1fr); } .how { grid-column: 2; padding: 0; } }
+</style>

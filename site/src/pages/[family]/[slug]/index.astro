@@ -1,0 +1,306 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Line from '../../../components/Line.astro';
+import Icon from '../../../components/Icon.astro';
+import VersionTable from '../../../components/VersionTable.astro';
+import Editions from '../../../components/Editions.astro';
+import { releases, getFamily, getRelease, releaseTitle, releasePath } from '../../../lib/data.js';
+import { effectiveStatus, headline, isIndexable, formatDay, formatWindow, gradeForecast, daysBetween, parseDay, today } from '../../../lib/forecast.js';
+import { boardStatus, boardWhen, familyLook, releaseStations, targetDay } from '../../../lib/look.js';
+import { averageGap, latestStable, primaryDownload, releasedStations, supportOf } from '../../../lib/versions.js';
+import { guideFor } from '../../../lib/guides.js';
+
+export function getStaticPaths() {
+  return releases.map((r) => ({ params: { family: r.family, slug: r.slug }, props: { id: r.id } }));
+}
+
+const { id } = Astro.props;
+const release = getRelease(id);
+const family = getFamily(release.family);
+const look = familyLook(family.id);
+const now = today();
+const status = effectiveStatus(release, now);
+const isOut = status === 'released';
+const board = boardStatus(release, now);
+const title = releaseTitle(release);
+const shortTitle = `${family.name} ${release.version}${release.lts ? ' LTS' : ''}`;
+const evidence = [...release.evidence].sort((a, b) => parseDay(b.date) - parseDay(a.date));
+const days = daysBetween(now, parseDay(targetDay(release)));
+const dateText = release.date ? formatDay(release.date) : formatWindow(release.window);
+const monthYear = (s) => parseDay(s).toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+
+// Released: support status and the official download for this exact version.
+const support = isOut ? supportOf(family.id, release.version, now) : null;
+const download = isOut ? primaryDownload(release, now) : null;
+// Upcoming: what to use meanwhile.
+const stable = !isOut ? (release.useNow ? getRelease(release.useNow) : latestStable(family.id)) : null;
+const stableSupport = stable ? supportOf(family.id, stable.version, now) : null;
+const stableDownload = stable ? primaryDownload(stable, now) : null;
+const gap = averageGap(family.id, now);
+// Before release, the guide is about the version people can install today.
+const guide = isOut || !stable ? guideFor(family, title, release.version) : guideFor(family, releaseTitle(stable), stable.version);
+
+const kept = release.forecast;
+const grade = gradeForecast(release);
+const gradeText = !grade ? '' : grade.hit ? 'It landed inside our window.' : `It landed ${Math.abs(grade.daysOff)} days ${grade.daysOff > 0 ? 'after' : 'before'} our window.`;
+const supportText = support?.end
+  ? support.daysLeft >= 0 ? `Supported until ${monthYear(support.end)}` : `Support ended ${monthYear(support.end)}`
+  : null;
+
+const pageTitle = isOut
+  ? `${title} download, release date and what's new`
+  : `${title} release date: ${status === 'scheduled' ? 'scheduled' : 'expected'} ${dateText}`;
+const description = (isOut
+  ? `${title} was released on ${formatDay(release.date)}.${supportText ? ` ${supportText}.` : ''} What's new, official download links and every previous ${family.name} version.`
+  : `${headline(release, now)}. ${release.summary}`).slice(0, 300);
+
+const faq = [
+  {
+    q: `When is the ${title} release date?`,
+    a: isOut
+      ? `${title} was released on ${formatDay(release.date)}.`
+      : status === 'scheduled'
+        ? `${family.name} has scheduled ${title} for ${formatDay(release.date)}.`
+        : `${title} has no official date. We expect it between ${formatWindow(release.window)}, with about a ${release.chance}% chance of landing inside that window.`,
+  },
+  ...(isOut
+    ? [
+        { q: `Where can I download ${title}?`, a: download ? `From ${family.name}'s official site, ${download.host}. We only link to official downloads and never host files ourselves.` : `${title} is no longer supported, so we do not link a download; use the newest ${family.name} version instead.` },
+        ...(supportText ? [{ q: `How long is ${title} supported?`, a: `${supportText}.${release.type ? ` Release type: ${release.type}.` : ''}` }] : []),
+        ...(release.highlights?.length ? [{ q: `What's new in ${title}?`, a: release.highlights.map((h) => h.title).join(', ') + '. The highlights on this page explain each one.' }] : []),
+      ]
+    : [
+        { q: `Is the ${title} date confirmed?`, a: status === 'predicted' || status === 'missed' ? `No. The date is our estimate, based on how ${family.name} has released in the past. We will update this page when ${family.name} announces a date.` : `Yes. The date comes from ${family.name}'s own published information.` },
+        ...(stable ? [{ q: `What is the latest ${family.name} version right now?`, a: `${releaseTitle(stable)}, released on ${formatDay(stable.date)}. You can install it today and upgrade later.` }] : []),
+      ]),
+  { q: `How often does ${family.name} release?`, a: `${family.cadence}${gap ? ` Over its recent releases the average gap was about ${(gap / 30.44).toFixed(1)} months.` : ''}` },
+  ...(family.faq ?? []),
+];
+
+const site = Astro.site;
+const url = new URL(Astro.url.pathname, site).href;
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', site).href },
+    { '@type': 'ListItem', position: 2, name: family.name, item: new URL(`/${family.id}/`, site).href },
+    { '@type': 'ListItem', position: 3, name: title, item: url },
+  ] },
+  ...(isOut ? [{
+    '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: title, softwareVersion: release.version,
+    applicationCategory: family.id === 'gnome' ? 'DesktopEnvironment' : 'OperatingSystem', operatingSystem: 'Linux',
+    datePublished: release.date, url, ...(download && !['gnome', 'kde-plasma'].includes(family.id) ? { downloadUrl: download.url } : {}),
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  }] : []),
+];
+---
+<Base wide title={pageTitle} description={description} noindex={!isIndexable(release)} jsonLd={jsonLd}>
+  <div class="crumbs"><a href="/">Home</a> / <a href={`/${family.id}/`}>{family.name}</a> / {release.version}</div>
+  <div class="title-row"><span class="tile lg"><Icon id={family.id} size={32} /></span><div><p class="kicker">{family.name}</p><h1>{isOut ? title : `${title} release date`}</h1></div></div>
+  <p class="lede">{release.summary}</p>
+
+  <section class="sign" aria-label="Release status">
+    <div class="sign-main">
+      <div class="sign-k">{isOut ? 'Released' : release.date ? 'Release date' : 'Expected window'}</div>
+      <div class="sign-date">{boardWhen(release)}</div>
+      <div class="sign-sub">
+        <span class="badge" class:list={[board.tone]}>{board.word}</span>
+        {release.lts && <span class="badge ok">LTS</span>}
+        {!isOut && days >= 0 && <span><span data-countdown={targetDay(release)}>{days === 0 ? 'today' : `in ${days} days`}</span>{release.window && ' (window opens)'}</span>}
+        {isOut && supportText && <span>{supportText}</span>}
+      </div>
+    </div>
+    <div class="sign-side">
+      {isOut && download && (
+        <>
+          <a class="btn" href={download.url} rel="noopener nofollow" target="_blank" data-download={`${family.id}:${release.version}`}>
+            <Icon id={family.id} size={18} />{download.label === 'Download' ? `Download ${shortTitle}` : download.label} <span aria-hidden="true">↗</span>
+          </a>
+          <span class="btn-sub">Official: {download.host}{release.notes && <> · <a href={release.notes.url} rel="noopener" target="_blank">Release notes ↗</a></>}</span>
+        </>
+      )}
+      {!isOut && release.chance && (
+        <div class="chance" aria-label={`${release.chance}% chance it lands in this window`}>
+          <div class="sign-k">Chance it lands in the window</div>
+          <div class="cells" aria-hidden="true">{Array.from({ length: 10 }, (_, i) => <span class:list={{ on: i < Math.round(release.chance / 10) }}></span>)}</div>
+          <div class="pctbig">{release.chance}%</div>
+        </div>
+      )}
+    </div>
+  </section>
+
+  {!isOut && stable && stableDownload && (
+    <a class="card now" href={stableDownload.url} rel="noopener nofollow" target="_blank" data-download={`${family.id}:${stable.version}`}>
+      <Icon id={family.id} size={22} />
+      <span class="now-main"><span class="now-k">Can't wait? Use the latest stable version today</span><b>{releaseTitle(stable)}</b><span class="meta">Released {formatDay(stable.date)}{stableSupport?.end ? ` · supported until ${monthYear(stableSupport.end)}` : ''}</span></span>
+      <span class="btn sm">{stableDownload.label} <span aria-hidden="true">↗</span></span>
+    </a>
+  )}
+
+  {(release.specs?.length || release.type) && (
+    <dl class="glance">
+      {release.type && <div><dt>Release type</dt><dd>{release.type}</dd></div>}
+      {isOut && <div><dt>Released</dt><dd>{formatDay(release.date)}</dd></div>}
+      {release.codename && <div><dt>Codename</dt><dd>{release.codename}</dd></div>}
+      {release.specs?.map((s) => <div><dt>{s.k}</dt><dd>{s.v}</dd></div>)}
+    </dl>
+  )}
+
+  {(status === 'predicted' || status === 'missed') && (
+    <div class="notice">
+      <b>Not announced.</b> {family.name} has not published this date. It is our estimate and may change.
+      {status === 'missed' && ' The expected window has passed without a release; we keep this page as part of our track record.'}
+    </div>
+  )}
+
+  <div class="cols">
+    <div class="main-col">
+      {release.highlights?.length > 0 && (
+        <section>
+          <h2>What's new in {title}</h2>
+          <div class="hl-grid">
+            {release.highlights.map((h) => <div class="card hl"><h3>{h.title}</h3><p>{h.text}</p></div>)}
+          </div>
+          {release.highlightsSource && <p class="meta">Source: <a href={release.highlightsSource.url} rel="noopener" target="_blank">{release.highlightsSource.label}</a></p>}
+        </section>
+      )}
+
+      {kept && (
+        <section class="card kept">
+          <h2>{kept.status === 'predicted' ? 'Our forecast before release' : 'Before release'}</h2>
+          {kept.status === 'predicted' ? (
+            <p>We expected <b>{formatWindow(kept.window)}</b>, with a {kept.chance}% chance of landing in that window. <b>{gradeText}</b> This forecast is kept exactly as published; see the <a href="/track-record/">track record</a>.</p>
+          ) : (
+            <p>{family.name} had scheduled it for {formatDay(kept.date)}.</p>
+          )}
+          <p class="meta">What this page said before release: “{kept.summary}”</p>
+        </section>
+      )}
+
+      <h2>{isOut ? 'Release timeline' : 'Road to release'}</h2>
+      <section class="card journey"><Line stations={isOut ? releasedStations(release, now) : releaseStations(release, releases, now)} color={look.color} /></section>
+
+      {!isOut && gap && (
+        <p class="why">
+          <b>Why this {release.window ? 'window' : 'date'}?</b> {family.name} has shipped a new version about every {(gap / 30.44).toFixed(1)} months over its recent releases (computed from the release dates in the table below).
+          {release.window ? ` Our window, ${formatWindow(release.window)}, follows that rhythm with room for the slips ${family.name} sometimes has.` : ` This date comes from ${family.name}'s own schedule.`}
+        </p>
+      )}
+
+      <h2>{isOut ? 'Release log' : 'What we know so far'}</h2>
+      <p class="meta">Newest first. <span class="badge go">official</span> from the project · <span class="badge info">report</span> from news or other sites · <span class="badge est">estimate</span> our own working.</p>
+      <ol class="log">
+        {evidence.map((e) => (
+          <li>
+            <span class="log-date">{formatDay(e.date)}</span>
+            <span class="badge" class:list={[{ official: 'go', report: 'info', estimate: 'est' }[e.kind] ?? 'est']}>{e.kind}</span>
+            <span class="log-text">{e.text}</span>
+          </li>
+        ))}
+      </ol>
+
+      {guide && (
+        <section>
+          <h2>How to get {isOut ? title : `the latest ${family.name}`}</h2>
+          <div class="guide card">
+            <h3>{family.id === 'gnome' || family.id === 'linux-kernel' ? 'Getting it' : 'Fresh install'}</h3>
+            <p>{guide.install}</p>
+            <h3>{family.id === 'gnome' || family.id === 'linux-kernel' ? 'Doing it yourself' : 'Upgrading'}</h3>
+            {guide.upgrade.map((t) => <p>{t}</p>)}
+            {guide.code && <pre><code>{guide.code}</code></pre>}
+            {guide.note && <p class="meta">{guide.note} <a href={family.upgrade.url} rel="noopener" target="_blank">{family.upgrade.label} ↗</a></p>}
+          </div>
+        </section>
+      )}
+
+      {isOut && support?.supported && (family.id === 'ubuntu' || latestStable(family.id)?.id === release.id) && (family.editions?.length || family.shippedIn) && (
+        <section>
+          <h2>{family.shippedIn ? `Where to get ${shortTitle}` : `${shortTitle} editions and flavors`}</h2>
+          <Editions familyId={family.id} version={release.version} />
+        </section>
+      )}
+
+      <h2>All {family.name} versions</h2>
+      <p class="meta">Recent {family.name} releases with their support status and an official download link.</p>
+      <VersionTable familyId={family.id} now={now} current={release.id} />
+
+      <h2>Questions</h2>
+      {faq.map((f) => (<details><summary>{f.q}</summary><p>{f.a}</p></details>))}
+    </div>
+
+    <aside class="side">
+      <dl class="card details">
+        <div><dt>Status</dt><dd><span class="badge" class:list={[board.tone]}>{board.word}</span></dd></div>
+        <div><dt>{release.date ? 'Date' : 'Window'}</dt><dd>{dateText}</dd></div>
+        {supportText && <div><dt>Support</dt><dd>{supportText}</dd></div>}
+        {support?.latest && <div><dt>Latest point release</dt><dd>{support.latest}{support.latestDate ? ` (${formatDay(support.latestDate)})` : ''}</dd></div>}
+        <div><dt>Release rhythm</dt><dd>{family.cadence}</dd></div>
+        <div><dt>Sources</dt><dd>
+          <ul>{release.sources.map((s) => (<li><a href={s.url} rel="noopener">{s.label}</a></li>))}</ul>
+        </dd></div>
+      </dl>
+      <div class="card about">
+        <h3><Icon id={family.id} size={16} />About {family.name}</h3>
+        <p>{family.about}</p>
+        <a href={`/${family.id}/`}>All {family.name} release dates →</a>
+      </div>
+    </aside>
+  </div>
+</Base>
+
+<style>
+  .fam-k { display: flex; align-items: center; gap: 8px; }
+  .sign { border: 1px solid var(--line); border-radius: 16px; padding: 22px 24px; display: flex; gap: 20px 40px; box-shadow: var(--shadow);
+    flex-wrap: wrap; justify-content: space-between; align-items: center; margin: 8px 0 14px; }
+  .sign-k { font-size: 13px; font-weight: 500; color: var(--muted); }
+  .sign-date { font-size: clamp(28px, 6vw, 44px); font-weight: 800; letter-spacing: -.03em; line-height: 1.1; margin: 4px 0 10px; }
+  .sign-sub { display: flex; gap: 8px 12px; flex-wrap: wrap; align-items: center; font-size: 15px; color: var(--muted); }
+  .sign-side { display: grid; gap: 8px; justify-items: start; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; background: var(--ink); color: #fff; font-weight: 600; font-size: 16px; padding: 12px 20px;
+    border-radius: 12px; transition: transform .15s, box-shadow .2s, background .2s; }
+  .btn:hover { text-decoration: none; background: var(--blue); box-shadow: 0 8px 20px -8px #2563eb80; transform: translateY(-1px); }
+  .btn.sm { font-size: 14px; padding: 8px 14px; border-radius: 10px; white-space: nowrap; }
+  .btn-sub { font-size: 13px; color: var(--muted); }
+  .cells { display: flex; gap: 4px; margin: 10px 0 6px; }
+  .cells span { width: 14px; height: 24px; border-radius: 4px; background: var(--soft); box-shadow: inset 0 0 0 1px var(--line); }
+  .cells span.on { background: var(--blue); box-shadow: none; }
+  .pctbig { font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
+  .now { display: flex; align-items: center; gap: 16px; color: var(--ink); background: var(--soft); margin-bottom: 14px; }
+  .now:hover { text-decoration: none; border-color: var(--line-strong); }
+  .now:hover .btn { background: var(--blue); }
+  .now-main { flex: 1; display: grid; min-width: 0; }
+  .now-k { font-size: 12px; font-weight: 600; color: var(--muted); }
+  @media (max-width: 560px) { .now { flex-wrap: wrap; } }
+  .glance { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin: 0 0 8px; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .glance div { padding: 12px 16px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 0 -1px -1px 0; }
+  .glance dt { font-size: 12px; font-weight: 600; color: var(--faint); }
+  .glance dd { margin: 2px 0 0; font-size: 15px; font-weight: 500; }
+  .cols { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 32px; align-items: start; }
+  @media (max-width: 900px) { .cols { grid-template-columns: minmax(0, 1fr); } }
+  .side { position: sticky; top: 120px; display: grid; gap: 14px; margin-top: 44px; }
+  @media (max-width: 900px) { .side { position: static; margin-top: 8px; } }
+  .hl-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+  .hl h3, .guide h3, .about h3 { margin: 0 0 4px; font-size: 16px; }
+  .hl p { margin: 0; color: var(--muted); font-size: 15px; }
+  .kept { margin-top: 32px; background: var(--soft); }
+  .kept h2 { margin-top: 0; }
+  .journey { padding: 16px 20px 18px; }
+  .why { color: var(--muted); font-size: 15px; margin: 14px 0 0; }
+  .why b { color: var(--ink); }
+  .log { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--line); }
+  .log li { display: grid; grid-template-columns: 110px auto minmax(0, 1fr); gap: 4px 12px; align-items: baseline; padding: 10px 0 10px 16px; position: relative; }
+  .log li::before { content: ""; position: absolute; left: -5px; top: 18px; width: 8px; height: 8px; border-radius: 50%; background: var(--line-strong); }
+  .log-date { font-size: 13px; color: var(--muted); }
+  .log .badge { justify-self: start; }
+  @media (max-width: 560px) { .log li { grid-template-columns: auto minmax(0, 1fr); } .log-text { grid-column: 1 / -1; } }
+  .guide h3:not(:first-child) { margin-top: 16px; }
+  .guide p { margin: 0 0 8px; }
+  pre { background: var(--soft); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: 14px; margin: 4px 0 10px; }
+  .details { margin: 0; display: grid; gap: 12px; }
+  .details dt { font-size: 12px; font-weight: 600; color: var(--faint); }
+  .details dd { margin: 2px 0 0; font-size: 15px; }
+  .details ul { margin: 0; padding-left: 18px; }
+  .about h3 { display: flex; align-items: center; gap: 8px; }
+  .about p { margin: 0 0 8px; color: var(--muted); font-size: 14px; }
+  .about a { font-size: 14px; font-weight: 500; }
+</style>

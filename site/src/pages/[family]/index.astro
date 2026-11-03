@@ -1,0 +1,112 @@
+---
+import Base from '../../layouts/Base.astro';
+import ReleaseList from '../../components/ReleaseList.astro';
+import Line from '../../components/Line.astro';
+import Icon from '../../components/Icon.astro';
+import VersionTable from '../../components/VersionTable.astro';
+import Editions from '../../components/Editions.astro';
+import { families, releases, getFamily, releaseTitle, releasePath, upcoming } from '../../lib/data.js';
+import { formatDay, headline, parseDay, today } from '../../lib/forecast.js';
+import { familyLook, familyStations } from '../../lib/look.js';
+import { averageGap, latestLts, latestStable, primaryDownload, supportOf } from '../../lib/versions.js';
+
+export function getStaticPaths() {
+  return families.map((f) => ({ params: { family: f.id } }));
+}
+
+const { family: id } = Astro.params;
+const family = getFamily(id);
+const look = familyLook(id);
+const now = today();
+const own = releases.filter((r) => r.family === id);
+const next = upcoming(now).filter((r) => r.family === id);
+const stable = latestStable(id);
+const stableSupport = stable ? supportOf(id, stable.version, now) : null;
+const stableDownload = stable ? primaryDownload(stable, now) : null;
+const lts = latestLts(id, now);
+const showLts = lts && stable && lts.version !== stable.version;
+const gap = averageGap(id, now);
+const monthYear = (s) => parseDay(s).toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+
+const faq = [
+  ...(stable ? [{ q: `What is the latest version of ${family.name}?`, a: `${releaseTitle(stable)}, released on ${formatDay(stable.date)}.${stableSupport?.end ? ` It is supported until ${monthYear(stableSupport.end)}.` : ''}${showLts ? ` The newest long-term support version is ${family.name} ${lts.version} LTS.` : ''}` }] : []),
+  ...(next[0] ? [{ q: `When is the next ${family.name} release?`, a: `${releaseTitle(next[0])}: ${headline(next[0], now)}. ${next[0].status === 'predicted' ? 'This is our forecast; the project has not announced a date.' : 'The project published this date.'}` }] : []),
+  { q: `How often does ${family.name} release a new version?`, a: `${family.cadence}${gap ? ` The average gap over recent releases was about ${(gap / 30.44).toFixed(1)} months.` : ''}` },
+  ...(family.faq ?? []),
+  { q: `Where do the download links go?`, a: `Every download link goes to ${family.name}'s own site (${family.download.label}). We never host or repackage files.` },
+];
+const jsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
+---
+<Base
+  wide
+  jsonLd={jsonLd}
+  title={`${family.name} release dates, latest version and downloads`}
+  description={`The latest ${family.name} version${stable ? ` is ${releaseTitle(stable)}` : ''}. When the next ${family.name} release ships, official download links and every recent version with its support dates.`}
+>
+  <div class="crumbs"><a href="/">Home</a> / {family.name}</div>
+  <div class="title-row"><span class="tile lg"><Icon id={id} size={32} /></span><h1>{family.name} release dates and downloads</h1></div>
+  <p class="lede">{family.about}</p>
+
+  <div class="duo">
+    {stable && (
+      <section class="card box">
+        <span class="k">Latest stable</span>
+        <a class="big" href={releasePath(stable)}>{releaseTitle(stable)}</a>
+        <span class="meta">Released {formatDay(stable.date)}{stableSupport?.end ? ` · supported until ${monthYear(stableSupport.end)}` : ''}</span>
+        {stableDownload && (
+          <a class="btn" href={stableDownload.url} rel="noopener nofollow" target="_blank" data-download={`${id}:${stable.version}`}>
+            <Icon id={id} size={17} />{stableDownload.label} <span aria-hidden="true">↗</span>
+          </a>
+        )}
+        {showLts && <span class="meta">Long-term support: <a href={lts.page ? releasePath(releases.find((r) => r.id === lts.page)) : lts.download.url}>{family.name} {lts.version} LTS</a></span>}
+      </section>
+    )}
+    {next[0] && (
+      <section class="card box">
+        <span class="k">Next release</span>
+        <a class="big" href={releasePath(next[0])}>{releaseTitle(next[0])}</a>
+        <span class="meta">{headline(next[0], now)}</span>
+        <a class="btn ghost" href={releasePath(next[0])}>See the forecast →</a>
+        {next[0].chance && <span class="meta">{next[0].chance}% chance it lands in our window</span>}
+      </section>
+    )}
+  </div>
+
+  {(family.editions?.length || family.shippedIn) && (
+    <>
+      <div class="section-head"><h2>{family.shippedIn ? `Where to get ${family.name}` : `${family.name} editions and flavors`}</h2><p>{family.shippedIn ? `${family.name} comes with these distributions.` : 'Every download goes to the official site.'}</p></div>
+      <Editions familyId={id} version={stable?.version} />
+    </>
+  )}
+
+  {next.length > 0 && (
+    <>
+      <div class="section-head"><h2>Upcoming {family.name} releases</h2><p>Soonest first.</p></div>
+      <ReleaseList rows={next} now={now} />
+    </>
+  )}
+
+  <div class="section-head"><h2>{family.name} release timeline</h2><p>Filled dots are out. The blue dot is today.</p></div>
+  <section class="card fam-line"><Line stations={familyStations(own, now)} color={look.color} /></section>
+
+  <div class="section-head"><h2>All {family.name} versions</h2><p>{family.cadence}</p></div>
+  <VersionTable familyId={id} now={now} />
+
+  <div class="section-head"><h2>{family.name} questions</h2></div>
+  {faq.map((f) => (<details><summary>{f.q}</summary><p>{f.a}</p></details>))}
+  <p class="meta">Official source: <a href={family.source.url} rel="noopener">{family.source.label}</a></p>
+</Base>
+
+<style>
+  .fam-k { display: flex; align-items: center; gap: 8px; }
+  .duo { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); margin-top: 8px; }
+  .box { display: grid; gap: 6px; justify-items: start; padding: 20px 22px; }
+  .k { font-size: 12px; font-weight: 600; color: var(--faint); }
+  .big { font-size: 24px; font-weight: 800; letter-spacing: -.02em; color: var(--ink); }
+  .btn { display: inline-flex; align-items: center; gap: 10px; background: var(--ink); color: #fff; font-weight: 600; font-size: 15px; padding: 10px 18px;
+    border-radius: 12px; margin-top: 6px; transition: background .2s, transform .15s; }
+  .btn:hover { text-decoration: none; background: var(--blue); transform: translateY(-1px); }
+  .btn.ghost { background: var(--bg); color: var(--ink); border: 1px solid var(--line-strong); }
+  .btn.ghost:hover { color: var(--blue); border-color: var(--blue); }
+  .fam-line { padding: 18px 20px; }
+</style>

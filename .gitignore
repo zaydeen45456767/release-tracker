@@ -1,0 +1,8 @@
+# Dependencies and build output
+node_modules/
+site/dist/
+site/.astro/
+.DS_Store
+# Raw copies of third-party web pages used during research stay local (copyrighted); notes and feeds are kept.
+research_notes/**/page-*.html
+research_notes/**/fm.html

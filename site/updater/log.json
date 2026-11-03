@@ -1,0 +1,48 @@
+[
+  {
+    "at": "2026-11-03T11:03:32.734Z",
+    "changes": [
+      "fedora-45: flipped to released (2026-11-03, from Fedora Bodhi (official update system))",
+      "linux-kernel-7-4: added rc1 (2026-11-01) to the evidence",
+      "fedora-46: \"use now\" link fedora-44 -> fedora-45"
+    ],
+    "reviews": [
+      "Fedora 44: our date is 2026-05-01, Fedora Bodhi (official update system) says 2026-04-28. Not changed automatically.",
+      "Fedora 44: our date is 2026-05-01, endoflife.date: fedora says 2026-04-28. Not changed automatically.",
+      "Linux Mint 27: codename \"adrien\" exists in Linux Mint package archive, which supports the name \"Adrien\"."
+    ],
+    "errors": []
+  },
+  {
+    "at": "2026-11-03T12:09:59.979Z",
+    "changes": [],
+    "reviews": [
+      "Linux Mint 27: codename \"adrien\" exists in Linux Mint package archive, which supports the name \"Adrien\"."
+    ],
+    "errors": []
+  },
+  {
+    "at": "2026-11-03T12:10:15.959Z",
+    "changes": [],
+    "reviews": [
+      "Linux Mint 27: codename \"adrien\" exists in Linux Mint package archive, which supports the name \"Adrien\"."
+    ],
+    "errors": []
+  },
+  {
+    "at": "2026-11-03T13:13:52.106Z",
+    "changes": [],
+    "reviews": [
+      "Linux Mint 27: codename \"adrien\" exists in Linux Mint package archive, which supports the name \"Adrien\"."
+    ],
+    "errors": []
+  },
+  {
+    "at": "2026-11-03T13:28:23.493Z",
+    "changes": [],
+    "reviews": [
+      "Linux Mint 27: codename \"adrien\" exists in Linux Mint package archive, which supports the name \"Adrien\"."
+    ],
+    "errors": []
+  }
+]

@@ -1,0 +1,56 @@
+---
+// Editions and flavors of a project (Ubuntu flavors, Fedora editions, Mint editions...),
+// each with its own icon and official download link. For GNOME: the distributions that ship it.
+import Icon from './Icon.astro';
+import { getFamily, releaseTitle, releasePath } from '../lib/data.js';
+import { latestStable } from '../lib/versions.js';
+
+const { familyId, version = null } = Astro.props;
+const family = getFamily(familyId);
+
+// Pin a link to this version when the project has per-version pages; otherwise use the current download page.
+// `notFor` lists versions an edition was not released for (found by npm run check-links).
+function linkFor(e) {
+  if (!version) return e.url;
+  if (e.cd) return `https://cdimage.ubuntu.com/${e.cd}/releases/${version}/release/`;
+  if (e.perVersion === 'releases') return `https://releases.ubuntu.com/${version}/`;
+  if (e.forVersion && e.forVersion !== version) return family.download.url;
+  return e.url;
+}
+const host = (u) => new URL(u).hostname.replace(/^www\./, '');
+const shippers = (family.shippedIn ?? []).map((id) => ({ f: getFamily(id), r: latestStable(id) })).filter((x) => x.r);
+---
+{family.editions?.length > 0 && (
+  <div class="eds">
+    {family.editions.filter((e) => !(version && e.notFor?.includes(version))).map((e) => {
+      const url = linkFor(e);
+      return (
+        <a class="ed" href={url} rel="noopener nofollow" target="_blank" data-download={`${familyId}:${e.name}`}>
+          <span class="tile"><Icon id={e.icon} size={22} /></span>
+          <span class="ed-main"><b>{e.name}</b><span>{e.desc}</span><span class="ed-host">{host(url)} ↗</span></span>
+        </a>
+      );
+    })}
+  </div>
+)}
+{shippers.length > 0 && (
+  <div class="eds">
+    {shippers.map(({ f, r }) => (
+      <a class="ed" href={releasePath(r)}>
+        <span class="tile"><Icon id={f.id} size={22} /></span>
+        <span class="ed-main"><b>{releaseTitle(r).replace(/ ".*"$/, '')}</b><span>Ships with {family.name} by default.</span><span class="ed-host">See release →</span></span>
+      </a>
+    ))}
+  </div>
+)}
+
+<style>
+  .eds { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); }
+  .ed { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; color: var(--ink);
+    transition: border-color .2s, box-shadow .2s, transform .15s; }
+  .ed:hover { text-decoration: none; border-color: var(--line-strong); box-shadow: var(--shadow); transform: translateY(-1px); }
+  .ed-main { display: grid; gap: 2px; min-width: 0; }
+  .ed-main b { font-size: 15px; }
+  .ed-main span { font-size: 13px; color: var(--muted); }
+  .ed-main .ed-host { color: var(--blue); font-weight: 500; }
+</style>

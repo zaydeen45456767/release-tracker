@@ -1,0 +1,7 @@
+---
+// A project's or edition's icon (Simple Icons, CC0), drawn in the current text colour.
+import { iconPath } from '../lib/look.js';
+
+const { id, size = 16 } = Astro.props;
+---
+<svg class="icon" viewBox="0 0 24 24" width={size} height={size} aria-hidden="true"><path d={iconPath(id)} fill="currentColor" /></svg>

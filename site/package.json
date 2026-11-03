@@ -1,0 +1,17 @@
+{
+  "name": "linux-release-tracker",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "node --test tests/",
+    "update": "node updater/run.js",
+    "check-links": "node updater/check-links.js"
+  },
+  "dependencies": {
+    "astro": "^5.0.0",
+    "simple-icons": "^16.36.0"
+  }
+}

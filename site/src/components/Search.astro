@@ -1,0 +1,60 @@
+---
+// Search across every release we track. The index is tiny, so it ships inline
+// and filters in the browser. Behaviour and animation live in Base.astro's script.
+import { releases, releaseTitle, releasePath, getFamily, upcoming } from '../lib/data.js';
+import { today } from '../lib/forecast.js';
+import { boardStatus, boardWhen, familyLook } from '../lib/look.js';
+
+const { size = 'lg' } = Astro.props;
+const now = today();
+const next = new Set(upcoming(now).slice(0, 5).map((r) => r.id));
+const index = releases.map((r) => {
+  const f = getFamily(r.family);
+  const st = boardStatus(r, now);
+  return {
+    t: releaseTitle(r),
+    u: releasePath(r),
+    w: boardWhen(r),
+    s: st.word,
+    tone: st.tone,
+    c: familyLook(r.family).color,
+    m: familyLook(r.family).mono,
+    p: familyLook(r.family).icon,
+    n: next.has(r.id),
+    k: [f.name, f.id, r.version, r.codename, r.slug, f.id === 'linux-kernel' ? 'linux kernel' : ''].join(' ').toLowerCase(),
+  };
+});
+const examples = ['Fedora 46', 'Linux 7.4', 'Ubuntu 27.04', 'Debian 14', 'GNOME 52', 'Linux Mint 27'];
+---
+<div class="search" class:list={[size]} data-search>
+  {size === 'lg' && (
+    <svg class="peng" viewBox="0 0 60 60" width="56" height="56" aria-hidden="true" data-peng>
+      <g class="peng-body">
+        <path d="M30 6c-11 0-18 10-18 24v22h36V30C48 16 41 6 30 6Z" fill="#0f172a" />
+        <path d="M30 20c-7 0-11 7-11 14v18h22V34c0-7-4-14-11-14Z" fill="#fff" />
+        <g class="peng-eyes">
+          <circle cx="23.5" cy="21" r="5" fill="#fff" /><circle cx="36.5" cy="21" r="5" fill="#fff" />
+          <g class="peng-pupils"><circle cx="23.5" cy="21.5" r="2.3" fill="#0f172a" /><circle cx="36.5" cy="21.5" r="2.3" fill="#0f172a" /></g>
+        </g>
+        <path d="M26.5 27.5h7l-3.5 4z" fill="#f59e0b" />
+      </g>
+    </svg>
+  )}
+  <div class="search-box">
+    <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    <input
+      type="search"
+      placeholder={size === 'lg' ? 'Search a release, like Fedora 46' : 'Search releases'}
+      aria-label="Search Linux releases"
+      autocomplete="off"
+      spellcheck="false"
+      role="combobox"
+      aria-expanded="false"
+      aria-autocomplete="list"
+      data-examples={JSON.stringify(examples)}
+    />
+    <kbd aria-hidden="true">/</kbd>
+  </div>
+  <ul class="search-results" role="listbox" hidden></ul>
+  <script type="application/json" data-index set:html={JSON.stringify(index)} />
+</div>

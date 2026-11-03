@@ -1,0 +1,64 @@
+---
+// Every version of a project: release date, support, gap since the previous version, official download.
+import { getFamily, getRelease, releasePath } from '../lib/data.js';
+import { formatDay, parseDay } from '../lib/forecast.js';
+import { boardWhen } from '../lib/look.js';
+import { versionHistory } from '../lib/versions.js';
+import Icon from './Icon.astro';
+
+const { familyId, now, current = null, limit = 12 } = Astro.props;
+const family = getFamily(familyId);
+const rows = versionHistory(familyId, now).slice(0, limit);
+const months = (d) => `${(d / 30.44).toFixed(1)} mo`;
+const monthYear = (s) => parseDay(s).toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+---
+<div class="table-scroll vt">
+  <table>
+    <thead>
+      <tr><th>Version</th><th>Released</th><th>Gap</th><th>Support</th><th class="r">Get it</th></tr>
+    </thead>
+    <tbody>
+      {rows.map((v) => (
+        <tr class:list={{ cur: v.page && v.page === current }}>
+          <td class="vname">
+            <span class="tile sm"><Icon id={familyId} size={15} /></span>
+            <span>
+            {v.page ? <a href={releasePath(getRelease(v.page))}>{family.name} {v.version}{v.lts ? ' LTS' : ''}</a> : <span>{family.name} {v.version}{v.lts ? ' LTS' : ''}</span>}
+            {v.codename && <span class="cn">{v.codename}</span>}
+            </span>
+          </td>
+          <td class="nw">{v.released ? formatDay(v.released) : v.upcoming ? <span class="badge" class:list={[v.upcoming.status === 'scheduled' ? 'ok' : 'est']}>{boardWhen(v.upcoming)}</span> : '-'}</td>
+          <td class="nw muted">{v.gapDays ? months(v.gapDays) : ''}</td>
+          <td class="nw">
+            {v.released
+              ? v.supported
+                ? <span class="sup">{(v.support ?? v.eol) ? `Until ${monthYear(v.support ?? v.eol)}` : 'Supported'}</span>
+                : <span class="muted">Ended {monthYear(v.support ?? v.eol)}</span>
+              : <span class="muted">Not out yet</span>}
+          </td>
+          <td class="r">
+            {v.download && (
+              <a class="dl" href={v.download.url} rel="noopener nofollow" target="_blank" data-download={`${familyId}:${v.version}`}>
+                {{ files: 'Files', notes: 'Notes', info: 'Info', page: 'Download' }[v.download.kind] ?? 'Download'} <span aria-hidden="true">↗</span>
+              </a>
+            )}
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+<p class="meta">Support dates from {family.id === 'fedora' ? 'Fedora Bodhi and ' : ''}endoflife.date{family.id === 'gnome' ? ' (none published for GNOME)' : ''}; gaps are computed from release dates. Links go to the project's own servers: Download = download page, Files = file archive, Notes = release notes.</p>
+
+<style>
+  .vt td { vertical-align: middle; }
+  .vt .vname { display: flex; align-items: center; gap: 10px; }
+  .vt .cn { display: block; font-size: 13px; color: var(--muted); }
+  .vt .nw { white-space: nowrap; }
+  .vt .muted { color: var(--muted); }
+  .vt .r { text-align: right; }
+  .vt tr.cur td { background: var(--blue-soft); }
+  .vt .sup { color: var(--ink); }
+  .dl { display: inline-flex; gap: 4px; align-items: center; font-size: 13px; font-weight: 600; padding: 4px 10px; border: 1px solid var(--line-strong); border-radius: 8px; color: var(--ink); white-space: nowrap; }
+  .dl:hover { text-decoration: none; border-color: var(--blue); color: var(--blue); }
+</style>

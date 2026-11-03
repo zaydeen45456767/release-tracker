@@ -1,0 +1,67 @@
+---
+// One row design for every release list, out or upcoming: icon tile, name, one line of context,
+// and on the right either the chance / status (upcoming) or an official Download button (out).
+import Icon from './Icon.astro';
+import { releaseTitle, releasePath, getFamily } from '../lib/data.js';
+import { boardStatus, targetDay } from '../lib/look.js';
+import { daysBetween, effectiveStatus, formatDay, parseDay } from '../lib/forecast.js';
+import { primaryDownload } from '../lib/versions.js';
+
+const { rows, now, id, rank = false } = Astro.props;
+const when = (r) => {
+  const d = daysBetween(now, parseDay(targetDay(r)));
+  return d === 0 ? 'today' : d === 1 ? 'tomorrow' : d > 0 ? `in ${d} days` : `${-d} days ago`;
+};
+const name = (r) => releaseTitle(r).replace(/ ".*"$/, '');
+
+---
+<ol class="rlist" id={id}>
+  {rows.map((r, i) => {
+    const out = effectiveStatus(r, now) === 'released';
+    const st = boardStatus(r, now);
+    const f = getFamily(r.family);
+    const link = out ? primaryDownload(r, now) : null;
+    return (
+      <li data-cat={f.category} data-kind={r.status} data-soon={daysBetween(now, parseDay(targetDay(r))) <= 30 ? '1' : '0'}>
+        {rank && <span class="r-rank">{i + 1}</span>}
+        <span class="tile"><Icon id={r.family} size={20} /></span>
+        <span class="r-main">
+          <a class="r-name" href={releasePath(r)}>{name(r)}</a>
+          <span class="r-sub">
+            <span class="r-fam">{f.name} · </span>{out
+              ? <>Out since {formatDay(r.date)}</>
+              : <>{r.status === 'scheduled' ? 'Scheduled ' : 'Expected '}<span data-countdown={targetDay(r)}>{when(r)}</span></>}
+          </span>
+        </span>
+        <span class="r-side">
+          {out && link && (
+            <a class="r-dl" href={link.url} rel="noopener nofollow" target="_blank" data-download={`${r.family}:${r.version}`}>{link.label.startsWith('Get') ? 'Get' : 'Download'} <span aria-hidden="true">↗</span></a>
+          )}
+          {!out && r.chance && <span class="r-pct"><b>{r.chance}%</b><small>chance</small></span>}
+          {!out && !r.chance && <span class="badge" class:list={[st.tone]}>{st.word}</span>}
+        </span>
+      </li>
+    );
+  })}
+</ol>
+
+<style>
+  .rlist { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: var(--bg); }
+  .rlist li { position: relative; display: flex; align-items: center; gap: 14px; padding: 14px 18px; transition: background .15s; }
+  .rlist li + li { border-top: 1px solid var(--line); }
+  .rlist li[hidden] { display: none; }
+  .rlist li:hover { background: var(--soft); }
+  .r-rank { width: 16px; flex: none; font-size: 14px; font-weight: 600; color: var(--faint); text-align: center; }
+  .r-main { flex: 1; min-width: 0; display: grid; }
+  .r-name { font-weight: 600; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .r-name::after { content: ""; position: absolute; inset: 0; } /* whole row is clickable */
+  .r-name:hover { text-decoration: none; }
+  .r-sub { font-size: 13px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .r-side { position: relative; z-index: 1; display: flex; align-items: center; gap: 10px; }
+  .r-pct { display: grid; justify-items: end; line-height: 1.1; }
+  .r-pct b { font-size: 18px; letter-spacing: -.02em; }
+  .r-pct small { font-size: 12px; color: var(--muted); }
+  .r-dl { display: inline-flex; gap: 4px; align-items: center; font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 9px; background: var(--ink); color: #fff; white-space: nowrap; transition: background .2s; }
+  .r-dl:hover { background: var(--blue); text-decoration: none; }
+  @media (max-width: 560px) { .rlist li { padding: 12px 14px; gap: 10px; } .r-rank, .r-fam { display: none; } }
+</style>

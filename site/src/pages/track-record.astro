@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { releases, releaseTitle, releasePath } from '../lib/data.js';
+import { effectiveStatus, formatDay, formatWindow, gradeForecast, today } from '../lib/forecast.js';
+
+const now = today();
+// Open forecasts, plus forecasts kept from before a release shipped.
+const forecasts = releases.filter((r) => r.status === 'predicted' || r.forecast?.status === 'predicted');
+const windowOf = (r) => r.forecast?.window ?? r.window;
+const chanceOf = (r) => r.forecast?.chance ?? r.chance;
+const graded = forecasts.filter((r) => gradeForecast(r));
+const missed = forecasts.filter((r) => effectiveStatus(r, now) === 'missed');
+
+function outcome(r) {
+  const g = gradeForecast(r);
+  if (g) return g.hit ? `Released ${formatDay(r.date)}: inside window` : `Released ${formatDay(r.date)}: ${Math.abs(g.daysOff)} days ${g.daysOff > 0 ? 'late' : 'early'}`;
+  return effectiveStatus(r, now) === 'missed' ? 'Window passed' : 'Waiting';
+}
+---
+<Base
+  title="Forecast track record | Linux Release Tracker"
+  description="Every release forecast we have published, kept exactly as first published, and whether it came true."
+>
+  <p class="kicker">Forecasts, graded in public</p>
+  <h1>Track record</h1>
+  <p class="lede">We keep each forecast exactly as we first published it. When a release ships, we grade the forecast here. Misses stay on the record.</p>
+
+  <div class="facts">
+    <div class="fact"><div class="k">Forecasts published</div><div class="v">{forecasts.length}</div></div>
+    <div class="fact"><div class="k">Graded so far</div><div class="v">{graded.length}</div></div>
+    <div class="fact"><div class="k">Window passed, no release</div><div class="v">{missed.length}</div></div>
+  </div>
+  <div class="notice">This site is new, so only a few forecasts have been graded. We will not show an accuracy score until there are enough results to mean something.</div>
+
+  <h2>All forecasts</h2>
+  <div class="table-scroll"><table>
+    <thead><tr><th>Release</th><th>Our forecast</th><th>Chance</th><th>Outcome</th></tr></thead>
+    <tbody>
+      {forecasts.map((r) => (
+        <tr>
+          <td><span class="tr-name"><span class="tile sm"><Icon id={r.family} size={15} /></span><a href={releasePath(r)}>{releaseTitle(r)}</a></span></td>
+          <td>{formatWindow(windowOf(r))}</td>
+          <td>{chanceOf(r)}%</td>
+          <td>{outcome(r)}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table></div>
+  <p class="meta">Forecasts are first published {formatDay('2026-11-03')} or later.</p>
+</Base>
+
+<style>
+  .tr-name { display: flex; align-items: center; gap: 10px; }
+  td { vertical-align: middle; }
+</style>

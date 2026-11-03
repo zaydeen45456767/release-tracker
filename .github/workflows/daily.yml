@@ -1,0 +1,53 @@
+# Every morning: read the official feeds, apply safe changes, test, save the data.
+# Saving (git push) makes Cloudflare Pages rebuild and publish the site.
+# If the review list or failed feeds change, the owner gets a GitHub issue (GitHub emails it).
+name: Daily update
+on:
+  schedule:
+    - cron: '0 6 * * *' # 06:00 UTC
+  workflow_dispatch: # "Run workflow" button for a manual run
+permissions:
+  contents: write
+  issues: write
+concurrency: daily-update
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: site
+    env:
+      SITE_URL: ${{ vars.SITE_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - run: npm ci
+      - name: Read feeds and apply safe changes
+        run: npm run update -- --write
+      - name: Tests (nothing is saved if they fail)
+        run: npm test
+      - run: npm run build
+      - name: Check outside links
+        id: links
+        continue-on-error: true
+        run: npm run check-links > updater/links.txt 2>&1
+      - name: Save changed data
+        id: save
+        run: |
+          git config user.name "release-updater"
+          git config user.email "release-updater@users.noreply.github.com"
+          git add src/data updater/log.json updater/last-run.md
+          if git diff --cached --name-only | grep -q 'updater/last-run.md'; then echo "summary=changed" >> "$GITHUB_OUTPUT"; fi
+          if git diff --cached --quiet; then echo "No data changes."; else git commit -m "Daily update $(date -u +%F)" && git push; fi
+      - name: Alert the owner when something needs attention
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "${{ steps.save.outputs.summary }}" = "changed" ] || [ "${{ steps.links.outcome }}" = "failure" ]; then
+            { cat updater/last-run.md; echo; echo '### Link check'; cat updater/links.txt; } > /tmp/alert.md
+            gh issue create --title "Updater: review needed ($(date -u +%F))" --body-file /tmp/alert.md
+          fi

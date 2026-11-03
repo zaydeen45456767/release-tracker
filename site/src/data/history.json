@@ -1,0 +1,853 @@
+{
+  "gnome": [
+    {
+      "version": "51",
+      "codename": "A Coruña",
+      "released": "2026-09-16",
+      "source": "GNOME release notes"
+    },
+    {
+      "version": "50",
+      "codename": "Tokyo",
+      "released": "2026-03-18",
+      "source": "GNOME release notes"
+    },
+    {
+      "version": "49",
+      "codename": "Brescia",
+      "released": "2025-09-17",
+      "source": "GNOME release notes"
+    },
+    {
+      "version": "48",
+      "codename": "Bengaluru",
+      "released": "2025-03-19",
+      "source": "GNOME release notes"
+    }
+  ],
+  "linux-kernel": [
+    {
+      "version": "7.3",
+      "released": "2026-10-18",
+      "latest": "7.3.1",
+      "latestDate": "2026-10-30",
+      "source": "endoflife.date: linux"
+    },
+    {
+      "version": "7.2",
+      "released": "2026-08-16",
+      "eol": "2026-11-01",
+      "latest": "7.2.15",
+      "latestDate": "2026-11-01",
+      "source": "endoflife.date: linux"
+    },
+    {
+      "version": "7.1",
+      "released": "2026-06-14",
+      "eol": "2026-09-02",
+      "latest": "7.1.13",
+      "latestDate": "2026-09-02",
+      "source": "endoflife.date: linux"
+    },
+    {
+      "version": "7.0",
+      "released": "2026-04-12",
+      "eol": "2026-06-27",
+      "latest": "7.0.14",
+      "latestDate": "2026-06-27",
+      "source": "endoflife.date: linux"
+    },
+    {
+      "version": "6.19",
+      "released": "2026-02-08",
+      "eol": "2026-04-22",
+      "latest": "6.19.14",
+      "latestDate": "2026-04-22",
+      "source": "endoflife.date: linux"
+    },
+    {
+      "version": "6.18",
+      "released": "2025-11-30",
+      "eol": "2028-12-31",
+      "latest": "6.18.60",
+      "latestDate": "2026-10-30",
+      "lts": true,
+      "source": "endoflife.date: linux"
+    },
+    {
+      "version": "6.17",
+      "released": "2025-09-28",
+      "eol": "2025-12-18",
+      "latest": "6.17.13",
+      "latestDate": "2025-12-18",
+      "source": "endoflife.date: linux"
+    },
+    {
+      "version": "6.16",
+      "released": "2025-07-27",
+      "eol": "2025-10-12",
+      "latest": "6.16.12",
+      "latestDate": "2025-10-12",
+      "source": "endoflife.date: linux"
+    },
+    {
+      "version": "6.15",
+      "released": "2025-05-25",
+      "eol": "2025-08-20",
+      "latest": "6.15.11",
+      "latestDate": "2025-08-20",
+      "source": "endoflife.date: linux"
+    },
+    {
+      "version": "6.14",
+      "released": "2025-03-24",
+      "eol": "2025-06-10",
+      "latest": "6.14.11",
+      "latestDate": "2025-06-10",
+      "source": "endoflife.date: linux"
+    },
+    {
+      "version": "6.13",
+      "released": "2025-01-19",
+      "eol": "2025-04-20",
+      "latest": "6.13.12",
+      "latestDate": "2025-04-20",
+      "source": "endoflife.date: linux"
+    },
+    {
+      "version": "6.12",
+      "released": "2024-11-17",
+      "eol": "2028-12-31",
+      "latest": "6.12.115",
+      "latestDate": "2026-10-30",
+      "lts": true,
+      "source": "endoflife.date: linux"
+    }
+  ],
+  "ubuntu": [
+    {
+      "version": "26.10",
+      "released": "2026-10-15",
+      "codename": "Stonking Stingray",
+      "eol": "2027-07-01",
+      "support": "2027-07-01",
+      "latestDate": "2026-10-15",
+      "source": "endoflife.date: ubuntu"
+    },
+    {
+      "version": "26.04",
+      "released": "2026-04-23",
+      "codename": "Resolute Raccoon",
+      "eol": "2031-05-29",
+      "support": "2031-05-29",
+      "extended": "2036-04-23",
+      "latest": "26.04.1",
+      "latestDate": "2026-08-27",
+      "lts": true,
+      "source": "endoflife.date: ubuntu"
+    },
+    {
+      "version": "25.10",
+      "released": "2025-10-09",
+      "codename": "Questing Quokka",
+      "source": "Ubuntu upgrade metadata (meta-release)",
+      "eol": "2026-07-01",
+      "support": "2026-07-01",
+      "latestDate": "2025-10-09"
+    },
+    {
+      "version": "25.04",
+      "released": "2025-04-17",
+      "codename": "Plucky Puffin",
+      "source": "Ubuntu upgrade metadata (meta-release)",
+      "eol": "2026-01-17",
+      "support": "2026-01-17",
+      "latestDate": "2025-04-17"
+    },
+    {
+      "version": "24.10",
+      "released": "2024-10-10",
+      "codename": "Oracular Oriole",
+      "source": "Ubuntu upgrade metadata (meta-release)",
+      "eol": "2025-07-10",
+      "support": "2025-07-10",
+      "latestDate": "2024-10-10"
+    },
+    {
+      "version": "24.04",
+      "released": "2024-04-25",
+      "codename": "Noble Numbat",
+      "eol": "2029-05-31",
+      "support": "2029-05-31",
+      "extended": "2034-04-25",
+      "latest": "24.04.5",
+      "latestDate": "2026-09-10",
+      "lts": true,
+      "source": "endoflife.date: ubuntu"
+    },
+    {
+      "version": "23.10",
+      "released": "2023-10-12",
+      "codename": "Mantic Minotaur",
+      "source": "Ubuntu upgrade metadata (meta-release)",
+      "eol": "2024-07-12",
+      "support": "2024-07-12",
+      "latestDate": "2023-10-12"
+    },
+    {
+      "version": "23.04",
+      "released": "2023-04-20",
+      "codename": "Lunar Lobster",
+      "source": "Ubuntu upgrade metadata (meta-release)",
+      "eol": "2024-01-20",
+      "support": "2024-01-20",
+      "latestDate": "2023-04-20"
+    },
+    {
+      "version": "22.10",
+      "released": "2022-10-20",
+      "codename": "Kinetic Kudu",
+      "source": "Ubuntu upgrade metadata (meta-release)",
+      "eol": "2023-07-20",
+      "support": "2023-07-20",
+      "latestDate": "2022-10-20"
+    },
+    {
+      "version": "22.04",
+      "released": "2022-04-21",
+      "codename": "Jammy Jellyfish",
+      "eol": "2027-06-01",
+      "support": "2024-09-30",
+      "extended": "2032-04-21",
+      "latest": "22.04.5",
+      "latestDate": "2024-09-12",
+      "lts": true,
+      "source": "endoflife.date: ubuntu"
+    },
+    {
+      "version": "21.10",
+      "released": "2021-10-14",
+      "codename": "Impish Indri",
+      "source": "Ubuntu upgrade metadata (meta-release)",
+      "eol": "2022-07-14",
+      "support": "2022-07-14",
+      "latestDate": "2021-10-14"
+    },
+    {
+      "version": "21.04",
+      "released": "2021-04-22",
+      "codename": "Hirsute Hippo",
+      "source": "Ubuntu upgrade metadata (meta-release)",
+      "eol": "2022-01-20",
+      "support": "2022-01-20",
+      "latestDate": "2021-04-22"
+    }
+  ],
+  "fedora": [
+    {
+      "version": "45",
+      "released": "2026-11-03",
+      "eol": "2027-12-08",
+      "source": "Fedora Bodhi (official update system)"
+    },
+    {
+      "version": "44",
+      "released": "2026-04-28",
+      "eol": "2027-06-02",
+      "source": "Fedora Bodhi (official update system)",
+      "latestDate": "2026-04-28"
+    },
+    {
+      "version": "43",
+      "released": "2025-10-28",
+      "eol": "2026-12-02",
+      "latestDate": "2025-10-28",
+      "source": "endoflife.date: fedora"
+    },
+    {
+      "version": "42",
+      "released": "2025-04-15",
+      "codename": "Adams",
+      "eol": "2026-05-27",
+      "latestDate": "2025-04-15",
+      "source": "endoflife.date: fedora"
+    },
+    {
+      "version": "41",
+      "released": "2024-10-29",
+      "eol": "2025-12-15",
+      "latestDate": "2024-10-29",
+      "source": "endoflife.date: fedora"
+    },
+    {
+      "version": "40",
+      "released": "2024-04-23",
+      "eol": "2025-05-13",
+      "latestDate": "2024-04-23",
+      "source": "endoflife.date: fedora"
+    },
+    {
+      "version": "39",
+      "released": "2023-11-07",
+      "eol": "2024-11-26",
+      "latestDate": "2023-11-07",
+      "source": "endoflife.date: fedora"
+    },
+    {
+      "version": "38",
+      "released": "2023-04-18",
+      "eol": "2024-05-21",
+      "latestDate": "2023-04-18",
+      "source": "endoflife.date: fedora"
+    },
+    {
+      "version": "37",
+      "released": "2022-11-15",
+      "eol": "2023-12-05",
+      "latestDate": "2022-11-15",
+      "source": "endoflife.date: fedora"
+    },
+    {
+      "version": "36",
+      "released": "2022-05-10",
+      "eol": "2023-05-16",
+      "latestDate": "2022-05-10",
+      "source": "endoflife.date: fedora"
+    },
+    {
+      "version": "35",
+      "released": "2021-11-02",
+      "eol": "2022-12-13",
+      "latestDate": "2021-11-02",
+      "source": "endoflife.date: fedora"
+    },
+    {
+      "version": "34",
+      "released": "2021-04-27",
+      "eol": "2022-06-07",
+      "latestDate": "2021-04-27",
+      "source": "endoflife.date: fedora"
+    }
+  ],
+  "debian": [
+    {
+      "version": "13",
+      "released": "2025-08-09",
+      "codename": "Trixie",
+      "eol": "2030-06-30",
+      "support": "2028-08-09",
+      "extended": "2035-06-30",
+      "latest": "13.7",
+      "latestDate": "2026-09-12",
+      "source": "endoflife.date: debian"
+    },
+    {
+      "version": "12",
+      "released": "2023-06-10",
+      "codename": "Bookworm",
+      "eol": "2028-06-30",
+      "support": "2026-07-11",
+      "extended": "2033-06-30",
+      "latest": "12.15",
+      "latestDate": "2026-07-11",
+      "source": "endoflife.date: debian"
+    },
+    {
+      "version": "11",
+      "released": "2021-08-14",
+      "codename": "Bullseye",
+      "eol": "2026-08-31",
+      "support": "2024-08-14",
+      "extended": "2031-06-30",
+      "latest": "11.11",
+      "latestDate": "2024-08-31",
+      "source": "endoflife.date: debian"
+    },
+    {
+      "version": "10",
+      "released": "2019-07-06",
+      "codename": "Buster",
+      "eol": "2024-06-30",
+      "support": "2022-09-10",
+      "extended": "2029-06-30",
+      "latest": "10.13",
+      "latestDate": "2022-09-10",
+      "source": "endoflife.date: debian"
+    },
+    {
+      "version": "9",
+      "released": "2017-06-17",
+      "codename": "Stretch",
+      "eol": "2022-07-01",
+      "support": "2020-07-18",
+      "extended": "2027-06-30",
+      "latest": "9.13",
+      "latestDate": "2020-07-18",
+      "source": "endoflife.date: debian"
+    },
+    {
+      "version": "8",
+      "released": "2015-04-25",
+      "codename": "Jessie",
+      "eol": "2020-06-30",
+      "support": "2018-06-17",
+      "extended": "2025-06-30",
+      "latest": "8.11",
+      "latestDate": "2018-06-23",
+      "source": "endoflife.date: debian"
+    },
+    {
+      "version": "7",
+      "released": "2013-05-04",
+      "codename": "Wheezy",
+      "eol": "2018-05-31",
+      "support": "2016-04-25",
+      "extended": "2020-06-30",
+      "latest": "7.11",
+      "latestDate": "2016-06-04",
+      "source": "endoflife.date: debian"
+    },
+    {
+      "version": "6",
+      "released": "2011-02-06",
+      "codename": "Squeeze",
+      "eol": "2016-02-29",
+      "support": "2014-05-31",
+      "latest": "6.0.10",
+      "latestDate": "2014-07-19",
+      "source": "endoflife.date: debian"
+    },
+    {
+      "version": "5",
+      "released": "2009-02-14",
+      "codename": "Lenny",
+      "eol": "2012-02-06",
+      "support": "2012-02-06",
+      "latest": "5.0.10",
+      "latestDate": "2012-03-10",
+      "source": "endoflife.date: debian"
+    },
+    {
+      "version": "4",
+      "released": "2007-04-08",
+      "codename": "Etch",
+      "eol": "2010-02-15",
+      "support": "2010-02-15",
+      "latest": "4.0r9",
+      "latestDate": "2010-05-22",
+      "source": "endoflife.date: debian"
+    },
+    {
+      "version": "3.1",
+      "released": "2005-06-06",
+      "codename": "Sarge",
+      "eol": "2008-03-31",
+      "support": "2008-03-31",
+      "latest": "3.1r8",
+      "latestDate": "2008-04-13",
+      "source": "endoflife.date: debian"
+    },
+    {
+      "version": "3.0",
+      "released": "2002-07-19",
+      "codename": "Woody",
+      "eol": "2006-06-30",
+      "support": "2006-06-30",
+      "latest": "3.0r6",
+      "latestDate": "2005-06-02",
+      "source": "endoflife.date: debian"
+    }
+  ],
+  "linux-mint": [
+    {
+      "version": "22.3",
+      "released": "2026-01-11",
+      "codename": "Zena",
+      "eol": "2029-04-30",
+      "lts": true,
+      "source": "endoflife.date: linuxmint"
+    },
+    {
+      "version": "22.2",
+      "released": "2025-09-04",
+      "codename": "Zara",
+      "eol": "2029-04-30",
+      "lts": true,
+      "source": "endoflife.date: linuxmint"
+    },
+    {
+      "version": "22.1",
+      "released": "2025-01-16",
+      "codename": "Xia",
+      "eol": "2029-04-30",
+      "lts": true,
+      "source": "endoflife.date: linuxmint"
+    },
+    {
+      "version": "22",
+      "released": "2024-07-25",
+      "codename": "Wilma",
+      "eol": "2029-04-30",
+      "lts": true,
+      "source": "endoflife.date: linuxmint"
+    },
+    {
+      "version": "21.3",
+      "released": "2024-01-12",
+      "codename": "Virginia",
+      "eol": "2027-04-30",
+      "lts": true,
+      "source": "endoflife.date: linuxmint"
+    },
+    {
+      "version": "21.2",
+      "released": "2023-07-16",
+      "codename": "Victoria",
+      "eol": "2027-04-30",
+      "lts": true,
+      "source": "endoflife.date: linuxmint"
+    },
+    {
+      "version": "21.1",
+      "released": "2022-12-20",
+      "codename": "Vera",
+      "eol": "2027-04-30",
+      "lts": true,
+      "source": "endoflife.date: linuxmint"
+    },
+    {
+      "version": "21",
+      "released": "2022-07-31",
+      "codename": "Vanessa",
+      "eol": "2027-04-30",
+      "lts": true,
+      "source": "endoflife.date: linuxmint"
+    },
+    {
+      "version": "20.3",
+      "released": "2022-01-07",
+      "codename": "Una",
+      "eol": "2025-04-30",
+      "lts": true,
+      "source": "endoflife.date: linuxmint"
+    },
+    {
+      "version": "20.2",
+      "released": "2021-07-08",
+      "codename": "Uma",
+      "eol": "2025-04-30",
+      "lts": true,
+      "source": "endoflife.date: linuxmint"
+    },
+    {
+      "version": "20.1",
+      "released": "2021-01-08",
+      "codename": "Ulyssa",
+      "eol": "2025-04-30",
+      "lts": true,
+      "source": "endoflife.date: linuxmint"
+    },
+    {
+      "version": "20",
+      "released": "2020-06-27",
+      "codename": "Ulyana",
+      "eol": "2025-04-30",
+      "lts": true,
+      "source": "endoflife.date: linuxmint"
+    }
+  ],
+  "kde-plasma": [
+    {
+      "version": "6.8",
+      "released": "2026-10-14",
+      "source": "endoflife.date: kde-plasma",
+      "latest": "6.8.2",
+      "latestDate": "2026-10-27"
+    },
+    {
+      "version": "6.7",
+      "released": "2026-06-16",
+      "source": "endoflife.date: kde-plasma",
+      "eol": "2026-10-14",
+      "support": "2026-10-14",
+      "latest": "6.7.5",
+      "latestDate": "2026-09-08"
+    },
+    {
+      "version": "6.6",
+      "released": "2026-02-17",
+      "source": "endoflife.date: kde-plasma",
+      "eol": "2029-08-31",
+      "support": "2026-06-16",
+      "latest": "6.6.7",
+      "latestDate": "2026-10-16",
+      "lts": true
+    },
+    {
+      "version": "6.5",
+      "released": "2025-10-21",
+      "source": "endoflife.date: kde-plasma",
+      "eol": "2026-02-17",
+      "support": "2026-02-17",
+      "latest": "6.5.6",
+      "latestDate": "2026-03-10"
+    },
+    {
+      "version": "6.4",
+      "released": "2025-06-17",
+      "source": "endoflife.date: kde-plasma",
+      "eol": "2025-10-21",
+      "support": "2025-10-21",
+      "latest": "6.4.6",
+      "latestDate": "2025-11-11"
+    },
+    {
+      "version": "6.3",
+      "released": "2025-02-11",
+      "source": "endoflife.date: kde-plasma",
+      "eol": "2025-06-17",
+      "support": "2025-06-17",
+      "latest": "6.3.6",
+      "latestDate": "2025-07-08"
+    },
+    {
+      "version": "6.2",
+      "released": "2024-10-08",
+      "source": "endoflife.date: kde-plasma",
+      "eol": "2025-02-11",
+      "support": "2025-02-11",
+      "latest": "6.2.5",
+      "latestDate": "2024-12-31"
+    },
+    {
+      "version": "6.1",
+      "released": "2024-06-18",
+      "source": "endoflife.date: kde-plasma",
+      "eol": "2024-10-08",
+      "support": "2024-10-08",
+      "latest": "6.1.5",
+      "latestDate": "2024-09-10"
+    },
+    {
+      "version": "6.0",
+      "released": "2024-02-28",
+      "source": "endoflife.date: kde-plasma",
+      "eol": "2024-06-18",
+      "support": "2024-06-18",
+      "latest": "6.0.5",
+      "latestDate": "2024-05-21"
+    },
+    {
+      "version": "5.27",
+      "released": "2023-02-14",
+      "source": "endoflife.date: kde-plasma",
+      "eol": "2025-01-06",
+      "support": "2025-01-06",
+      "latest": "5.27.12",
+      "latestDate": "2025-01-06",
+      "lts": true
+    },
+    {
+      "version": "5.26",
+      "released": "2022-10-11",
+      "source": "endoflife.date: kde-plasma",
+      "eol": "2023-02-14",
+      "support": "2023-02-14",
+      "latest": "5.26.5",
+      "latestDate": "2023-01-03"
+    },
+    {
+      "version": "5.25",
+      "released": "2022-06-14",
+      "source": "endoflife.date: kde-plasma",
+      "eol": "2022-10-11",
+      "support": "2022-10-11",
+      "latest": "5.25.5",
+      "latestDate": "2022-09-06"
+    }
+  ],
+  "nixos": [
+    {
+      "version": "26.05",
+      "released": "2026-05-30",
+      "source": "endoflife.date: nixos",
+      "codename": "Yarara",
+      "eol": "2026-12-31"
+    },
+    {
+      "version": "25.11",
+      "released": "2025-11-30",
+      "source": "endoflife.date: nixos",
+      "codename": "Xantusia",
+      "eol": "2026-06-30"
+    },
+    {
+      "version": "25.05",
+      "released": "2025-05-23",
+      "source": "endoflife.date: nixos",
+      "codename": "Warbler",
+      "eol": "2025-12-31"
+    },
+    {
+      "version": "24.11",
+      "released": "2024-11-30",
+      "source": "endoflife.date: nixos",
+      "codename": "Vicuña",
+      "eol": "2025-06-30"
+    },
+    {
+      "version": "24.05",
+      "released": "2024-05-31",
+      "source": "endoflife.date: nixos",
+      "codename": "Uakari",
+      "eol": "2024-12-31"
+    },
+    {
+      "version": "23.11",
+      "released": "2023-11-29",
+      "source": "endoflife.date: nixos",
+      "codename": "Tapir",
+      "eol": "2024-06-30"
+    },
+    {
+      "version": "23.05",
+      "released": "2023-05-31",
+      "source": "endoflife.date: nixos",
+      "codename": "Stoat",
+      "eol": "2023-12-31"
+    },
+    {
+      "version": "22.11",
+      "released": "2022-11-30",
+      "source": "endoflife.date: nixos",
+      "codename": "Raccoon",
+      "eol": "2023-06-30"
+    },
+    {
+      "version": "22.05",
+      "released": "2022-05-30",
+      "source": "endoflife.date: nixos",
+      "codename": "Quokka",
+      "eol": "2022-12-31"
+    },
+    {
+      "version": "21.11",
+      "released": "2021-11-30",
+      "source": "endoflife.date: nixos",
+      "codename": "Porcupine",
+      "eol": "2022-06-30"
+    },
+    {
+      "version": "21.05",
+      "released": "2021-05-31",
+      "source": "endoflife.date: nixos",
+      "codename": "Okapi",
+      "eol": "2021-12-31"
+    },
+    {
+      "version": "20.09",
+      "released": "2020-10-27",
+      "source": "endoflife.date: nixos",
+      "codename": "Nightingale",
+      "eol": "2021-06-30"
+    }
+  ],
+  "firefox": [
+    {
+      "version": "159",
+      "released": "2026-10-27",
+      "source": "Mozilla product details",
+      "eol": "2026-11-10",
+      "latest": "159.0",
+      "latestDate": "2026-10-27"
+    },
+    {
+      "version": "158",
+      "released": "2026-10-13",
+      "source": "endoflife.date: firefox",
+      "eol": "2026-10-27",
+      "latest": "158.0.1",
+      "latestDate": "2026-10-20"
+    },
+    {
+      "version": "157",
+      "released": "2026-09-29",
+      "source": "endoflife.date: firefox",
+      "eol": "2026-10-13",
+      "latest": "157.0.1",
+      "latestDate": "2026-10-06"
+    },
+    {
+      "version": "156",
+      "released": "2026-09-15",
+      "source": "endoflife.date: firefox",
+      "eol": "2026-09-29",
+      "latest": "156.0.1",
+      "latestDate": "2026-09-22"
+    },
+    {
+      "version": "155",
+      "released": "2026-09-01",
+      "source": "endoflife.date: firefox",
+      "eol": "2026-09-15",
+      "latest": "155.0.1",
+      "latestDate": "2026-09-04"
+    },
+    {
+      "version": "154",
+      "released": "2026-08-18",
+      "source": "endoflife.date: firefox",
+      "eol": "2026-09-01",
+      "latest": "154.0.1",
+      "latestDate": "2026-08-25"
+    },
+    {
+      "version": "153",
+      "released": "2026-07-21",
+      "source": "endoflife.date: firefox",
+      "latest": "153.6.0",
+      "latestDate": "2026-10-27",
+      "lts": true
+    },
+    {
+      "version": "152",
+      "released": "2026-06-16",
+      "source": "endoflife.date: firefox",
+      "eol": "2026-07-21",
+      "latest": "152.0.6",
+      "latestDate": "2026-07-14"
+    },
+    {
+      "version": "151",
+      "released": "2026-05-18",
+      "source": "endoflife.date: firefox",
+      "eol": "2026-06-16",
+      "latest": "151.0.4",
+      "latestDate": "2026-06-09"
+    },
+    {
+      "version": "150",
+      "released": "2026-04-21",
+      "source": "endoflife.date: firefox",
+      "eol": "2026-05-18",
+      "latest": "150.0.3",
+      "latestDate": "2026-05-12"
+    },
+    {
+      "version": "149",
+      "released": "2026-03-24",
+      "source": "endoflife.date: firefox",
+      "eol": "2026-04-21",
+      "latest": "149.0.2",
+      "latestDate": "2026-04-07"
+    },
+    {
+      "version": "148",
+      "released": "2026-02-24",
+      "source": "endoflife.date: firefox",
+      "eol": "2026-03-24",
+      "latest": "148.0.2",
+      "latestDate": "2026-03-10"
+    }
+  ]
+}

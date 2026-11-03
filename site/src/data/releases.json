@@ -1,0 +1,1854 @@
+{
+  "updated": "2026-11-03",
+  "families": [
+    {
+      "id": "ubuntu",
+      "name": "Ubuntu",
+      "blurb": "Canonical's Ubuntu ships every April and October, with a long-term support (LTS) release every April of an even year.",
+      "cadence": "Every 6 months (April and October). LTS every 2 years.",
+      "source": {
+        "label": "Ubuntu release team: list of releases",
+        "url": "https://ubuntu.com/project/docs/release-team/list-of-releases/"
+      },
+      "category": "distro",
+      "download": {
+        "label": "ubuntu.com",
+        "url": "https://ubuntu.com/download/desktop"
+      },
+      "upgrade": {
+        "label": "Ubuntu's upgrade guide",
+        "url": "https://ubuntu.com/server/docs/how-to-upgrade-your-release"
+      },
+      "about": "Ubuntu is made by Canonical and is one of the most used Linux distributions on desktops, servers and in the cloud. It is based on Debian. Every April and October brings a new version; the April release of even-numbered years is a long-term support (LTS) release that most people use.",
+      "editions": [
+        {
+          "name": "Ubuntu Desktop",
+          "icon": "ubuntu",
+          "desc": "The main edition, with the GNOME desktop.",
+          "url": "https://ubuntu.com/download/desktop",
+          "perVersion": "releases"
+        },
+        {
+          "name": "Ubuntu Server",
+          "icon": "ubuntu",
+          "desc": "No desktop; for servers, VMs and the cloud.",
+          "url": "https://ubuntu.com/download/server",
+          "perVersion": "releases"
+        },
+        {
+          "name": "Kubuntu",
+          "icon": "kubuntu",
+          "desc": "Official flavor with the KDE Plasma desktop.",
+          "url": "https://kubuntu.org/getkubuntu/",
+          "cd": "kubuntu"
+        },
+        {
+          "name": "Xubuntu",
+          "icon": "xubuntu",
+          "desc": "Official flavor with the light Xfce desktop.",
+          "url": "https://xubuntu.org/download/",
+          "cd": "xubuntu"
+        },
+        {
+          "name": "Lubuntu",
+          "icon": "lubuntu",
+          "desc": "Official flavor with LXQt, for older or low-memory PCs.",
+          "url": "https://cdimage.ubuntu.com/lubuntu/releases/",
+          "cd": "lubuntu"
+        },
+        {
+          "name": "Ubuntu MATE",
+          "icon": "ubuntumate",
+          "desc": "Official flavor with the classic MATE desktop.",
+          "url": "https://ubuntu-mate.org/download/",
+          "cd": "ubuntu-mate",
+          "notFor": [
+            "26.04"
+          ]
+        },
+        {
+          "name": "Ubuntu Budgie",
+          "icon": "ubuntu",
+          "desc": "Official flavor with the Budgie desktop.",
+          "url": "https://ubuntubudgie.org/downloads/",
+          "cd": "ubuntu-budgie"
+        },
+        {
+          "name": "Ubuntu Studio",
+          "icon": "ubuntu",
+          "desc": "Official flavor for audio, video and graphics work.",
+          "url": "https://ubuntustudio.org/download/",
+          "cd": "ubuntustudio"
+        }
+      ],
+      "faq": [
+        {
+          "q": "What is the difference between Ubuntu LTS and interim releases?",
+          "a": "An LTS (long-term support) release comes every two years in April and gets five years of updates, up to ten with Ubuntu Pro. Interim releases come every April and October in between and are supported for nine months."
+        },
+        {
+          "q": "Which Ubuntu version should I install?",
+          "a": "Most people should install the newest LTS release for stability. Choose the newest interim release if you want newer software and are happy to upgrade every six months."
+        }
+      ]
+    },
+    {
+      "id": "fedora",
+      "name": "Fedora",
+      "blurb": "Fedora Linux ships about every 6 months, usually around April/May and October/November, and often slips by a week or two.",
+      "cadence": "About every 6 months. Slips of 1-2 weeks are common.",
+      "source": {
+        "label": "Fedora releases",
+        "url": "https://fedoraproject.org/wiki/Releases"
+      },
+      "category": "distro",
+      "download": {
+        "label": "fedoraproject.org",
+        "url": "https://fedoraproject.org/workstation/download"
+      },
+      "upgrade": {
+        "label": "Fedora's upgrade guide",
+        "url": "https://docs.fedoraproject.org/en-US/quick-docs/upgrading-fedora-offline/"
+      },
+      "about": "Fedora Linux is a community distribution sponsored by Red Hat, known for shipping new technology early. Fedora Workstation uses the GNOME desktop. Each version is supported until about four weeks after the release two versions later, so roughly 13 months.",
+      "editions": [
+        {
+          "name": "Fedora Workstation",
+          "icon": "fedora",
+          "desc": "The main desktop edition, with GNOME.",
+          "url": "https://fedoraproject.org/workstation/download"
+        },
+        {
+          "name": "Fedora KDE Plasma Desktop",
+          "icon": "kde",
+          "desc": "Desktop edition with KDE Plasma.",
+          "url": "https://fedoraproject.org/kde/download"
+        },
+        {
+          "name": "Fedora Server",
+          "icon": "fedora",
+          "desc": "For servers, without a desktop.",
+          "url": "https://fedoraproject.org/server/download"
+        },
+        {
+          "name": "Fedora Silverblue",
+          "icon": "gnome",
+          "desc": "Atomic (image-based) desktop with GNOME.",
+          "url": "https://fedoraproject.org/atomic-desktops/silverblue/download"
+        },
+        {
+          "name": "Fedora Kinoite",
+          "icon": "kde",
+          "desc": "Atomic (image-based) desktop with KDE Plasma.",
+          "url": "https://fedoraproject.org/atomic-desktops/kinoite/download"
+        },
+        {
+          "name": "Fedora Cloud",
+          "icon": "fedora",
+          "desc": "Images for cloud servers and VMs.",
+          "url": "https://fedoraproject.org/cloud/download"
+        },
+        {
+          "name": "Fedora IoT",
+          "icon": "fedora",
+          "desc": "For devices and edge computing.",
+          "url": "https://fedoraproject.org/iot/download"
+        },
+        {
+          "name": "Fedora Spins",
+          "icon": "fedora",
+          "desc": "Other desktops: Xfce, Cinnamon, LXQt, MATE and more.",
+          "url": "https://fedoraproject.org/spins/"
+        }
+      ],
+      "faq": [
+        {
+          "q": "How long is a Fedora release supported?",
+          "a": "Until about four weeks after the release that comes two versions later, so roughly 13 months. Fedora 44, for example, is supported until 2 June 2027."
+        },
+        {
+          "q": "What is the difference between Fedora Workstation and Silverblue?",
+          "a": "Both use GNOME. Silverblue is an atomic (image-based) version: the system updates as one unit that can be rolled back, and apps are installed as Flatpaks."
+        }
+      ]
+    },
+    {
+      "id": "debian",
+      "name": "Debian",
+      "blurb": "Debian stable releases come roughly every 2 years, when the project decides the testing branch is ready.",
+      "cadence": "About every 2 years, with no fixed date.",
+      "source": {
+        "label": "Debian releases",
+        "url": "https://wiki.debian.org/DebianReleases"
+      },
+      "category": "distro",
+      "download": {
+        "label": "debian.org",
+        "url": "https://www.debian.org/download"
+      },
+      "upgrade": {
+        "label": "Debian release notes: upgrading",
+        "url": "https://www.debian.org/releases/trixie/release-notes/"
+      },
+      "about": "Debian is one of the oldest Linux distributions, run by volunteers. Ubuntu, Linux Mint and many others are built on it. Debian releases a new stable version roughly every two years, when it is ready rather than on a fixed date.",
+      "editions": [
+        {
+          "name": "Network installer (netinst)",
+          "icon": "debian",
+          "desc": "Small image; pick your desktop during installation. The usual choice.",
+          "url": "https://www.debian.org/distrib/netinst"
+        },
+        {
+          "name": "Live images",
+          "icon": "debian",
+          "desc": "Try Debian with GNOME, KDE, Xfce and others before installing.",
+          "url": "https://www.debian.org/CD/live/"
+        },
+        {
+          "name": "All downloads",
+          "icon": "debian",
+          "desc": "Full images, other architectures and mirrors.",
+          "url": "https://www.debian.org/download"
+        }
+      ],
+      "faq": [
+        {
+          "q": "What are Debian stable, testing and unstable?",
+          "a": "Stable is the released version (Debian 13 \"trixie\" today). Testing is the next release while it is being built (Debian 14 \"forky\"). Unstable, called sid, is where new packages arrive first."
+        },
+        {
+          "q": "How long is a Debian release supported?",
+          "a": "About three years of full security support from the Debian security team, then Debian LTS extends it to about five years in total."
+        }
+      ]
+    },
+    {
+      "id": "linux-mint",
+      "name": "Linux Mint",
+      "blurb": "Linux Mint follows the Ubuntu LTS base. The team has said it is moving to a longer development cycle.",
+      "cadence": "Changing: previously twice a year, now about once a year (reported).",
+      "source": {
+        "label": "Linux Mint",
+        "url": "https://linuxmint.com/"
+      },
+      "category": "distro",
+      "download": {
+        "label": "linuxmint.com",
+        "url": "https://www.linuxmint.com/download.php"
+      },
+      "upgrade": {
+        "label": "Linux Mint documentation",
+        "url": "https://www.linuxmint.com/documentation.php"
+      },
+      "about": "Linux Mint is a beginner-friendly desktop distribution built on Ubuntu's long-term support releases. It comes in Cinnamon, MATE and Xfce editions, and there is also LMDE, an edition based directly on Debian.",
+      "editions": [
+        {
+          "name": "Cinnamon Edition",
+          "icon": "cinnamon",
+          "desc": "The flagship edition, with the Cinnamon desktop.",
+          "url": "https://www.linuxmint.com/edition.php?id=326",
+          "forVersion": "22.3"
+        },
+        {
+          "name": "Xfce Edition",
+          "icon": "xfce",
+          "desc": "Lighter edition for older computers.",
+          "url": "https://www.linuxmint.com/edition.php?id=327",
+          "forVersion": "22.3"
+        },
+        {
+          "name": "MATE Edition",
+          "icon": "linux-mint",
+          "desc": "Classic, steady desktop.",
+          "url": "https://www.linuxmint.com/edition.php?id=328",
+          "forVersion": "22.3"
+        },
+        {
+          "name": "LMDE",
+          "icon": "debian",
+          "desc": "Linux Mint Debian Edition: Cinnamon on a Debian base.",
+          "url": "https://www.linuxmint.com/download_lmde.php"
+        }
+      ],
+      "faq": [
+        {
+          "q": "Which Linux Mint edition should I choose?",
+          "a": "Cinnamon is the main and most popular edition. Xfce is lighter and suits older computers. MATE is a classic, steady desktop."
+        },
+        {
+          "q": "What is LMDE?",
+          "a": "Linux Mint Debian Edition: the same Cinnamon desktop built directly on Debian instead of Ubuntu."
+        }
+      ]
+    },
+    {
+      "id": "gnome",
+      "name": "GNOME",
+      "blurb": "The GNOME desktop ships every March and September on a published calendar with alpha, beta and release-candidate dates.",
+      "cadence": "Every 6 months (March and September).",
+      "source": {
+        "label": "GNOME release calendar",
+        "url": "https://release.gnome.org/calendar/"
+      },
+      "category": "desktop",
+      "download": {
+        "label": "gnome.org",
+        "url": "https://www.gnome.org/getting-gnome/"
+      },
+      "upgrade": {
+        "label": "Getting GNOME",
+        "url": "https://www.gnome.org/getting-gnome/"
+      },
+      "about": "GNOME is the desktop environment you see in Fedora Workstation, Ubuntu and Debian's default install. You do not download GNOME on its own: you get a new GNOME version when your distribution ships it.",
+      "shippedIn": [
+        "ubuntu",
+        "fedora",
+        "debian"
+      ],
+      "faq": [
+        {
+          "q": "How do I check which GNOME version I have?",
+          "a": "Open Settings and go to the About page (under System in recent versions); it shows the GNOME version."
+        },
+        {
+          "q": "Why are GNOME versions numbered 48, 49, 50, 51?",
+          "a": "Since GNOME 40 in 2021, each release gets the next whole number. Two come out each year, in March and September."
+        }
+      ]
+    },
+    {
+      "id": "linux-kernel",
+      "name": "Linux kernel",
+      "blurb": "A new mainline kernel arrives every 9-10 weeks: a two-week merge window, then weekly release candidates (rc1, rc2 and so on) until Linus Torvalds calls it final.",
+      "cadence": "Every 9-10 weeks (about 5-6 per year).",
+      "source": {
+        "label": "kernel.org",
+        "url": "https://www.kernel.org/"
+      },
+      "category": "kernel",
+      "download": {
+        "label": "kernel.org",
+        "url": "https://www.kernel.org/"
+      },
+      "upgrade": {
+        "label": "kernel.org",
+        "url": "https://www.kernel.org/"
+      },
+      "about": "The Linux kernel is the core of every Linux system, led by Linus Torvalds. Most people get new kernels through their distribution's updates; kernel.org publishes the source code for each release.",
+      "editions": [
+        {
+          "name": "Stable kernel",
+          "icon": "linux-kernel",
+          "desc": "The newest release, with bug-fix updates.",
+          "url": "https://www.kernel.org/"
+        },
+        {
+          "name": "Longterm (LTS) kernels",
+          "icon": "linux-kernel",
+          "desc": "Older kernels kept up to date for years.",
+          "url": "https://www.kernel.org/category/releases.html"
+        },
+        {
+          "name": "Mainline (release candidates)",
+          "icon": "linux-kernel",
+          "desc": "The next kernel while it is being tested.",
+          "url": "https://www.kernel.org/"
+        }
+      ],
+      "faq": [
+        {
+          "q": "Which Linux kernel version should I use?",
+          "a": "Use the kernel your distribution ships. If you need long support, pick a longterm (LTS) kernel such as 6.18 instead of the newest one."
+        },
+        {
+          "q": "What is a kernel release candidate (rc)?",
+          "a": "After a two-week merge window for new features, Linus Torvalds releases weekly test versions called rc1, rc2 and so on. The final kernel usually follows rc7, or rc8 if more fixes are needed."
+        }
+      ]
+    },
+    {
+      "id": "kde-plasma",
+      "name": "KDE Plasma",
+      "category": "desktop",
+      "blurb": "KDE Plasma is the desktop of Kubuntu, Fedora KDE, KDE neon and many others. A new feature release comes about every four months, followed by weekly and then monthly bug-fix updates.",
+      "cadence": "About every 4 months (February, June, October), on a published schedule.",
+      "source": {
+        "label": "KDE Community Wiki: Plasma 6 schedule",
+        "url": "https://community.kde.org/Schedules/Plasma_6"
+      },
+      "download": {
+        "label": "kde.org",
+        "url": "https://kde.org/distributions/"
+      },
+      "upgrade": {
+        "label": "Distributions with Plasma",
+        "url": "https://kde.org/distributions/"
+      },
+      "about": "KDE Plasma is a highly customizable desktop environment made by the KDE community, which turned 30 in October 2026. Like GNOME, you get Plasma through a distribution: Kubuntu, Fedora KDE Plasma Desktop and KDE neon ship it by default. Some versions, like Plasma 6.6, are long-term support releases.",
+      "editions": [
+        {
+          "name": "KDE neon",
+          "icon": "kdeneon",
+          "desc": "KDE's own showcase system with the newest Plasma.",
+          "url": "https://neon.kde.org/download"
+        },
+        {
+          "name": "Fedora KDE Plasma Desktop",
+          "icon": "fedora",
+          "desc": "Fedora's Plasma edition; gets new Plasma versions quickly.",
+          "url": "https://fedoraproject.org/kde/download"
+        },
+        {
+          "name": "Kubuntu",
+          "icon": "kubuntu",
+          "desc": "Ubuntu's official Plasma flavor.",
+          "url": "https://kubuntu.org/getkubuntu/"
+        },
+        {
+          "name": "More distributions",
+          "icon": "kde-plasma",
+          "desc": "KDE's list of distributions that ship Plasma.",
+          "url": "https://kde.org/distributions/"
+        }
+      ],
+      "faq": [
+        {
+          "q": "What is a Plasma LTS release?",
+          "a": "Some Plasma versions are long-term support releases that keep getting bug fixes after newer versions are out. Plasma 6.6 is supported until August 2029."
+        },
+        {
+          "q": "Does KDE Plasma still support X11?",
+          "a": "With Plasma 6.8, starting X11 sessions is being retired and Plasma runs on Wayland. Older X11 apps still run through XWayland."
+        }
+      ]
+    },
+    {
+      "id": "nixos",
+      "name": "NixOS",
+      "category": "distro",
+      "blurb": "NixOS is a Linux distribution where the whole system is described in configuration files. It releases twice a year, in May and November, and each version is supported for about seven months.",
+      "cadence": "Twice a year: end of May and end of November (version numbers YY.05 and YY.11).",
+      "source": {
+        "label": "NixOS release notes",
+        "url": "https://nixos.org/manual/nixos/stable/release-notes"
+      },
+      "download": {
+        "label": "nixos.org",
+        "url": "https://nixos.org/download/"
+      },
+      "upgrade": {
+        "label": "NixOS manual",
+        "url": "https://nixos.org/manual/nixos/stable/release-notes"
+      },
+      "about": "NixOS is built on the Nix package manager: you describe your whole system in one configuration and can roll back any change. New versions come out at the end of May and the end of November, and the previous version stays supported for one more month.",
+      "editions": [
+        {
+          "name": "Graphical installer",
+          "icon": "nixos",
+          "desc": "Live image with a desktop and an installer (GNOME or Plasma).",
+          "url": "https://nixos.org/download/"
+        },
+        {
+          "name": "Minimal installer",
+          "icon": "nixos",
+          "desc": "Command-line image for experienced users and servers.",
+          "url": "https://nixos.org/download/"
+        },
+        {
+          "name": "Nix package manager",
+          "icon": "nixos",
+          "desc": "Use Nix on any Linux distribution or macOS.",
+          "url": "https://nixos.org/download/"
+        }
+      ],
+      "faq": [
+        {
+          "q": "How long is a NixOS release supported?",
+          "a": "About seven months. Each release stays supported for one month after the next one comes out, so you have time to upgrade."
+        },
+        {
+          "q": "What do NixOS version numbers mean?",
+          "a": "They are the year and month of the release: 26.05 came out in May 2026 and 26.11 is planned for November 2026."
+        }
+      ]
+    },
+    {
+      "id": "firefox",
+      "name": "Firefox",
+      "category": "app",
+      "blurb": "Mozilla Firefox gets a new major version every two weeks on a published release calendar, plus an Extended Support Release (ESR) for organisations that want fewer changes.",
+      "cadence": "Every 2 weeks, on dates Mozilla publishes in advance.",
+      "source": {
+        "label": "Firefox release calendar (whattrainisitnow.com)",
+        "url": "https://whattrainisitnow.com/calendar/"
+      },
+      "download": {
+        "label": "mozilla.org",
+        "url": "https://www.mozilla.org/firefox/linux/"
+      },
+      "upgrade": {
+        "label": "Firefox for Linux",
+        "url": "https://www.mozilla.org/firefox/linux/"
+      },
+      "about": "Firefox is the open-source web browser made by Mozilla and the default browser on Ubuntu, Fedora, Debian and many other distributions. A new major version ships every two weeks; most Linux users get it automatically through their distribution, Flatpak or Snap.",
+      "editions": [
+        {
+          "name": "Firefox",
+          "icon": "firefox",
+          "desc": "The regular release, updated every two weeks.",
+          "url": "https://www.mozilla.org/firefox/linux/"
+        },
+        {
+          "name": "Firefox ESR",
+          "icon": "firefox",
+          "desc": "Extended Support Release: fewer changes, for organisations.",
+          "url": "https://www.mozilla.org/firefox/all/"
+        },
+        {
+          "name": "Beta, Developer Edition, Nightly",
+          "icon": "firefox",
+          "desc": "Try the next versions early.",
+          "url": "https://www.mozilla.org/firefox/channel/desktop/"
+        },
+        {
+          "name": "Firefox on Flathub",
+          "icon": "flathub",
+          "desc": "Install as a Flatpak on any distribution.",
+          "url": "https://flathub.org/apps/org.mozilla.firefox"
+        }
+      ],
+      "faq": [
+        {
+          "q": "What is Firefox ESR?",
+          "a": "The Extended Support Release gets new features only about once a year but receives security fixes in between. Organisations use it for fewer changes; the current ESR is Firefox 153."
+        },
+        {
+          "q": "How often does Firefox update?",
+          "a": "A new major version ships every two weeks, on dates Mozilla publishes in its release calendar, with smaller fix releases in between when needed."
+        }
+      ]
+    }
+  ],
+  "releases": [
+    {
+      "id": "ubuntu-27-04",
+      "family": "ubuntu",
+      "version": "27.04",
+      "codename": "Tenacious T-Rex",
+      "slug": "27-04",
+      "status": "scheduled",
+      "date": "2027-04-22",
+      "summary": "Ubuntu 27.04 is the next regular Ubuntu release after 26.10. It is a short-term release, supported for 9 months.",
+      "milestones": [
+        {
+          "label": "Beta 1",
+          "date": "2027-04-01"
+        },
+        {
+          "label": "Release candidate",
+          "date": "2027-04-15"
+        },
+        {
+          "label": "Final release",
+          "date": "2027-04-22"
+        }
+      ],
+      "evidence": [
+        {
+          "date": "2026-11-03",
+          "kind": "official",
+          "text": "Ubuntu's published schedule lists 27.04 for 22 April 2027, with beta on 1 April and release candidate on 15 April."
+        },
+        {
+          "date": "2026-11-03",
+          "kind": "estimate",
+          "text": "endoflife.date did not list 27.04 yet when we checked, so we rely on Ubuntu's own schedule."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Ubuntu release team: list of releases",
+          "url": "https://ubuntu.com/project/docs/release-team/list-of-releases/"
+        }
+      ],
+      "useNow": "ubuntu-26-10"
+    },
+    {
+      "id": "ubuntu-26-10",
+      "family": "ubuntu",
+      "version": "26.10",
+      "codename": "Stonking Stingray",
+      "slug": "26-10",
+      "status": "released",
+      "date": "2026-10-15",
+      "summary": "Ubuntu 26.10 \"Stonking Stingray\" is the newest Ubuntu release, out since 15 October 2026. It is an interim release supported for 9 months, until July 2027, and ships GNOME 51 and Linux 7.3.",
+      "milestones": [
+        {
+          "label": "Final release",
+          "date": "2026-10-15"
+        }
+      ],
+      "evidence": [
+        {
+          "date": "2026-10-15",
+          "kind": "official",
+          "text": "Released on its scheduled date of 15 October 2026."
+        },
+        {
+          "date": "2026-11-03",
+          "kind": "report",
+          "text": "Reported to ship with the GNOME 51 desktop and a Linux 7.x kernel."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Ubuntu release team: list of releases",
+          "url": "https://ubuntu.com/project/docs/release-team/list-of-releases/"
+        }
+      ],
+      "type": "Interim release (9 months of support)",
+      "notes": {
+        "label": "Ubuntu 26.10 release notes",
+        "url": "https://documentation.ubuntu.com/release-notes/26.10/"
+      },
+      "specs": [
+        {
+          "k": "Desktop",
+          "v": "GNOME 51"
+        },
+        {
+          "k": "Kernel",
+          "v": "Linux 7.3 (release images based on 7.3-rc6)"
+        },
+        {
+          "k": "Support",
+          "v": "9 months, until July 2027"
+        }
+      ],
+      "highlights": [
+        {
+          "title": "GNOME 51 desktop",
+          "text": "Smoother animations under load, brightness remembered across reboots, automatic screen rotation, and a more responsive Files and Calendar."
+        },
+        {
+          "title": "Linux 7.3 kernel",
+          "text": "Includes early support for Snapdragon X2 Elite laptops among other hardware changes since 26.04 LTS."
+        },
+        {
+          "title": "Rust-based OpenPGP",
+          "text": "Sequoia PGP joins the main archive, with the goal of becoming Ubuntu's default OpenPGP tools (sq and sqv alongside gpg and gpgv)."
+        },
+        {
+          "title": "New RISC-V boards",
+          "text": "Official support for RVA23 RISC-V platforms such as the SpacemiT K3 boards and the SiFive BigSky platform."
+        }
+      ],
+      "highlightsSource": {
+        "label": "Ubuntu 26.10 release notes",
+        "url": "https://documentation.ubuntu.com/release-notes/26.10/"
+      }
+    },
+    {
+      "id": "fedora-45",
+      "family": "fedora",
+      "version": "45",
+      "codename": null,
+      "slug": "45",
+      "status": "released",
+      "summary": "Fedora 45 was released on Nov 3, 2026. Our forecast from before the release is kept on this page for the record.",
+      "milestones": [
+        {
+          "label": "Beta",
+          "date": "2026-09-15"
+        },
+        {
+          "label": "Final release",
+          "date": "2026-11-03"
+        }
+      ],
+      "evidence": [
+        {
+          "date": "2026-09-15",
+          "kind": "report",
+          "text": "Fedora 45 beta shipped."
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "report",
+          "text": "The 20 October final release was reported as a no-go and slipped."
+        },
+        {
+          "date": "2026-10-27",
+          "kind": "report",
+          "text": "Fedora's go/no-go moved the target to 27 October."
+        },
+        {
+          "date": "2026-11-03",
+          "kind": "report",
+          "text": "One later article gives 3 November. We could not reach Fedora's schedule page to confirm, so this stays a prediction."
+        },
+        {
+          "date": "2026-11-03",
+          "kind": "official",
+          "key": "bodhi:45-released",
+          "text": "Fedora Bodhi (official update system) lists Fedora 45 as released on Nov 3, 2026."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Fedora releases",
+          "url": "https://fedoraproject.org/wiki/Releases"
+        },
+        {
+          "label": "Fedora Bodhi (official update system)",
+          "url": "https://bodhi.fedoraproject.org/releases/"
+        }
+      ],
+      "useNow": "fedora-44",
+      "forecast": {
+        "status": "predicted",
+        "summary": "Fedora 45 has slipped past its first target date. Sources disagree on the new date, so we show a window instead of a single day.",
+        "window": {
+          "start": "2026-11-03",
+          "end": "2026-11-17"
+        },
+        "chance": 70
+      },
+      "date": "2026-11-03",
+      "type": "Regular release (about 13 months of support)",
+      "notes": {
+        "label": "Fedora 45 beta announcement",
+        "url": "https://fedoramagazine.org/announcing-fedora-linux-45-beta/"
+      },
+      "specs": [
+        {
+          "k": "Toolchain",
+          "v": "GCC 16.2, glibc 2.44, Python 3.15, Go 1.27"
+        },
+        {
+          "k": "Containers",
+          "v": "Podman 6"
+        },
+        {
+          "k": "End of life",
+          "v": "8 Dec 2027 (Fedora Bodhi)"
+        }
+      ],
+      "highlights": [
+        {
+          "title": "New console with kmscon",
+          "text": "The legacy in-kernel console is replaced by kmscon, with smoother rendering and better Unicode and font support."
+        },
+        {
+          "title": "Signed packages required",
+          "text": "Packages now need a valid signature by default before they can be installed."
+        },
+        {
+          "title": "One secrets service",
+          "text": "Desktop password storage is standardised on oo7, replacing backends such as GNOME Keyring and KWallet."
+        },
+        {
+          "title": "Newer tools",
+          "text": "Python 3.15, Go 1.27, GCC 16.2, glibc 2.44 and Podman 6, plus a new web installer flow for Atomic Desktops."
+        }
+      ],
+      "highlightsSource": {
+        "label": "Fedora Magazine: Fedora Linux 45 Beta announcement (features as announced for the beta)",
+        "url": "https://fedoramagazine.org/announcing-fedora-linux-45-beta/"
+      }
+    },
+    {
+      "id": "fedora-44",
+      "family": "fedora",
+      "version": "44",
+      "codename": null,
+      "slug": "44",
+      "status": "released",
+      "date": "2026-04-28",
+      "summary": "Fedora 44 came out on 28 April 2026 and is still supported until 2 June 2027. Fedora 45 replaced it as the newest version on 3 November 2026.",
+      "milestones": [
+        {
+          "label": "Final release",
+          "date": "2026-04-28"
+        }
+      ],
+      "evidence": [
+        {
+          "date": "2026-04-28",
+          "kind": "official",
+          "text": "Fedora 44 was released on 28 April 2026, according to Fedora Bodhi (Fedora's official update system). endoflife.date gives the same date."
+        },
+        {
+          "date": "2026-11-03",
+          "kind": "estimate",
+          "text": "Fedora 44 normally stays supported until about four weeks after Fedora 46 ships."
+        },
+        {
+          "date": "2026-11-03",
+          "kind": "official",
+          "text": "Correction: this page previously gave 1 May 2026. Fedora's own records say 28 April 2026."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Fedora releases",
+          "url": "https://fedoraproject.org/wiki/Releases"
+        },
+        {
+          "label": "Fedora Bodhi (official update system)",
+          "url": "https://bodhi.fedoraproject.org/releases/"
+        }
+      ],
+      "type": "Regular release (about 13 months of support)",
+      "specs": [
+        {
+          "k": "End of life",
+          "v": "2 Jun 2027 (Fedora Bodhi)"
+        }
+      ]
+    },
+    {
+      "id": "fedora-46",
+      "family": "fedora",
+      "version": "46",
+      "codename": null,
+      "slug": "46",
+      "status": "predicted",
+      "window": {
+        "start": "2027-04-15",
+        "end": "2027-05-15"
+      },
+      "chance": 70,
+      "summary": "Fedora 46 has no official date yet. Based on Fedora 44 shipping on 28 April 2026, we expect mid-April to mid-May 2027.",
+      "milestones": [],
+      "evidence": [
+        {
+          "date": "2026-04-28",
+          "kind": "report",
+          "text": "Fedora 44 shipped on 28 April 2026, about six months before Fedora 45."
+        },
+        {
+          "date": "2026-11-03",
+          "kind": "estimate",
+          "text": "We found no official Fedora 46 date. Our window comes from Fedora's usual six-month gap, plus allowance for slips."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Fedora releases",
+          "url": "https://fedoraproject.org/wiki/Releases"
+        }
+      ],
+      "useNow": "fedora-45"
+    },
+    {
+      "id": "debian-14",
+      "family": "debian",
+      "version": "14",
+      "codename": "forky",
+      "slug": "14",
+      "status": "predicted",
+      "window": {
+        "start": "2027-06-01",
+        "end": "2027-09-30"
+      },
+      "chance": 50,
+      "summary": "Debian 14 \"forky\" has no release date. Debian releases a new stable version about every two years, which points to mid-2027 or later.",
+      "milestones": [
+        {
+          "label": "Freeze start (unofficial estimate)",
+          "date": "2027-03-15"
+        }
+      ],
+      "evidence": [
+        {
+          "date": "2025-08-09",
+          "kind": "report",
+          "text": "Debian 13 \"trixie\" was released on 9 August 2025."
+        },
+        {
+          "date": "2026-11-03",
+          "kind": "estimate",
+          "text": "A community-maintained estimate puts the freeze around 15 March 2027. It is not an official Debian date."
+        },
+        {
+          "date": "2026-11-03",
+          "kind": "estimate",
+          "text": "Debian's two-year cadence from August 2025 points to mid-to-late 2027. The next release after forky is named \"duke\"."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Debian releases",
+          "url": "https://wiki.debian.org/DebianReleases"
+        }
+      ],
+      "useNow": "debian-13"
+    },
+    {
+      "id": "linux-mint-27",
+      "family": "linux-mint",
+      "version": "27",
+      "codename": "Adrien",
+      "slug": "27",
+      "status": "predicted",
+      "window": {
+        "start": "2026-12-20",
+        "end": "2027-01-31"
+      },
+      "chance": 50,
+      "summary": "Linux Mint's next release is targeted for around Christmas 2026. It was first reported as \"Linux Mint 23\"; we have seen it called Linux Mint 27 \"Adrien\", but the new name is not yet confirmed.",
+      "milestones": [],
+      "evidence": [
+        {
+          "date": "2026-11-03",
+          "kind": "report",
+          "text": "Reports say the next Linux Mint release will not arrive before Christmas 2026 because the team moved to a longer development cycle."
+        },
+        {
+          "date": "2026-11-03",
+          "kind": "estimate",
+          "text": "The rename from 23 to 27 and the \"Adrien\" codename come from a single source, so we treat them as unconfirmed."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Linux Mint",
+          "url": "https://linuxmint.com/"
+        }
+      ],
+      "useNow": "linux-mint-22-3"
+    },
+    {
+      "id": "gnome-52",
+      "family": "gnome",
+      "version": "52",
+      "codename": null,
+      "slug": "52",
+      "status": "scheduled",
+      "date": "2027-03-17",
+      "summary": "GNOME 52 is the next GNOME desktop release after GNOME 51.",
+      "milestones": [
+        {
+          "label": "Alpha",
+          "date": "2027-01-09"
+        },
+        {
+          "label": "Beta",
+          "date": "2027-01-30"
+        },
+        {
+          "label": "Release candidate",
+          "date": "2027-02-27"
+        },
+        {
+          "label": "Final release",
+          "date": "2027-03-17"
+        }
+      ],
+      "evidence": [
+        {
+          "date": "2026-11-03",
+          "kind": "official",
+          "text": "The GNOME release calendar lists alpha on 9 January, beta on 30 January, release candidate on 27 February and final on 17 March 2027."
+        }
+      ],
+      "sources": [
+        {
+          "label": "GNOME release calendar",
+          "url": "https://release.gnome.org/calendar/"
+        }
+      ],
+      "useNow": "gnome-51"
+    },
+    {
+      "id": "gnome-51",
+      "family": "gnome",
+      "version": "51",
+      "codename": "A Coruña",
+      "slug": "51",
+      "status": "released",
+      "date": "2026-09-16",
+      "summary": "GNOME 51 \"A Coruña\" is the current GNOME desktop, released on 16 September 2026. It reaches you through your distribution, for example Ubuntu 26.10 and Fedora 45.",
+      "milestones": [
+        {
+          "label": "Final release",
+          "date": "2026-09-16"
+        }
+      ],
+      "evidence": [
+        {
+          "date": "2026-09-16",
+          "kind": "official",
+          "text": "GNOME 51 was released on 16 September 2026."
+        }
+      ],
+      "sources": [
+        {
+          "label": "GNOME release calendar",
+          "url": "https://release.gnome.org/calendar/"
+        },
+        {
+          "label": "GNOME 51 release notes",
+          "url": "https://release.gnome.org/51/"
+        }
+      ],
+      "type": "Stable desktop release",
+      "notes": {
+        "label": "GNOME 51 release notes",
+        "url": "https://release.gnome.org/51/"
+      },
+      "specs": [
+        {
+          "k": "Codename",
+          "v": "A Coruña"
+        },
+        {
+          "k": "Shipped in",
+          "v": "Ubuntu 26.10 (per Ubuntu release notes)"
+        }
+      ],
+      "highlights": [
+        {
+          "title": "Smoother desktop",
+          "text": "Improved frame scheduling keeps animations smooth even when the system is busy."
+        },
+        {
+          "title": "Settings",
+          "text": "Auto Rotate for devices with an accelerometer, better display arrangement and DNS search domains in network settings."
+        },
+        {
+          "title": "Remote Desktop",
+          "text": "You can now pass your smartcard through to the remote computer, for example a workplace sign-in card."
+        },
+        {
+          "title": "Files and accessibility",
+          "text": "A drag counter badge in Files, smarter selection, and Reduced Motion respected in many more places."
+        }
+      ],
+      "highlightsSource": {
+        "label": "GNOME 51 release notes",
+        "url": "https://release.gnome.org/51/"
+      }
+    },
+    {
+      "id": "linux-kernel-7-4",
+      "family": "linux-kernel",
+      "version": "7.4",
+      "codename": null,
+      "slug": "7-4",
+      "status": "predicted",
+      "window": {
+        "start": "2026-12-20",
+        "end": "2026-12-27"
+      },
+      "chance": 80,
+      "summary": "Linux 7.4 should arrive in the last week or two of December 2026, after a normal merge window and seven or eight release candidates.",
+      "milestones": [
+        {
+          "label": "Merge window ends, rc1 (expected)",
+          "date": "2026-11-01"
+        },
+        {
+          "label": "rc7 (expected)",
+          "date": "2026-12-13"
+        }
+      ],
+      "evidence": [
+        {
+          "date": "2026-10-18",
+          "kind": "report",
+          "text": "Linux 7.3 was released on 18 October 2026."
+        },
+        {
+          "date": "2026-11-03",
+          "kind": "estimate",
+          "text": "A two-week merge window plus seven weekly release candidates gives 20 December. An rc8 would push it to 27 December. Most kernels ship after rc7."
+        },
+        {
+          "date": "2026-11-01",
+          "kind": "official",
+          "key": "kernel-org:7.4-rc1",
+          "text": "Linux kernel 7.4 rc1 was tagged on Nov 1, 2026 (kernel.org releases feed)."
+        }
+      ],
+      "sources": [
+        {
+          "label": "kernel.org",
+          "url": "https://www.kernel.org/"
+        }
+      ],
+      "useNow": "linux-kernel-7-3"
+    },
+    {
+      "id": "linux-kernel-7-5",
+      "family": "linux-kernel",
+      "version": "7.5",
+      "codename": null,
+      "slug": "7-5",
+      "status": "predicted",
+      "window": {
+        "start": "2027-02-21",
+        "end": "2027-03-07"
+      },
+      "chance": 55,
+      "summary": "Linux 7.5 follows 7.4 by about 9-10 weeks, which points to late February or early March 2027.",
+      "milestones": [],
+      "evidence": [
+        {
+          "date": "2026-11-03",
+          "kind": "estimate",
+          "text": "Adding 9-10 weeks to our Linux 7.4 window gives 21 February to 7 March 2027. The window widens with every release candidate that slips."
+        }
+      ],
+      "sources": [
+        {
+          "label": "kernel.org",
+          "url": "https://www.kernel.org/"
+        }
+      ],
+      "useNow": "linux-kernel-7-3"
+    },
+    {
+      "id": "linux-kernel-7-3",
+      "family": "linux-kernel",
+      "version": "7.3",
+      "codename": null,
+      "slug": "7-3",
+      "status": "released",
+      "date": "2026-10-18",
+      "summary": "Linux 7.3 is the newest stable Linux kernel, released on 18 October 2026. The latest bug-fix update is 7.3.1, and Ubuntu 26.10 ships it.",
+      "milestones": [
+        {
+          "label": "Final release",
+          "date": "2026-10-18"
+        }
+      ],
+      "evidence": [
+        {
+          "date": "2026-10-18",
+          "kind": "report",
+          "text": "Linux 7.3 was released on 18 October 2026."
+        }
+      ],
+      "sources": [
+        {
+          "label": "kernel.org",
+          "url": "https://www.kernel.org/"
+        },
+        {
+          "label": "kernelnewbies: Linux 7.3",
+          "url": "https://kernelnewbies.org/Linux_7.3"
+        }
+      ],
+      "type": "Mainline stable kernel",
+      "notes": {
+        "label": "Linux 7.3 changes (kernelnewbies)",
+        "url": "https://kernelnewbies.org/Linux_7.3"
+      },
+      "specs": [
+        {
+          "k": "Latest update",
+          "v": "7.3.1 (30 Oct 2026)"
+        },
+        {
+          "k": "Long-term kernel",
+          "v": "6.18 LTS, supported until Dec 2028"
+        }
+      ],
+      "highlights": [
+        {
+          "title": "Better VRAM sharing",
+          "text": "GPUs with little video memory share it more fairly when several apps compete for it."
+        },
+        {
+          "title": "sched_ext sub-schedulers",
+          "text": "Each cgroup can now run its own BPF-based task scheduler."
+        },
+        {
+          "title": "New sandboxing",
+          "text": "A new failfs file system plus fchroot(2) gives a simple way to lock processes down."
+        },
+        {
+          "title": "Faster storage",
+          "text": "Btrfs and Ext4 performance improvements, and faster FUSE over io_uring."
+        }
+      ],
+      "highlightsSource": {
+        "label": "kernelnewbies: Linux 7.3",
+        "url": "https://kernelnewbies.org/Linux_7.3"
+      }
+    },
+    {
+      "id": "ubuntu-26-04",
+      "family": "ubuntu",
+      "version": "26.04",
+      "codename": "Resolute Raccoon",
+      "slug": "26-04",
+      "status": "released",
+      "date": "2026-04-23",
+      "type": "Long-term support (5 years, 10 with Ubuntu Pro)",
+      "summary": "Ubuntu 26.04 LTS \"Resolute Raccoon\" is the current long-term support release, out since 23 April 2026. It gets security updates until April 2031, or ten years with Ubuntu Pro, which makes it the version most people should install.",
+      "milestones": [
+        {
+          "label": "Final release",
+          "date": "2026-04-23"
+        },
+        {
+          "label": "26.04.1 point release",
+          "date": "2026-08-27"
+        }
+      ],
+      "specs": [
+        {
+          "k": "Support",
+          "v": "Until April 2031 (10 years with Ubuntu Pro)"
+        },
+        {
+          "k": "Desktop needs",
+          "v": "2 GHz dual-core CPU, 6 GB RAM, 25 GB disk"
+        },
+        {
+          "k": "Latest point release",
+          "v": "26.04.1 (27 Aug 2026)"
+        }
+      ],
+      "highlights": [
+        {
+          "title": "Five years of updates",
+          "text": "As an LTS release it receives security updates and critical fixes for five years, until April 2031; Ubuntu Pro extends this to ten years."
+        },
+        {
+          "title": "Upgrade path from 24.04 LTS",
+          "text": "Most Ubuntu users move from one LTS to the next every two years; 26.04 is the upgrade target for Ubuntu 24.04 LTS \"Noble Numbat\"."
+        },
+        {
+          "title": "Higher desktop requirements",
+          "text": "Canonical recommends a 2 GHz dual-core CPU, 6 GB of RAM and 25 GB of disk; lighter flavors like Xubuntu or Lubuntu run on 2 GB."
+        }
+      ],
+      "highlightsSource": {
+        "label": "Ubuntu 26.04 LTS release notes",
+        "url": "https://documentation.ubuntu.com/release-notes/26.04/"
+      },
+      "notes": {
+        "label": "Ubuntu 26.04 LTS release notes",
+        "url": "https://documentation.ubuntu.com/release-notes/26.04/"
+      },
+      "evidence": [
+        {
+          "date": "2026-04-23",
+          "kind": "official",
+          "text": "Ubuntu 26.04 LTS was released on 23 April 2026 (Ubuntu upgrade metadata and endoflife.date agree)."
+        },
+        {
+          "date": "2026-08-27",
+          "kind": "official",
+          "text": "The first point release, 26.04.1, came out on 27 August 2026."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Ubuntu 26.04 LTS release notes",
+          "url": "https://documentation.ubuntu.com/release-notes/26.04/"
+        },
+        {
+          "label": "endoflife.date: ubuntu",
+          "url": "https://endoflife.date/ubuntu"
+        }
+      ],
+      "lts": true
+    },
+    {
+      "id": "debian-13",
+      "family": "debian",
+      "version": "13",
+      "codename": "trixie",
+      "slug": "13",
+      "status": "released",
+      "date": "2025-08-09",
+      "type": "Stable release (5 years of support)",
+      "summary": "Debian 13 \"trixie\" is the current stable Debian release, out since 9 August 2025. It gets five years of support from Debian's security and long-term support teams, and the latest point release is 13.7.",
+      "milestones": [
+        {
+          "label": "Final release",
+          "date": "2025-08-09"
+        },
+        {
+          "label": "13.7 point release",
+          "date": "2026-09-12"
+        }
+      ],
+      "specs": [
+        {
+          "k": "Desktops",
+          "v": "GNOME 48, KDE Plasma 6.3, Xfce 4.20, LXQt 2.1.0 and more"
+        },
+        {
+          "k": "Packages",
+          "v": "69,830 (over 14,100 new)"
+        },
+        {
+          "k": "Security support",
+          "v": "Until 9 Aug 2028, then LTS until 30 Jun 2030"
+        },
+        {
+          "k": "Latest point release",
+          "v": "13.7 (12 Sep 2026)"
+        }
+      ],
+      "highlights": [
+        {
+          "title": "Updated desktops",
+          "text": "Ships GNOME 48, KDE Plasma 6.3, Xfce 4.20, LXQt 2.1.0 and other desktop environments."
+        },
+        {
+          "title": "Ready for 2038",
+          "text": "Every architecture except i386 now uses a 64-bit time_t, so dates beyond 2038 work."
+        },
+        {
+          "title": "Reproducible builds",
+          "text": "Big progress towards packages that build byte-for-byte the same; a new debian-repro-status tool shows the status on your system."
+        },
+        {
+          "title": "Huge archive",
+          "text": "69,830 packages, over 14,100 of them new, and more than 63% of packages updated since Debian 12."
+        }
+      ],
+      "highlightsSource": {
+        "label": "Debian: \"Debian 13 trixie released\"",
+        "url": "https://www.debian.org/News/2025/20250809"
+      },
+      "notes": {
+        "label": "Debian 13 release notes",
+        "url": "https://www.debian.org/releases/trixie/release-notes/"
+      },
+      "evidence": [
+        {
+          "date": "2025-08-09",
+          "kind": "official",
+          "text": "Debian announced Debian 13 \"trixie\" as its new stable release on 9 August 2025, after 2 years, 1 month and 30 days of development."
+        },
+        {
+          "date": "2026-09-12",
+          "kind": "official",
+          "text": "Point release 13.7 came out on 12 September 2026 (Debian archive Release file)."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Debian: \"Debian 13 trixie released\"",
+          "url": "https://www.debian.org/News/2025/20250809"
+        },
+        {
+          "label": "endoflife.date: debian",
+          "url": "https://endoflife.date/debian"
+        }
+      ]
+    },
+    {
+      "id": "linux-mint-22-3",
+      "family": "linux-mint",
+      "version": "22.3",
+      "codename": "Zena",
+      "slug": "22-3",
+      "status": "released",
+      "date": "2026-01-11",
+      "type": "Long-term support (until April 2029)",
+      "summary": "Linux Mint 22.3 \"Zena\" is the current Linux Mint release, out since 11 January 2026. It is a long-term support release based on Ubuntu 24.04 and is supported until April 2029.",
+      "milestones": [
+        {
+          "label": "Final release",
+          "date": "2026-01-11"
+        }
+      ],
+      "specs": [
+        {
+          "k": "Based on",
+          "v": "Ubuntu 24.04"
+        },
+        {
+          "k": "Editions",
+          "v": "Cinnamon, MATE, Xfce"
+        },
+        {
+          "k": "Support",
+          "v": "Until April 2029"
+        }
+      ],
+      "highlights": [
+        {
+          "title": "Long-term support",
+          "text": "Supported until April 2029, like every Linux Mint 22.x release."
+        },
+        {
+          "title": "Ubuntu 24.04 base",
+          "text": "Linux Mint 22.x is built on Ubuntu 24.04 LTS, so it shares its hardware support and package base."
+        },
+        {
+          "title": "Easy move from 22.x",
+          "text": "People on Linux Mint 22, 22.1 or 22.2 can move to 22.3 through the Update Manager."
+        }
+      ],
+      "highlightsSource": {
+        "label": "Linux Mint 22.3 release notes",
+        "url": "https://www.linuxmint.com/rel_zena.php"
+      },
+      "notes": {
+        "label": "Linux Mint 22.3 release notes",
+        "url": "https://www.linuxmint.com/rel_zena.php"
+      },
+      "evidence": [
+        {
+          "date": "2026-01-11",
+          "kind": "report",
+          "text": "endoflife.date lists Linux Mint 22.3 \"Zena\" as released on 11 January 2026."
+        },
+        {
+          "date": "2026-11-03",
+          "kind": "official",
+          "text": "Linux Mint's release notes call 22.3 a long-term support release supported until April 2029, based on Ubuntu 24.04."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Linux Mint 22.3 release notes",
+          "url": "https://www.linuxmint.com/rel_zena.php"
+        },
+        {
+          "label": "endoflife.date: linuxmint",
+          "url": "https://endoflife.date/linuxmint"
+        }
+      ]
+    },
+    {
+      "id": "kde-plasma-6-8",
+      "family": "kde-plasma",
+      "version": "6.8",
+      "codename": null,
+      "slug": "6-8",
+      "status": "released",
+      "date": "2026-10-14",
+      "type": "Feature release (bug fixes until Plasma 6.9)",
+      "summary": "KDE Plasma 6.8, the \"30th Anniversary Edition\", came out on 14 October 2026, KDE's 30th birthday. It retires X11 sessions in favour of Wayland and adds a dwell clicker, better remote desktop and screen recording with audio. The latest bug-fix update is 6.8.2.",
+      "milestones": [
+        {
+          "label": "Final release",
+          "date": "2026-10-14"
+        },
+        {
+          "label": "6.8.2 bug-fix update",
+          "date": "2026-10-27"
+        }
+      ],
+      "specs": [
+        {
+          "k": "Session",
+          "v": "Wayland (X11 sessions retired)"
+        },
+        {
+          "k": "Latest update",
+          "v": "6.8.2 (27 Oct 2026)"
+        },
+        {
+          "k": "Long-term release",
+          "v": "Plasma 6.6 LTS, supported until Aug 2029"
+        }
+      ],
+      "highlights": [
+        {
+          "title": "Wayland only",
+          "text": "After 42 years of the X Window System, starting X11 sessions in Plasma is being retired."
+        },
+        {
+          "title": "Dwell clicker",
+          "text": "A new accessibility feature clicks for you when the pointer stops moving, with no extra app needed."
+        },
+        {
+          "title": "Better remote desktop",
+          "text": "Much better performance and quality from Plasma's built-in remote desktop server."
+        },
+        {
+          "title": "Recording with audio",
+          "text": "Spectacle can record system audio and the microphone together, so you can narrate screen recordings."
+        }
+      ],
+      "highlightsSource": {
+        "label": "KDE: Plasma 6.8 announcement",
+        "url": "https://kde.org/announcements/plasma/6/6.8.0/"
+      },
+      "notes": {
+        "label": "Plasma 6.8 announcement",
+        "url": "https://kde.org/announcements/plasma/6/6.8.0/"
+      },
+      "evidence": [
+        {
+          "date": "2026-10-14",
+          "kind": "official",
+          "text": "KDE announced Plasma 6.8, the \"30th Anniversary Edition\", on 14 October 2026."
+        },
+        {
+          "date": "2026-10-27",
+          "kind": "report",
+          "text": "endoflife.date lists 6.8.2 as the latest bug-fix update, released 27 October 2026."
+        }
+      ],
+      "sources": [
+        {
+          "label": "KDE: Plasma 6.8 announcement",
+          "url": "https://kde.org/announcements/plasma/6/6.8.0/"
+        },
+        {
+          "label": "KDE Community Wiki: Plasma 6 schedule",
+          "url": "https://community.kde.org/Schedules/Plasma_6"
+        }
+      ]
+    },
+    {
+      "id": "kde-plasma-6-9",
+      "family": "kde-plasma",
+      "version": "6.9",
+      "codename": null,
+      "slug": "6-9",
+      "status": "scheduled",
+      "date": "2027-02-23",
+      "summary": "KDE Plasma 6.9 is scheduled for Tuesday 23 February 2027. KDE's published schedule has a soft feature freeze on 5 January, a first beta on 19 January and a second beta on 2 February 2027.",
+      "milestones": [
+        {
+          "label": "Soft feature freeze (6.8.80)",
+          "date": "2027-01-05"
+        },
+        {
+          "label": "Beta 1 (6.8.90)",
+          "date": "2027-01-19"
+        },
+        {
+          "label": "Beta 2 (6.8.91)",
+          "date": "2027-02-02"
+        },
+        {
+          "label": "Final release",
+          "date": "2027-02-23"
+        }
+      ],
+      "evidence": [
+        {
+          "date": "2026-11-03",
+          "kind": "official",
+          "text": "KDE's Plasma 6 schedule lists 6.9.0 for release on Tuesday 23 February 2027 (tarballs on 18 February), with betas on 19 January and 2 February."
+        },
+        {
+          "date": "2026-11-03",
+          "kind": "official",
+          "text": "The schedule moves the Plasma 6.6.8 LTS update two weeks earlier, to 16 February 2027, so it does not clash with 6.9.0."
+        }
+      ],
+      "sources": [
+        {
+          "label": "KDE Community Wiki: Plasma 6 schedule",
+          "url": "https://community.kde.org/Schedules/Plasma_6"
+        }
+      ],
+      "useNow": "kde-plasma-6-8"
+    },
+    {
+      "id": "nixos-26-05",
+      "family": "nixos",
+      "version": "26.05",
+      "codename": "Yarara",
+      "slug": "26-05",
+      "status": "released",
+      "date": "2026-05-30",
+      "type": "Stable release (supported until 31 Dec 2026)",
+      "summary": "NixOS 26.05 \"Yarara\" is the current stable NixOS release, out since 30 May 2026. It is supported until 31 December 2026, a month after NixOS 26.11 is due.",
+      "milestones": [
+        {
+          "label": "Final release",
+          "date": "2026-05-30"
+        }
+      ],
+      "specs": [
+        {
+          "k": "Support",
+          "v": "Until 31 Dec 2026"
+        },
+        {
+          "k": "Boot",
+          "v": "systemd-based initrd by default"
+        }
+      ],
+      "highlights": [
+        {
+          "title": "systemd in early boot",
+          "text": "Stage 1 (the initrd) is now based on systemd by default; the old scripted version is deprecated and due for removal in 26.11."
+        },
+        {
+          "title": "Native systemd boot options",
+          "text": "Many kernel parameters were replaced by their systemd equivalents; the release notes list what to change."
+        }
+      ],
+      "highlightsSource": {
+        "label": "NixOS release notes",
+        "url": "https://nixos.org/manual/nixos/stable/release-notes"
+      },
+      "notes": {
+        "label": "NixOS release notes",
+        "url": "https://nixos.org/manual/nixos/stable/release-notes"
+      },
+      "evidence": [
+        {
+          "date": "2026-05-30",
+          "kind": "report",
+          "text": "endoflife.date lists NixOS 26.05 \"Yarara\" as released on 30 May 2026, supported until 31 December 2026."
+        }
+      ],
+      "sources": [
+        {
+          "label": "NixOS release notes",
+          "url": "https://nixos.org/manual/nixos/stable/release-notes"
+        },
+        {
+          "label": "endoflife.date: nixos",
+          "url": "https://endoflife.date/nixos"
+        }
+      ]
+    },
+    {
+      "id": "nixos-26-11",
+      "family": "nixos",
+      "version": "26.11",
+      "codename": "Zokor",
+      "slug": "26-11",
+      "status": "scheduled",
+      "date": "2026-11-30",
+      "summary": "NixOS 26.11 \"Zokor\" is planned for 30 November 2026. The release managers' calendar moved the date from 23 to 30 November and says dates may still change slightly.",
+      "milestones": [
+        {
+          "label": "Breaking changes restricted",
+          "date": "2026-10-26"
+        },
+        {
+          "label": "First staging-next cycle",
+          "date": "2026-11-07"
+        },
+        {
+          "label": "Second staging-next cycle",
+          "date": "2026-11-14"
+        },
+        {
+          "label": "Branch-off and beta channels",
+          "date": "2026-11-23"
+        },
+        {
+          "label": "Final release",
+          "date": "2026-11-30"
+        }
+      ],
+      "evidence": [
+        {
+          "date": "2026-09-27",
+          "kind": "official",
+          "text": "The NixOS 26.11 release managers published the release calendar, naming the release \"Zokor\" and planning it for the end of November 2026."
+        },
+        {
+          "date": "2026-11-03",
+          "kind": "official",
+          "text": "The calendar now shows the release on 30 November 2026 (moved from 23 November), with branch-off in the week before."
+        },
+        {
+          "date": "2026-11-03",
+          "kind": "official",
+          "text": "NixOS 26.05's release notes say the old scripted stage 1 is scheduled for removal in 26.11."
+        }
+      ],
+      "sources": [
+        {
+          "label": "NixOS 26.11 release schedule (GitHub)",
+          "url": "https://github.com/NixOS/nixpkgs/issues/567567"
+        },
+        {
+          "label": "NixOS release notes",
+          "url": "https://nixos.org/manual/nixos/stable/release-notes"
+        }
+      ],
+      "useNow": "nixos-26-05"
+    },
+    {
+      "id": "firefox-159",
+      "family": "firefox",
+      "version": "159",
+      "codename": null,
+      "slug": "159",
+      "status": "released",
+      "date": "2026-10-27",
+      "type": "Regular release (replaced every 2 weeks)",
+      "summary": "Firefox 159 is the current Firefox version, released on 27 October 2026. Firefox 160 replaces it on 10 November 2026.",
+      "milestones": [
+        {
+          "label": "Final release",
+          "date": "2026-10-27"
+        }
+      ],
+      "specs": [
+        {
+          "k": "Next version",
+          "v": "Firefox 160 on 10 Nov 2026"
+        },
+        {
+          "k": "ESR",
+          "v": "Firefox 153 ESR"
+        }
+      ],
+      "highlights": [
+        {
+          "title": "Scroll-driven animations",
+          "text": "CSS and Web Animations can now follow the scroll position of a container or an element moving into view."
+        },
+        {
+          "title": "Fixes for uploads and memory",
+          "text": "The file upload dialog opens in the last upload folder again, and memory no longer grows quickly with some web apps left open."
+        },
+        {
+          "title": "Developer tools",
+          "text": "The Web Console lets you re-declare let, const and class variables, so snippets can be edited and re-run."
+        }
+      ],
+      "highlightsSource": {
+        "label": "Firefox 159 release notes",
+        "url": "https://www.mozilla.org/en-US/firefox/159.0/releasenotes/"
+      },
+      "notes": {
+        "label": "Firefox 159 release notes",
+        "url": "https://www.mozilla.org/en-US/firefox/159.0/releasenotes/"
+      },
+      "evidence": [
+        {
+          "date": "2026-10-27",
+          "kind": "official",
+          "text": "Mozilla's product data lists Firefox 159.0 as the latest version, released 27 October 2026."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Firefox 159 release notes",
+          "url": "https://www.mozilla.org/en-US/firefox/159.0/releasenotes/"
+        },
+        {
+          "label": "Firefox release calendar (whattrainisitnow.com)",
+          "url": "https://whattrainisitnow.com/calendar/"
+        }
+      ]
+    },
+    {
+      "id": "firefox-160",
+      "family": "firefox",
+      "version": "160",
+      "codename": null,
+      "slug": "160",
+      "status": "scheduled",
+      "date": "2026-11-10",
+      "summary": "Firefox 160 is scheduled for Tuesday 10 November 2026, according to Mozilla's release calendar. It is in beta now; the release candidate is due on 5 November.",
+      "milestones": [
+        {
+          "label": "Nightly start",
+          "date": "2026-10-11"
+        },
+        {
+          "label": "Beta 1",
+          "date": "2026-10-26"
+        },
+        {
+          "label": "Release candidate",
+          "date": "2026-11-05"
+        },
+        {
+          "label": "Final release",
+          "date": "2026-11-10"
+        }
+      ],
+      "highlights": [
+        {
+          "title": "Clearer address bar",
+          "text": "More contrast between the domain name and the rest of the address, so it is easier to see which site you are on."
+        },
+        {
+          "title": "Speech-to-text for websites",
+          "text": "The recognition side of the Web Speech API arrives, with on-device speech-to-text in 40 languages."
+        },
+        {
+          "title": "Tab groups suggestions",
+          "text": "Organize Tabs can suggest and name groups of related tabs; it is rolling out gradually."
+        }
+      ],
+      "highlightsSource": {
+        "label": "Firefox 160 beta release notes (may change before release)",
+        "url": "https://www.mozilla.org/en-US/firefox/160.0beta/releasenotes/"
+      },
+      "evidence": [
+        {
+          "date": "2026-10-26",
+          "kind": "official",
+          "text": "Firefox 160 entered beta on 26 October 2026."
+        },
+        {
+          "date": "2026-11-03",
+          "kind": "official",
+          "text": "Mozilla's release calendar lists Firefox 160 for release on 10 November 2026, with the release candidate on 5 November."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Firefox release calendar (whattrainisitnow.com)",
+          "url": "https://whattrainisitnow.com/calendar/"
+        },
+        {
+          "label": "Firefox 160 beta release notes",
+          "url": "https://www.mozilla.org/en-US/firefox/160.0beta/releasenotes/"
+        }
+      ],
+      "useNow": "firefox-159"
+    },
+    {
+      "id": "firefox-161",
+      "family": "firefox",
+      "version": "161",
+      "codename": null,
+      "slug": "161",
+      "status": "scheduled",
+      "date": "2026-11-24",
+      "summary": "Firefox 161 is scheduled for Tuesday 24 November 2026, two weeks after Firefox 160. It is in Nightly now and moves to beta on 9 November.",
+      "milestones": [
+        {
+          "label": "Nightly start",
+          "date": "2026-10-22"
+        },
+        {
+          "label": "Beta 1",
+          "date": "2026-11-09"
+        },
+        {
+          "label": "Release candidate",
+          "date": "2026-11-19"
+        },
+        {
+          "label": "Final release",
+          "date": "2026-11-24"
+        }
+      ],
+      "evidence": [
+        {
+          "date": "2026-11-03",
+          "kind": "official",
+          "text": "Mozilla's release calendar lists Firefox 161 for 24 November 2026: beta from 9 November, release candidate on 19 November."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Firefox release calendar (whattrainisitnow.com)",
+          "url": "https://whattrainisitnow.com/calendar/"
+        }
+      ],
+      "useNow": "firefox-159"
+    }
+  ]
+}

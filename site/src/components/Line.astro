@@ -1,0 +1,26 @@
+---
+// A metro-style line: evenly spaced stations, done ones filled, a "you are here" pin for today.
+// Horizontal on wide screens, vertical on phones.
+import { getRelease, releasePath } from '../lib/data.js';
+import { boardWhen } from '../lib/look.js';
+
+const { stations, color } = Astro.props;
+const when = (s) => (s.window ? boardWhen({ window: s.window }) : boardWhen({ date: s.date }));
+---
+<ol class="line" style={`--line-color:${color}`}>
+  {stations.map((s) =>
+    s.type === 'today' ? (
+      <li class="stop today">
+        <span class="dot" aria-hidden="true"></span>
+        <span class="lbl">{s.label}</span>
+        <span class="when">{when(s)}</span>
+      </li>
+    ) : (
+      <li class="stop" class:list={{ done: s.done, est: s.est, final: s.final }}>
+        <span class="dot" aria-hidden="true"></span>
+        {s.href ? <a class="lbl" href={releasePath(getRelease(s.href))}>{s.label}</a> : <span class="lbl">{s.label}</span>}
+        <span class="when">{when(s)}{s.est && !s.done ? ' · est.' : ''}</span>
+      </li>
+    ),
+  )}
+</ol>
