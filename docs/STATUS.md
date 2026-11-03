@@ -1,7 +1,7 @@
 # Status (as of 2026-11-03)
 
 ## Where we are in one line
-The site works locally and is committed to a local git repo; it is **not live yet**. Next: owner picks the name and creates accounts (`docs/SETUP.md`), then we push, deploy and start adding pages weekly.
+**Live at https://onlinux.site** (Cloudflare Pages, repo `zaydeen45456767/release-tracker`, domain at Namecheap with Cloudflare DNS, launched 2026-11-03). Daily job and CI run on GitHub; IndexNow key file is live and the daily job pings Bing when data changes. Next: owner adds the site to Search Console, then we grow content in weekly batches.
 
 ## What exists
 - **Projects (9):** Ubuntu, Fedora, Debian, Linux Mint, NixOS (distributions); GNOME, KDE Plasma (desktops); Linux kernel; Firefox (apps).
@@ -20,14 +20,14 @@ The site works locally and is committed to a local git repo; it is **not live ye
 - Fedora 44 date corrected to 28 Apr 2026 (owner approved), correction note shown on the page.
 
 ## Waiting on the owner
-1. **Name and domain.** Recommended ReleaseNext (releasenext.com free on 2026-11-03); alternatives in `CLAUDE.md`.
-2. **Accounts:** GitHub (private repo, then paste the address so Claude can push), Cloudflare Pages, Search Console, Bing Webmaster. Steps: `docs/SETUP.md`.
-3. **Keyword check:** about 15 queries in Google Keyword Planner (e.g. "fedora 46 release date", "linux mint 27 release date", "firefox 160", "nixos 26.11").
-4. **Contact email** for corrections (for the About page).
+1. **Search Console:** Domain property for onlinux.site (TXT record in Cloudflare DNS), submit `sitemap.xml`, then "Request indexing" for priority pages (about 10 a day). Then Bing Webmaster (import from Search Console).
+2. **Keyword check:** about 15 queries in Google Keyword Planner.
+3. **Contact email** for corrections (About page).
+4. Optional: Cloudflare Web Analytics; GitHub "Watch, All activity" so alerts are emailed.
 
 ## Next for Claude
-- After the name: put it in the logo, titles, footer, About, 404.
-- After the domain is live: IndexNow key file + ping step in `daily.yml`; social preview image; privacy page if analytics is on; run the daily job once; check the live site on desktop and phone; Search Console weekly report via read-only service account.
+- Done: brand Onlinux, IndexNow (`site/updater/indexnow.js`, key file in `site/public`).
+- To do: social preview image; privacy page if analytics is on; run the daily job once; check the live site on desktop and phone; Search Console weekly report via read-only service account.
 - Content (see `docs/PRIORITY.md`): Kali Linux 2026.4, Rocky Linux / AlmaLinux 10.3, Pop!_OS, openSUSE Leap; Firefox 162+ as the calendar lists them; kernel 7.6; then apps (LibreOffice, Blender, Thunderbird, GIMP, VLC, OBS) and developer tools (Python, Node.js, PHP, Go, Rust, PostgreSQL, Docker, Kubernetes).
 - Later features: forecast windows computed from history instead of typed; early-name detection that drafts a page automatically; daily page caps with counters; split sitemaps by page type; more page types per release (end of life, system requirements, "X vs Y").
 - Mobile: inner pages have no search box in the header on phones (only the home page).
