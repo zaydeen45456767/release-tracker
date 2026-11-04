@@ -148,3 +148,17 @@ test('release-notes links are added only when the project server answers', async
   await enrichLinks(rel, ['firefox-159'], async () => true);
   assert.equal(rel.releases[0].notes.url, 'https://www.mozilla.org/en-US/firefox/159.0/releasenotes/');
 });
+
+test('index queue: forecasts first by soonest date, then released newest first; thin and missed pages left out', async () => {
+  const { indexQueue } = await import('../updater/queue.js');
+  const full = { codename: null, milestones: [], sources: [{ label: 'x', url: 'https://x.org' }], summary: 'A summary that is clearly longer than forty characters.' };
+  const ev = [{ date: '2026-11-01', kind: 'official', text: 'a' }, { date: '2026-11-02', kind: 'estimate', text: 'b' }];
+  const list = [
+    { ...full, id: 'a-1', family: 'a', slug: '1', version: '1', status: 'released', date: '2026-10-01', evidence: ev },
+    { ...full, id: 'a-3', family: 'a', slug: '3', version: '3', status: 'scheduled', date: '2026-12-01', evidence: ev },
+    { ...full, id: 'a-2', family: 'a', slug: '2', version: '2', status: 'scheduled', date: '2026-11-10', evidence: ev },
+    { ...full, id: 'a-9', family: 'a', slug: '9', version: '9', status: 'predicted', window: { start: '2026-11-20', end: '2026-11-27' }, evidence: [ev[0]] },
+    { ...full, id: 'a-0', family: 'a', slug: '0', version: '0', status: 'predicted', window: { start: '2026-01-01', end: '2026-01-07' }, evidence: ev },
+  ];
+  assert.deepEqual(indexQueue(list, day('2026-11-04')).map((x) => x.path), ['/a/2/', '/a/3/', '/a/1/']);
+});

@@ -6,12 +6,14 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { SOURCES, observe } from './sources.js';
 import { applyObservations } from './apply.js';
 import { enrichLinks } from './links.js';
+import { indexQueue } from './queue.js';
 import { buildHistory } from './history.js';
 import { today } from '../src/lib/forecast.js';
 
 const DATA = new URL('../src/data/releases.json', import.meta.url);
 const HISTORY = new URL('../src/data/history.json', import.meta.url);
 const LOG = new URL('./log.json', import.meta.url);
+const QUEUE = new URL('./index-queue.json', import.meta.url);
 const write = process.argv.includes('--write');
 
 // Some feeds (Bodhi) are slow, so allow a minute and one retry.
@@ -70,6 +72,9 @@ if (errors.length) console.log(`\nFeeds that failed (nothing changed from them):
 if (write) {
   if (changes.length) await writeFile(DATA, JSON.stringify(next, null, 2) + '\n');
   if (historyChanged) await writeFile(HISTORY, JSON.stringify(history, null, 2) + '\n');
+  // Order for Search Console "Request indexing": forecasts first (soonest first), then released pages.
+  const queue = JSON.stringify(indexQueue(next.releases, now), null, 2) + '\n';
+  if (queue !== (await readFile(QUEUE, 'utf8').catch(() => ''))) await writeFile(QUEUE, queue);
   let log = [];
   try {
     log = JSON.parse(await readFile(LOG, 'utf8'));

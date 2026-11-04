@@ -32,7 +32,7 @@ Runs on GitHub every 3 hours, and every hour while a release is 2 days before to
 6. **Test, build, save** (nothing is saved if tests fail). Cloudflare publishes in about a minute. **IndexNow** tells Bing and others about the change.
 7. **Alert** (GitHub issue, emailed) whenever pages were created or changed, something needs review, a feed failed or a link broke. Nothing new means no issue.
 
-Google itself cannot be pinged automatically for ordinary pages: the sitemap (with real `lastmod`) is its signal, plus the owner's "Request indexing" clicks (forecast pages first, see `docs/PRIORITY.md`).
+Google itself cannot be pinged by a script for ordinary pages (its Indexing API is only for job and livestream pages). Its signals are the sitemap (real `lastmod`) and Search Console's "Request indexing" (about 10 a day). Every run therefore writes `site/updater/index-queue.json`: indexable pages in the order to request them (forecasts first, soonest date first, then released pages). A session with Search Console open (Claude in Chrome) inspects the queue from the top, skips what is already on Google and requests the rest. Bing and others are pinged automatically (IndexNow).
 
 ## New pages (weekly)
 1. The updater (or the priority list in `docs/PRIORITY.md`) shows which new versions are coming.

@@ -1,0 +1,112 @@
+[
+  {
+    "path": "/firefox/160/",
+    "status": "scheduled",
+    "date": "2026-11-10"
+  },
+  {
+    "path": "/firefox/161/",
+    "status": "scheduled",
+    "date": "2026-11-24"
+  },
+  {
+    "path": "/nixos/26-11/",
+    "status": "scheduled",
+    "date": "2026-11-30"
+  },
+  {
+    "path": "/firefox/162/",
+    "status": "scheduled",
+    "date": "2026-12-08"
+  },
+  {
+    "path": "/linux-mint/27/",
+    "status": "predicted",
+    "date": "2026-12-20"
+  },
+  {
+    "path": "/linux-kernel/7-4/",
+    "status": "predicted",
+    "date": "2026-12-20"
+  },
+  {
+    "path": "/kde-plasma/6-9/",
+    "status": "scheduled",
+    "date": "2027-02-23"
+  },
+  {
+    "path": "/gnome/52/",
+    "status": "scheduled",
+    "date": "2027-03-17"
+  },
+  {
+    "path": "/fedora/46/",
+    "status": "predicted",
+    "date": "2027-04-15"
+  },
+  {
+    "path": "/ubuntu/27-04/",
+    "status": "scheduled",
+    "date": "2027-04-22"
+  },
+  {
+    "path": "/debian/14/",
+    "status": "predicted",
+    "date": "2027-06-01"
+  },
+  {
+    "path": "/fedora/45/",
+    "status": "released",
+    "date": "2026-11-03"
+  },
+  {
+    "path": "/firefox/159/",
+    "status": "released",
+    "date": "2026-10-27"
+  },
+  {
+    "path": "/linux-kernel/7-3/",
+    "status": "released",
+    "date": "2026-10-18"
+  },
+  {
+    "path": "/ubuntu/26-10/",
+    "status": "released",
+    "date": "2026-10-15"
+  },
+  {
+    "path": "/kde-plasma/6-8/",
+    "status": "released",
+    "date": "2026-10-14"
+  },
+  {
+    "path": "/gnome/51/",
+    "status": "released",
+    "date": "2026-09-16"
+  },
+  {
+    "path": "/nixos/26-05/",
+    "status": "released",
+    "date": "2026-05-30"
+  },
+  {
+    "path": "/fedora/44/",
+    "status": "released",
+    "date": "2026-04-28"
+  },
+  {
+    "path": "/ubuntu/26-04/",
+    "status": "released",
+    "date": "2026-04-23"
+  },
+  {
+    "path": "/linux-mint/22-3/",
+    "status": "released",
+    "date": "2026-01-11"
+  },
+  {
+    "path": "/debian/13/",
+    "status": "released",
+    "date": "2025-08-09"
+  }
+]
