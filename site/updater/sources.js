@@ -148,6 +148,32 @@ export function parseMozillaSchedule(text) {
   return [{ kind: 'scheduled', version: v[1], date: release, milestones }];
 }
 
+const cells = (row) => [...row.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/g)].map((m) => m[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim());
+
+// GNOME's release calendar: the x.0 row says "Release: YYYY-MM-DD", the announcement day (the tag is a few days earlier).
+export function parseGnomeCalendar(html) {
+  const out = [];
+  for (const row of html.split('<tr').slice(1)) {
+    const c = cells(row);
+    const v = /^(\d+)\.0$/.exec(c[0] ?? '');
+    const d = /Release:\s*(\d{4}-\d{2}-\d{2})/.exec(c[4] ?? '');
+    if (v && d) out.push({ kind: 'scheduled', version: v[1], date: d[1] });
+  }
+  return out;
+}
+
+// KDE's Plasma schedule: the x.y.0 "Stable" row lists the original date and, when it moved, each new date after it.
+export function parseKdeSchedule(html) {
+  const out = [];
+  for (const row of html.split('<tr').slice(1)) {
+    const v = /<th[^>]*>[\s\S]*?>(\d+\.\d+)\.0<[\s\S]*?<\/th>\s*<td[^>]*>\s*Stable\s*<\/td>/.exec(row);
+    if (!v) continue;
+    const dates = [...row.matchAll(/title="(\d{4}-\d{2}-\d{2})"/g)].map((m) => m[1]);
+    if (dates.length) out.push({ kind: 'scheduled', version: v[1], date: dates.at(-1) });
+  }
+  return out;
+}
+
 // The next few Firefox versions after the newest one we have released.
 export function mozillaScheduleFeeds(data) {
   const out = data.releases.filter((r) => r.family === 'firefox' && r.status === 'released').map((r) => Number(r.version));
@@ -174,6 +200,8 @@ export const SOURCES = [
   { id: 'mozilla-product-details', family: 'firefox', official: true, label: 'Mozilla product details', url: 'https://product-details.mozilla.org/1.0/firefox_versions.json', feed: 'https://product-details.mozilla.org/1.0/firefox_versions.json', parse: parseFirefoxVersions },
   { id: 'eol-firefox', family: 'firefox', ...eol('firefox') },
   { id: 'mozilla-schedule', family: 'firefox', official: true, label: 'Firefox release calendar (whattrainisitnow.com)', url: 'https://whattrainisitnow.com/calendar/', feeds: mozillaScheduleFeeds, parse: parseMozillaSchedule },
+  { id: 'gnome-calendar', family: 'gnome', official: true, label: 'GNOME release calendar', url: 'https://release.gnome.org/calendar/', feed: 'https://release.gnome.org/calendar/', parse: parseGnomeCalendar },
+  { id: 'kde-schedule', family: 'kde-plasma', official: true, label: 'KDE Plasma 6 schedule', url: 'https://community.kde.org/Schedules/Plasma_6', feed: 'https://community.kde.org/Schedules/Plasma_6', parse: parseKdeSchedule },
   { id: 'mint-dists', family: 'linux-mint', official: true, label: 'Linux Mint package archive', url: 'http://packages.linuxmint.com/dists/', feed: 'http://packages.linuxmint.com/dists/', parse: parseMintDists },
 ];
 

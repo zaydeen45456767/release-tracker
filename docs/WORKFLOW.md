@@ -19,12 +19,13 @@ Plain files inside the project. No database is needed yet.
 
 ## The automatic workflow (no daily input from the owner)
 Runs on GitHub every 3 hours, and every hour while a release is 2 days before to 3 days after its date (`site/updater/watch.js` decides). The outside-link check runs once a day.
-1. **Read** about 16 official feeds (kernel.org, Fedora, Ubuntu, Debian, GNOME, KDE, NixOS, Mozilla product details, Mozilla's release calendar, Linux Mint, endoflife.date).
+1. **Read** about 16 official feeds (kernel.org, Fedora, Ubuntu, Debian, GNOME, KDE, NixOS, Mozilla product details, Mozilla's release calendar, GNOME's release calendar, KDE's Plasma schedule, Linux Mint, endoflife.date).
 2. **Flip** a page to "released" the moment an official feed shows it, keeping the forecast as first published.
 3. **Create pages** (marked `auto: true`, capped at 5 per run):
    - Firefox: a `scheduled` page for each of the next 3 versions on Mozilla's own calendar; moved dates and milestones are applied and the first date is kept (`firstPublished`).
    - Linux kernel: a `predicted` page when a release candidate appears (window = week after the last rc, never before rc7); the window moves with each extra rc.
    - Fedora, GNOME: a `predicted` page (usual six-month gap) when the project already shows the next version in development.
+   - GNOME and KDE Plasma: their own schedule pages keep our scheduled dates in sync (a slip such as Plasma 6.9.0 moving from 18 to 23 Feb is applied automatically).
    - Any family: a `released` page when a feed shows a newer version released with a real date in the last 120 days.
    - Other projects (Ubuntu, Debian, Mint, NixOS, KDE) have no early feed: the owner is alerted and a session adds the page.
 4. **Keep text honest:** an older page's "is the current version" sentence is rewritten once a newer release is out (an LTS stays "the current LTS" when only a normal release follows).

@@ -162,3 +162,25 @@ test('index queue: forecasts first by soonest date, then released newest first; 
   ];
   assert.deepEqual(indexQueue(list, day('2026-11-04')).map((x) => x.path), ['/a/2/', '/a/3/', '/a/1/']);
 });
+
+test('GNOME calendar and KDE schedule pages are read: release announcement day, and the latest KDE date when it moved', async () => {
+  const { parseGnomeCalendar, parseKdeSchedule } = await import('../updater/sources.js');
+  const gnome = '<table><tr class="stable"><td>52.0</td><td>stable</td><td>2027-03-13</td><td>mclasen</td><td>\n Release: 2027-03-17\n</td></tr><tr><td>52.1</td><td>stable</td><td>2027-04-10</td><td>x</td><td></td></tr><tr><td>52.rc</td><td>unstable</td><td>2027-02-27</td><td>x</td><td></td></tr></table>';
+  assert.deepEqual(parseGnomeCalendar(gnome), [{ kind: 'scheduled', version: '52', date: '2027-03-17' }]);
+  const kde = '<table><tr><th scope="row"><a class="external" href="x"><span>6.9.0</span></a>\n</th><td>Stable\n</td><td>Thu <span title="2027-02-18">2027-02-18</span>\n</td><td>Tue <span title="2027-02-23">2027-02-23</span>\n</td><td>Initial</td></tr><tr><th scope="row"><a href="y"><span>6.9.1</span></a></th><td>Bugfix</td><td><span title="2027-03-02">2027-03-02</span></td></tr><tr><th scope="row"><a href="z"><span>6.8.0</span></a></th><td>Stable</td><td>Tue <span title="2026-10-14">2026-10-14</span></td></tr></table>';
+  assert.deepEqual(parseKdeSchedule(kde), [{ kind: 'scheduled', version: '6.9', date: '2027-02-23' }, { kind: 'scheduled', version: '6.8', date: '2026-10-14' }]);
+});
+
+test('watch: a skipped run is caught up, launch windows run hourly, the first run of a day does the link check', async () => {
+  const { decide } = await import('../updater/watch.js');
+  const at = (s) => new Date(`2026-11-04T${s}:00Z`);
+  const run = (now, last, hot = 0, manual = false) => decide({ now: at(now), lastAt: last ? at(last) : null, hot, manual });
+  assert.equal(run('10:15', '09:15').run, false); // too soon
+  assert.equal(run('12:15', '09:15').run, true); // 3 hours
+  assert.equal(run('15:15', '06:15').run, true); // two runs were skipped: catches up
+  assert.equal(run('10:15', '09:15', 1).run, true); // launch window: hourly
+  assert.equal(run('09:40', '09:15', 1).run, false);
+  assert.equal(decide({ now: new Date('2026-11-05T00:15:00Z'), lastAt: at('21:15'), hot: 0, manual: false }).links, true); // new UTC day
+  assert.equal(run('10:15', '09:15', 0, true).links, true); // manual
+  assert.equal(run('10:15', null).run, true); // no log yet
+});
