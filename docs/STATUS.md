@@ -10,7 +10,7 @@
 - **Home:** "New: X is out" pill, headline, animated search with penguin, "Next up" line, two drifting release rows, "Out now" and "Coming next" side by side (same rows, filter: Distributions / Desktops / Kernel / Apps), editions grid, "How we forecast" (6 source types), FAQ answered from data.
 - **Release pages:** icon + title, date card with status, official Download button (real download page via `primaryDownload`), "Can't wait? Use the latest stable" box on forecasts, key facts, sourced "What's new" highlights, kept forecast + grade after a flip, timeline (previous version, release, latest update, today, next version, end of support; or milestones for upcoming), "Why this window?" (average gap), evidence log, install/upgrade guide, editions (newest stable only), all-versions table (support, gap, Download / Files / Notes links), project FAQ + page FAQ, About sidebar. Structured data: FAQPage, BreadcrumbList, SoftwareApplication.
 - **Project pages:** latest stable + next release boxes, editions and flavors (own icons and official links), upcoming list, timeline, all-versions table, FAQ.
-- **Updater:** 15 feeds (kernel.org, Ubuntu meta-release, Fedora Bodhi, Debian archive, GNOME GitLab tags, Linux Mint archive, Mozilla product details, endoflife.date for Ubuntu, Fedora, Debian, Mint, kernel, KDE Plasma, NixOS, Firefox). Auto-applies only safe changes (flip to released with sourced date, keep forecast, move "use now", add rc/beta evidence, refresh history). Everything else goes to the owner review list.
+- **Updater:** 16 feeds incl. Mozilla's release calendar. Every 3 hours (hourly near a launch) it flips releases, creates scheduled / predicted / released pages from feeds (see `docs/WORKFLOW.md`), keeps dates and milestones in sync, adds release-notes links once they exist, rewrites stale "current version" text, and refreshes version history. Only the review list and projects without an early feed need a session.
 - **Automation ready, not running:** `.github/workflows/daily.yml` and `ci.yml`; alerts are GitHub issues (emailed by GitHub) only when something new happens.
 
 ## Decisions made (do not reopen without the owner)
@@ -26,10 +26,11 @@
 4. Optional: Cloudflare Web Analytics; GitHub "Watch, All activity" so alerts are emailed.
 
 ## Next for Claude
+- Done 2026-11-04: auto-created pages (Firefox calendar, kernel rcs, Fedora/GNOME, released), 3-hourly runs, own-domain skip in link check.
 - Done: brand Onlinux, IndexNow (`site/updater/indexnow.js`, key file in `site/public`).
 - To do: social preview image; privacy page if analytics is on; run the daily job once; check the live site on desktop and phone; Search Console weekly report via read-only service account.
 - Content (see `docs/PRIORITY.md`): Kali Linux 2026.4, Rocky Linux / AlmaLinux 10.3, Pop!_OS, openSUSE Leap; Firefox 162+ as the calendar lists them; kernel 7.6; then apps (LibreOffice, Blender, Thunderbird, GIMP, VLC, OBS) and developer tools (Python, Node.js, PHP, Go, Rust, PostgreSQL, Docker, Kubernetes).
-- Later features: forecast windows computed from history instead of typed; early-name detection that drafts a page automatically; daily page caps with counters; split sitemaps by page type; more page types per release (end of life, system requirements, "X vs Y").
+- Later features: forecast windows computed from history instead of typed; daily page caps with counters; split sitemaps by page type; more page types per release (end of life, system requirements, "X vs Y").
 - Mobile: inner pages have no search box in the header on phones (only the home page).
 
 ## Open review items from the updater

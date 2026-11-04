@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-03",
+  "updated": "2026-11-04",
   "families": [
     {
       "id": "ubuntu",
@@ -831,12 +831,22 @@
           "date": "2026-11-03",
           "kind": "estimate",
           "text": "We found no official Fedora 46 date. Our window comes from Fedora's usual six-month gap, plus allowance for slips."
+        },
+        {
+          "date": "2026-11-04",
+          "kind": "official",
+          "key": "bodhi:46-exists",
+          "text": "Fedora Bodhi (official update system) lists Fedora 46 as in development (not released yet)."
         }
       ],
       "sources": [
         {
           "label": "Fedora releases",
           "url": "https://fedoraproject.org/wiki/Releases"
+        },
+        {
+          "label": "Fedora Bodhi (official update system)",
+          "url": "https://bodhi.fedoraproject.org/releases/"
         }
       ],
       "useNow": "fedora-45"
@@ -1848,6 +1858,50 @@
           "url": "https://whattrainisitnow.com/calendar/"
         }
       ],
+      "useNow": "firefox-159"
+    },
+    {
+      "id": "firefox-162",
+      "codename": null,
+      "slug": "162",
+      "milestones": [
+        {
+          "label": "Nightly start",
+          "date": "2026-11-05"
+        },
+        {
+          "label": "Beta 1",
+          "date": "2026-11-23"
+        },
+        {
+          "label": "Release candidate",
+          "date": "2026-12-03"
+        },
+        {
+          "label": "Final release",
+          "date": "2026-12-08"
+        }
+      ],
+      "family": "firefox",
+      "version": "162",
+      "status": "scheduled",
+      "date": "2026-12-08",
+      "summary": "Firefox 162 is scheduled for Tuesday 8 December 2026, according to the project's official release calendar.",
+      "evidence": [
+        {
+          "date": "2026-11-04",
+          "kind": "official",
+          "key": "mozilla-schedule:162:2026-12-08",
+          "text": "Firefox release calendar (whattrainisitnow.com) lists Firefox 162 for release on 8 December 2026."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Firefox release calendar (whattrainisitnow.com)",
+          "url": "https://whattrainisitnow.com/calendar/"
+        }
+      ],
+      "auto": true,
       "useNow": "firefox-159"
     }
   ]

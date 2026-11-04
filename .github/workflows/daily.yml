@@ -1,11 +1,12 @@
-# Every hour a cheap check runs; the full update runs at 06:00 UTC, on a manual run, or when a release is
-# within 2 days before to 3 days after its date. Otherwise: read the official feeds, apply safe changes, test, save the data.
+# An hourly check decides what to do (site/updater/watch.js). The full update (read the official feeds, create and
+# refresh pages, test, build, save) runs every 3 hours, and every hour while a release is within 2 days before to 3 days
+# after its date. The slow outside-link check runs once a day (06:00 UTC) and on manual runs.
 # Saving (git push) makes Cloudflare Pages rebuild and publish the site.
-# If the review list or failed feeds change, the owner gets a GitHub issue (GitHub emails it).
+# When pages are created or the review list changes, the owner gets a GitHub issue (GitHub emails it).
 name: Daily update
 on:
   schedule:
-    - cron: '15 * * * *' # hourly check; full update at 06:00 UTC or near a launch
+    - cron: '15 * * * *' # hourly check; the full update runs every 3 hours or near a launch
   workflow_dispatch: # "Run workflow" button for a manual run
 permissions:
   contents: write
@@ -39,8 +40,8 @@ jobs:
         run: npm test
       - run: npm run build
         if: steps.gate.outputs.run == 'true'
-      - name: Check outside links
-        if: steps.gate.outputs.run == 'true'
+      - name: Check outside links (once a day)
+        if: steps.gate.outputs.run == 'true' && steps.gate.outputs.links == 'true'
         id: links
         continue-on-error: true
         run: npm run check-links > updater/links.txt 2>&1
@@ -63,6 +64,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           if [ "${{ steps.save.outputs.summary }}" = "changed" ] || [ "${{ steps.links.outcome }}" = "failure" ]; then
-            { cat updater/last-run.md; echo; echo '### Link check'; cat updater/links.txt; } > /tmp/alert.md
+            { cat updater/last-run.md; echo; echo '### Link check'; cat updater/links.txt 2>/dev/null || echo 'Not checked this run.'; } > /tmp/alert.md
             gh issue create --title "Updater: review needed ($(date -u +%F))" --body-file /tmp/alert.md
           fi

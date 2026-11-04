@@ -135,6 +135,27 @@ export function parseMintDists(text) {
   return [...text.matchAll(/href="([a-z]+)\/"/g)].map((m) => ({ kind: 'codename', codename: m[1], date: null }));
 }
 
+// Mozilla's release calendar for one Firefox version (planned dates, months ahead).
+export function parseMozillaSchedule(text) {
+  const d = JSON.parse(text);
+  const v = /^(\d+)\.0$/.exec(d.version ?? '');
+  const day = (x) => (typeof x === 'string' && /^\d{4}-\d{2}-\d{2}/.test(x) ? x.slice(0, 10) : null);
+  const release = day(d.release);
+  if (!v || !release) return [];
+  const milestones = [['nightly_start', 'Nightly start'], ['beta_1', 'Beta 1'], ['rc_gtb', 'Release candidate'], ['release', 'Final release']]
+    .map(([key, label]) => ({ label, date: day(d[key]) }))
+    .filter((m) => m.date);
+  return [{ kind: 'scheduled', version: v[1], date: release, milestones }];
+}
+
+// The next few Firefox versions after the newest one we have released.
+export function mozillaScheduleFeeds(data) {
+  const out = data.releases.filter((r) => r.family === 'firefox' && r.status === 'released').map((r) => Number(r.version));
+  if (!out.length) return [];
+  const newest = Math.max(...out);
+  return [1, 2, 3].map((i) => `https://whattrainisitnow.com/api/release/schedule/?version=${newest + i}`);
+}
+
 const eol = (product) => ({ label: `endoflife.date: ${product}`, url: `https://endoflife.date/${product}`, feed: `https://endoflife.date/api/${product}.json`, official: false, parse: parseEndOfLife });
 
 export const SOURCES = [
@@ -152,6 +173,7 @@ export const SOURCES = [
   { id: 'eol-nixos', family: 'nixos', ...eol('nixos') },
   { id: 'mozilla-product-details', family: 'firefox', official: true, label: 'Mozilla product details', url: 'https://product-details.mozilla.org/1.0/firefox_versions.json', feed: 'https://product-details.mozilla.org/1.0/firefox_versions.json', parse: parseFirefoxVersions },
   { id: 'eol-firefox', family: 'firefox', ...eol('firefox') },
+  { id: 'mozilla-schedule', family: 'firefox', official: true, label: 'Firefox release calendar (whattrainisitnow.com)', url: 'https://whattrainisitnow.com/calendar/', feeds: mozillaScheduleFeeds, parse: parseMozillaSchedule },
   { id: 'mint-dists', family: 'linux-mint', official: true, label: 'Linux Mint package archive', url: 'http://packages.linuxmint.com/dists/', feed: 'http://packages.linuxmint.com/dists/', parse: parseMintDists },
 ];
 

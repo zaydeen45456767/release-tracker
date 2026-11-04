@@ -5,6 +5,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { SOURCES, observe } from './sources.js';
 import { applyObservations } from './apply.js';
+import { enrichLinks } from './links.js';
 import { buildHistory } from './history.js';
 import { today } from '../src/lib/forecast.js';
 
@@ -28,23 +29,39 @@ async function fetchText(url, tries = 2) {
   }
 }
 
-const results = await Promise.allSettled(SOURCES.map(async (s) => observe(s, await fetchText(s.feed))));
+// A page address counts as real only if the project's own server answers it.
+async function checkUrl(url) {
+  try {
+    const res = await fetch(url, { headers: { 'user-agent': 'linux-release-tracker-updater/0.1' }, signal: AbortSignal.timeout(20000) });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+const data = JSON.parse(await readFile(DATA, 'utf8'));
+// A source has one feed, or several that depend on our data (Mozilla: one per upcoming Firefox version).
+const jobs = SOURCES.flatMap((s) => (s.feeds ? s.feeds(data) : [s.feed]).map((url) => ({ s, url })));
+const results = await Promise.allSettled(jobs.map(async ({ s, url }) => observe(s, await fetchText(url))));
 const observations = [];
 const errors = [];
 results.forEach((r, i) => {
   if (r.status === 'fulfilled') observations.push(...r.value);
-  else errors.push(`${SOURCES[i].label}: ${r.reason.message}`);
+  else errors.push(`${jobs[i].s.label}${jobs[i].s.feeds ? ` (${jobs[i].url.split('=').pop()})` : ''}: ${r.reason.message}`);
 });
 
 const now = today();
-const data = JSON.parse(await readFile(DATA, 'utf8'));
-const { data: next, changes, reviews } = applyObservations(data, observations, now);
+const applied = applyObservations(data, observations, now);
+const { data: next, changes, reviews } = applied;
+const linkChanges = await enrichLinks(next, applied.touched, checkUrl);
+changes.push(...linkChanges);
+if (linkChanges.length) next.updated = now.toISOString().slice(0, 10);
 const oldHistory = JSON.parse(await readFile(HISTORY, 'utf8').catch(() => '{}'));
 const history = buildHistory(oldHistory, observations, now);
 const historyChanged = JSON.stringify(history) !== JSON.stringify(oldHistory);
 
 const list = (items) => (items.length ? items.map((x) => `  - ${x}`).join('\n') : '  (none)');
-console.log(`Updater ${now.toISOString().slice(0, 10)}: ${SOURCES.length - errors.length}/${SOURCES.length} feeds read, ${observations.length} observations`);
+console.log(`Updater ${now.toISOString().slice(0, 10)}: ${jobs.length - errors.length}/${jobs.length} feeds read, ${observations.length} observations`);
 console.log(`\nChanges${write ? '' : ' (dry run, not saved)'}:\n${list(changes)}`);
 console.log(`\nVersion history: ${historyChanged ? 'updated' : 'no change'}`);
 console.log(`\nFor the owner to review:\n${list(reviews)}`);

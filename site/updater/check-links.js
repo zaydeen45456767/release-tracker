@@ -18,10 +18,13 @@ async function htmlFiles(dir) {
   return out;
 }
 
+// Our own pages are not "outside" links, and a page created this minute is not deployed yet.
+const own = process.env.SITE_URL ? new URL(process.env.SITE_URL).host : null;
 const links = new Map();
 for (const f of await htmlFiles(DIST)) {
   for (const m of (await readFile(f, 'utf8')).matchAll(/href="(https?:\/\/[^"]+)"/g)) {
     if (m[1].includes('example.com') || m[1].includes('fonts.g')) continue;
+    if (own && new URL(m[1]).host === own) continue;
     if (!links.has(m[1])) links.set(m[1], new Set());
     links.get(m[1]).add(f.slice(DIST.length - 1).replace(/index\.html$/, ''));
   }

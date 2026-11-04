@@ -124,7 +124,7 @@ test('a feed date in the future does not flip anything', () => {
   const data = { updated: '2026-11-01', families, releases: [fedora45, fedora44] };
   const { data: out, changes } = applyObservations(data, observe(src('bodhi'), bodhiFeed), day('2026-11-02'));
   assert.equal(out.releases.find((x) => x.id === 'fedora-45').status, 'predicted');
-  assert.equal(changes.length, 0);
+  assert.ok(!changes.some((c) => /flipped/.test(c)));
 });
 
 test('our date for a released version is never overwritten, only flagged', () => {
@@ -172,10 +172,15 @@ test('codename match with a different version number is not flipped', () => {
   assert.ok(reviews.some((t) => /version 23, not 27/.test(t)));
 });
 
-test('a newer version with no page is reported, older ones are not', () => {
-  const { reviews } = applyObservations({ families, releases: [fedora44, fedora45] }, observe(src('bodhi'), bodhiFeed), day('2026-11-03'));
-  assert.ok(reviews.some((t) => /New: Fedora 46/.test(t)));
-  assert.ok(!reviews.some((t) => /New: Fedora 43/.test(t)));
+test('a newer version with no page: Fedora gets a page, a family without a strategy is reported; older ones are ignored', () => {
+  const { data: out, reviews } = applyObservations({ families, releases: [fedora44, fedora45] }, observe(src('bodhi'), bodhiFeed), day('2026-11-03'));
+  const f46 = out.releases.find((r) => r.id === 'fedora-46');
+  assert.equal(f46.status, 'predicted');
+  assert.equal(f46.auto, true);
+  assert.ok(!reviews.some((t) => /New: Fedora 4[36]/.test(t)));
+  const mint = observe(src('eol-linuxmint'), JSON.stringify([{ cycle: '23', releaseDate: '2027-01-01', codename: 'x' }]));
+  const { reviews: r2 } = applyObservations({ families, releases: [] }, [{ ...mint[0], kind: 'exists', date: null }], day('2026-11-03'));
+  assert.ok(r2.some((t) => /New: Linux Mint 23/.test(t)));
 });
 
 test('version history: official dates win, aggregator fills support dates, existing entries are kept', async () => {

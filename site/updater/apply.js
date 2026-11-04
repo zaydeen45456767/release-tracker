@@ -5,6 +5,7 @@
 //     keeping the forecast exactly as published under `forecast`
 //   - point "waiting for X? use Y now" at the newest released version
 //   - add prerelease milestones (kernel rc, GNOME alpha/beta/rc) to the evidence timeline
+//   - create pages for new versions and keep schedule dates in sync (see plan.js)
 // Left for the owner to review (never applied):
 //   - a release seen without a trustworthy date, or a date that fails the sanity checks
 //   - our date for a released version disagreeing with a feed
@@ -12,16 +13,10 @@
 //   - versions or codenames in feeds that we have no page for
 //   - a scheduled date that passed with no release seen
 import { daysBetween, formatDay, parseDay } from '../src/lib/forecast.js';
+import { compareVersions, evidenceKey, pickDate } from './util.js';
+import { draftUnknown, planFromSchedule, refreshKernel, supersede } from './plan.js';
 
-export function compareVersions(a, b) {
-  const pa = String(a).split('.').map(Number);
-  const pb = String(b).split('.').map(Number);
-  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
-    const d = (pa[i] ?? 0) - (pb[i] ?? 0);
-    if (d) return d;
-  }
-  return 0;
-}
+export { compareVersions };
 
 const lower = (s) => (s ?? '').toLowerCase();
 
@@ -30,27 +25,8 @@ function sameCodename(record, obs) {
   return Boolean(record.codename && obs.codename) && lower(obs.codename).startsWith(lower(record.codename).split(' ')[0]);
 }
 
-function evidenceKey(obs) {
-  return `${obs.sourceId}:${obs.version}${obs.label ? `-${obs.label}` : ''}`;
-}
-
 function addSource(record, src) {
   if (!record.sources.some((s) => s.url === src.url)) record.sources.push({ ...src });
-}
-
-// Choose the release day: an official release-day date, then an aggregator's, then (for
-// scheduled releases only) the project's own scheduled date if the final tag landed within a week of it.
-function pickDate(record, seen) {
-  const dated = seen.filter((o) => o.date && o.dateIsRelease);
-  const pick = dated.find((o) => o.official) ?? dated[0];
-  if (pick) return { date: pick.date, obs: pick, dated };
-  if (record.status === 'scheduled') {
-    const tag = seen.find((o) => o.date);
-    if (tag && Math.abs(daysBetween(parseDay(record.date), parseDay(tag.date))) <= 7) {
-      return { date: record.date, obs: tag, dated, viaSchedule: true };
-    }
-  }
-  return null;
 }
 
 export function applyObservations(input, observations, now) {
@@ -63,7 +39,15 @@ export function applyObservations(input, observations, now) {
   const nowDay = now.toISOString().slice(0, 10);
 
   // A feed date in the future means "not out yet" (endoflife.date lists some releases early).
-  const obs = observations.filter((o) => !o.date || parseDay(o.date) <= now);
+  // The exception is a project's own release calendar, which is all future dates by design.
+  const planned = observations.filter((o) => o.kind === 'scheduled');
+  const obs = observations.filter((o) => o.kind !== 'scheduled' && (!o.date || parseDay(o.date) <= now));
+
+  const touched = new Set();
+  const ctx = { data, now, nowDay, review, title, familyName, created: 0, touched, change: (text) => changes.push(text) };
+  planFromSchedule(planned, ctx);
+  draftUnknown(obs, ctx);
+  refreshKernel(obs, ctx);
 
   for (const record of data.releases) {
     const forFamily = obs.filter((o) => o.family === record.family);
@@ -89,6 +73,14 @@ export function applyObservations(input, observations, now) {
       record.evidence.push({ date: o.date, kind: 'official', key, text: `${title(record)} ${o.label} was tagged on ${formatDay(o.date)} (${o.source.label}).` });
       addSource(record, o.source);
       changes.push(`${record.id}: added ${o.label} (${o.date}) to the evidence`);
+    }
+
+    for (const o of byVersion.filter((x) => x.kind === 'exists')) {
+      const key = `${o.sourceId}:${o.version}-exists`;
+      if (record.evidence.some((e) => e.key === key)) continue;
+      record.evidence.push({ date: nowDay, kind: 'official', key, text: `${o.source.label} lists ${title(record)} as in development (not released yet).` });
+      addSource(record, o.source);
+      changes.push(`${record.id}: now listed in ${o.source.label}`);
     }
 
     if (releasedObs.length === 0) {
@@ -118,9 +110,11 @@ export function applyObservations(input, observations, now) {
     }
 
     // Keep the forecast exactly as published, then flip.
-    const forecast = { status: record.status, summary: record.summary };
-    for (const k of ['date', 'window', 'chance']) if (record[k] !== undefined) forecast[k] = record[k];
+    const forecast = record.firstPublished ?? { status: record.status, summary: record.summary };
+    if (!record.firstPublished) for (const k of ['date', 'window', 'chance']) if (record[k] !== undefined) forecast[k] = record[k];
     record.forecast = forecast;
+    delete record.firstPublished;
+    touched.add(record.id);
     record.status = 'released';
     record.date = date;
     delete record.window;
@@ -158,15 +152,11 @@ export function applyObservations(input, observations, now) {
     }
   }
 
-  // Versions and codenames the feeds know about that we have no page for.
+  supersede(ctx);
+
+  // Codename hints from the feeds.
   for (const family of data.families) {
     const records = data.releases.filter((r) => r.family === family.id);
-    const newestKnown = records.map((r) => r.version).sort(compareVersions).at(-1);
-    for (const o of obs.filter((x) => x.family === family.id && x.version)) {
-      if (records.some((r) => r.version === o.version)) continue;
-      if (newestKnown && compareVersions(o.version, newestKnown) <= 0) continue;
-      review(`New: ${family.name} ${o.version} seen in ${o.source.label} (${o.kind}${o.label ? ` ${o.label}` : ''}). We have no page for it.`);
-    }
     const codenames = obs.filter((x) => x.family === family.id && x.kind === 'codename').map((x) => x);
     for (const r of records.filter((x) => x.status !== 'released' && x.codename)) {
       const hit = codenames.find((o) => o.codename === lower(r.codename));
@@ -175,5 +165,5 @@ export function applyObservations(input, observations, now) {
   }
 
   if (changes.length) data.updated = nowDay;
-  return { data, changes, reviews };
+  return { data, changes, reviews, touched: [...touched] };
 }

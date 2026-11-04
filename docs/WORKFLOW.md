@@ -17,14 +17,22 @@ Plain files inside the project. No database is needed yet.
 | **Alerts** | Built in | The daily job opens a GitHub issue when the review list, the changes or the link check have something new; GitHub emails it to the owner. Telegram can be added later. |
 | **Cloudflare D1** (database) | Not yet | Only for the future marketplace (accounts, listings, click counts) or a much larger site. Files in GitHub are simpler, free and every change is reviewable. |
 
-## The daily workflow (once set up)
-1. **Every morning (06:00 UTC), and hourly while a release is 2 days before to 3 days after its date**, a GitHub Action runs the updater (`site/updater/watch.js` decides; quiet hours cost almost nothing). It reads about 15 official feeds (kernel.org, Fedora, Ubuntu, Debian, GNOME, KDE, NixOS, Mozilla, Linux Mint, endoflife.date).
-2. It **applies safe changes only**: marks a release as out when an official feed shows it, adds new betas/rcs to the evidence, refreshes version history and support dates.
-3. It **runs the tests**. If anything fails, nothing is published.
-4. It **saves the changed data** to GitHub. Cloudflare Pages rebuilds and publishes the site in about a minute.
-5. It **pings search engines** (IndexNow) for the pages that changed.
-6. It **checks every outside link** (`npm run check-links`).
-7. It **alerts the owner** with a GitHub issue (emailed by GitHub) when there is something new: what flipped, new versions seen, items to review, failed feeds, broken links. Nothing new means no issue.
+## The automatic workflow (no daily input from the owner)
+Runs on GitHub every 3 hours, and every hour while a release is 2 days before to 3 days after its date (`site/updater/watch.js` decides). The outside-link check runs once a day.
+1. **Read** about 16 official feeds (kernel.org, Fedora, Ubuntu, Debian, GNOME, KDE, NixOS, Mozilla product details, Mozilla's release calendar, Linux Mint, endoflife.date).
+2. **Flip** a page to "released" the moment an official feed shows it, keeping the forecast as first published.
+3. **Create pages** (marked `auto: true`, capped at 5 per run):
+   - Firefox: a `scheduled` page for each of the next 3 versions on Mozilla's own calendar; moved dates and milestones are applied and the first date is kept (`firstPublished`).
+   - Linux kernel: a `predicted` page when a release candidate appears (window = week after the last rc, never before rc7); the window moves with each extra rc.
+   - Fedora, GNOME: a `predicted` page (usual six-month gap) when the project already shows the next version in development.
+   - Any family: a `released` page when a feed shows a newer version released with a real date in the last 120 days.
+   - Other projects (Ubuntu, Debian, Mint, NixOS, KDE) have no early feed: the owner is alerted and a session adds the page.
+4. **Keep text honest:** an older page's "is the current version" sentence is rewritten once a newer release is out (an LTS stays "the current LTS" when only a normal release follows).
+5. **Links:** each version's download address is computed from the project's patterns and the newest version always points at the project's own download page; release-notes links are added only after the project's server answers them; the daily link check opens a GitHub issue if anything breaks.
+6. **Test, build, save** (nothing is saved if tests fail). Cloudflare publishes in about a minute. **IndexNow** tells Bing and others about the change.
+7. **Alert** (GitHub issue, emailed) whenever pages were created or changed, something needs review, a feed failed or a link broke. Nothing new means no issue.
+
+Google itself cannot be pinged automatically for ordinary pages: the sitemap (with real `lastmod`) is its signal, plus the owner's "Request indexing" clicks (forecast pages first, see `docs/PRIORITY.md`).
 
 ## New pages (weekly)
 1. The updater (or the priority list in `docs/PRIORITY.md`) shows which new versions are coming.
