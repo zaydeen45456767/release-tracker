@@ -248,7 +248,8 @@
       "version": "45",
       "released": "2026-11-03",
       "eol": "2027-12-08",
-      "source": "Fedora Bodhi (official update system)"
+      "source": "Fedora Bodhi (official update system)",
+      "latestDate": "2026-11-03"
     },
     {
       "version": "44",
