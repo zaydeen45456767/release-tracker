@@ -183,5 +183,15 @@
       "Linux Mint 27: codename \"adrien\" exists in Linux Mint package archive, which supports the name \"Adrien\"."
     ],
     "errors": []
+  },
+  {
+    "at": "2026-11-06T15:56:04.199Z",
+    "changes": [
+      "firefox-161: added Firefox 161 beta release notes"
+    ],
+    "reviews": [
+      "Linux Mint 27: codename \"adrien\" exists in Linux Mint package archive, which supports the name \"Adrien\"."
+    ],
+    "errors": []
   }
 ]
